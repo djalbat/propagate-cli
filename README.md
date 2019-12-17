@@ -8,7 +8,9 @@ This tool is under development. Please come back in a bit.
 
 With [npm](https://www.npmjs.com/):
 
-    npm install --globaal propagate-cli
+    npm install --global propagate-cli
+
+You may need to prepend [`sudo`](https://en.wikipedia.org/wiki/Sudo), depending on your setup.
 
 You can also clone the repository with [Git](https://git-scm.com/)...
 
