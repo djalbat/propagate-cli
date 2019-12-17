@@ -3,10 +3,12 @@
 const necessary = require('necessary');
 
 const actions = require('./actions'),
+      commands = require('./commands'),
       configuration = require('./configuration');
 
 const { cwd, chdir } = process,
       { pathUtilities } = necessary,
+      { PROPAGATE_COMMAND } = commands,
       { bottommostNameFromPath } = pathUtilities,
       { checkConfigurationFileExists, upgradeConfigurationFile } = configuration;
 
@@ -25,6 +27,8 @@ function main(command, argument, options) {
 
       if (configurationFileExists) {
         const bottommostOldCurrentWorkingDirectoryName = bottommostNameFromPath(oldCurrentWorkingDirectoryPath);
+
+        command = PROPAGATE_COMMAND;  ///
 
         argument = bottommostOldCurrentWorkingDirectoryName; ///
       }

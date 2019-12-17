@@ -30,6 +30,16 @@ function actions(command, argument, options) {
     command = PROPAGATE_COMMAND;
   }
 
+  if (  (command !== HELP_COMMAND)
+     && (command !== VERSION_COMMAND)
+     && (command !== PROPAGATE_COMMAND)
+     && (command !== INITIALISE_COMMAND)
+     && (command !== SET_OPTIONS_COMMAND) ) {
+    argument = command; ///
+
+    command = PROPAGATE_COMMAND;
+  }
+
   switch (command) {
     case HELP_COMMAND: help(); break;
     case VERSION_COMMAND: version(); break;

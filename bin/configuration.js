@@ -10,9 +10,9 @@ const versions = require('./versions'),
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
       { exit } = process,
-      { VERSION_0_0 } = versions,
       { RC_BASE_EXTENSION } = constants,
       { createConfiguration } = configurationVersion_0_0,
+      { VERSION_0_0, CURRENT_VERSION } = versions,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
@@ -49,7 +49,7 @@ function upgradeConfigurationFile() {
 
   while (version !== CURRENT_VERSION) {
     switch (version) {
-      debugger
+      ///
     }
 
     version = configuration.version || VERSION_0_0; ///
