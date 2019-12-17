@@ -1,5 +1,7 @@
 # Propagate-CLI
 
+Propagate upgraded packages throughout a project.
+
 This tool is under development. Please come back in a bit.
 
 ## Installation

@@ -1,10 +1,10 @@
 {
   "name": "propagate-cli",
   "author": "James Smith",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT, Anti-886",
   "homepage": "https://github.com/djalbat/propagate-cli",
-  "description": "Propagate a package upgrade throughout a project.",
+  "description": "Propagate upgraded packages throughout a project.",
   "repository": {
     "type": "git",
     "url": "https://github.com/djalbat/Reaction"
