@@ -6,7 +6,10 @@ const commands = require('./commands'),
       version = require('./action/version'),
       propagate = require('./action/propagate'),
       initialise = require('./action/initialise'),
-      setOptions = require('./action/setOptions');
+      setOptions = require('./action/setOptions'),
+      addDirectory = require('./action/addDirectory'),
+      listDirectories = require('./action/listDirectories'),
+      removeDirectory = require('./action/removeDirectory');
 
 const { HELP_OPTION,
         VERSION_OPTION,
@@ -15,7 +18,10 @@ const { HELP_OPTION,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
         INITIALISE_COMMAND,
-        SET_OPTIONS_COMMAND } = commands;
+        SET_OPTIONS_COMMAND,
+        ADD_DIRECTORY_COMMAND,
+        LIST_DIRECTORIES_COMMAND,
+        REMOVE_DIRECTORY_COMMAND } = commands;
 
 function actions(command, argument, options) {
   const commandMissing = (command === null),
@@ -38,23 +44,31 @@ function actions(command, argument, options) {
      && (command !== VERSION_COMMAND)
      && (command !== PROPAGATE_COMMAND)
      && (command !== INITIALISE_COMMAND)
-     && (command !== SET_OPTIONS_COMMAND) ) {
+     && (command !== SET_OPTIONS_COMMAND)
+     && (command !== ADD_DIRECTORY_COMMAND)
+     && (command !== LIST_DIRECTORIES_COMMAND)
+     && (command !== REMOVE_DIRECTORY_COMMAND) ) {
+
     argument = command; ///
 
     command = PROPAGATE_COMMAND;
   }
 
   switch (command) {
-    case HELP_COMMAND: help(); break;
-    case VERSION_COMMAND: version(); break;
-    case PROPAGATE_COMMAND: propagate(argument, quietly); break;
-    case INITIALISE_COMMAND: initialise(); break;
-    case SET_OPTIONS_COMMAND: setOptions(); break;
+    case HELP_COMMAND : help(); break;
+    case VERSION_COMMAND : version(); break;
+    case PROPAGATE_COMMAND : propagate(argument, quietly); break;
+    case INITIALISE_COMMAND : initialise(); break;
+    case SET_OPTIONS_COMMAND : setOptions(); break;
+    case ADD_DIRECTORY_COMMAND : addDirectory(); break;
+    case LIST_DIRECTORIES_COMMAND : listDirectories(); break;
+    case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;
 
-    default:
+    default :
       argument = command;  ///
 
       propagate(argument);
+
       break;
   }
 }
