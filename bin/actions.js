@@ -8,7 +8,9 @@ const commands = require('./commands'),
       initialise = require('./action/initialise'),
       setOptions = require('./action/setOptions');
 
-const { HELP_OPTION, VERSION_OPTION } = options,
+const { HELP_OPTION,
+        VERSION_OPTION,
+        QUIETLY_OPTION  } = options,
       { HELP_COMMAND,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
@@ -18,7 +20,9 @@ const { HELP_OPTION, VERSION_OPTION } = options,
 function actions(command, argument, options) {
   const commandMissing = (command === null),
         helpOptionPresent = options.hasOwnProperty(HELP_OPTION),
-        versionOptionPresent = options.hasOwnProperty(VERSION_OPTION);
+        versionOptionPresent = options.hasOwnProperty(VERSION_OPTION),
+        quietlyOptionPresent = options.hasOwnProperty(QUIETLY_OPTION),
+        quietly = quietlyOptionPresent; ///
 
   if (false) {
     ///
@@ -43,7 +47,7 @@ function actions(command, argument, options) {
   switch (command) {
     case HELP_COMMAND: help(); break;
     case VERSION_COMMAND: version(); break;
-    case PROPAGATE_COMMAND: propagate(argument); break;
+    case PROPAGATE_COMMAND: propagate(argument, quietly); break;
     case INITIALISE_COMMAND: initialise(); break;
     case SET_OPTIONS_COMMAND: setOptions(); break;
 

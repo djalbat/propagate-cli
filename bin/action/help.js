@@ -13,11 +13,26 @@ function help() {
 
   propagate <command>
 
-Commmands:
+Commands:
 
   initialise                   Create a configuration file
 
-  options                      Set options 
+  options                      Set options
+  
+Options:
+
+  --quietly|-q                 Propogate quietly
+  
+Lastly:
+
+  You can propagate more than one package by supplying a 
+  comma separated list of package names, in which case 
+  there must be no spaces between the names and commas.
+  
+  You can propagate a package quickly by running the 
+  'propagate' command directly from inside the package's 
+  directory, provided there is a configuration file in 
+  the directory directly above.
 `);
 }
 
