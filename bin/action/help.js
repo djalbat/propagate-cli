@@ -19,11 +19,11 @@ Commands:
 
   set-options                  Set options
   
-  add-directory                Add a directory
+  add-directory                Add an additional directory
   
-  list-directories             List directories
+  remove-directory             Remove an additional directory
   
-  remove-directory             Remove a directory
+  list-directories             List additional directories
   
 Options:
 

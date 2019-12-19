@@ -13,7 +13,7 @@ function removeDirectory() {
         ],
         context = {};
 
-  executeCallbacks(callbacks, function(completed) {
+  executeCallbacks(callbacks, (completed) => {
     if (!completed) {
       console.log(FAILED_REMOVE_DIRECTORY_MESSAGE);
 

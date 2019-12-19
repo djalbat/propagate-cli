@@ -13,7 +13,7 @@ function executeCallbacks(callbacks, callback, context) {
     completed
   });
 
-  whilst(executeCallback, function() {
+  whilst(executeCallback, () => {
     const { completed } = context;
 
     delete context.callbacks;
@@ -42,7 +42,7 @@ function executeCallback(next, done, context, index) {
   const callback = callbacks[index],
         proceed = next; ///
 
-  callback(proceed, function() {
+  callback(proceed, () => {
     const completed = false;
 
     Object.assign(context, {

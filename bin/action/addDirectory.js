@@ -1,26 +1,42 @@
 'use strict';
 
 const messages = require('../messages'),
-      callbackUtilities = require('../utilities/callback');
+      configuration = require('../configuration'),
+      callbackUtilities = require('../utilities/callback'),
+      addDirectoryPromptCallback = require('../callback/prompt/addDirectory');
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,
-      { FAILED_ADD_DIRECTORY_MESSAGE, SUCCESSFUL_ADD_DIRECTORY_MESSAGE } = messages;
+      { retrieveDirectories, updateDirectories } = configuration,
+      { FAILED_ADD_DIRECTORY_MESSAGE, SUCCESSFUL_ADD_DIRECTORY_MESSAGE, DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE } = messages;
 
 function addDirectory() {
   const callbacks = [
-          ///
+          addDirectoryPromptCallback
         ],
         context = {};
 
-  executeCallbacks(callbacks, function(completed) {
+  executeCallbacks(callbacks, (completed) => {
     if (!completed) {
       console.log(FAILED_ADD_DIRECTORY_MESSAGE);
 
       exit();
     }
 
-    console.log(SUCCESSFUL_ADD_DIRECTORY_MESSAGE);
+    const directories = retrieveDirectories(),
+          { directory } = context;
+
+    const directoriesIncludesDirectory = directories.includes(directory);
+
+    if (directoriesIncludesDirectory) {
+      console.log(DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE);
+    } else {
+      directories.push(directory);
+
+      updateDirectories(directories);
+
+      console.log(SUCCESSFUL_ADD_DIRECTORY_MESSAGE);
+    }
   }, context);
 }
 

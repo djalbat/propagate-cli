@@ -15,7 +15,7 @@ function setOptions() {
         ],
         context = {};
 
-  executeCallbacks(callbacks, function(completed) {
+  executeCallbacks(callbacks, (completed) => {
     if (!completed) {
       console.log(FAILED_SET_OPTIONS_MESSAGE);
 

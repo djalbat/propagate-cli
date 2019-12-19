@@ -83,7 +83,9 @@ function checkConfigurationFileExists() {
 
 module.exports = {
   retrieveOptions,
+  retrieveDirectories,
   updateOptions,
+  updateDirectories,
   createConfigurationFile,
   upgradeConfigurationFile,
   checkConfigurationFileExists

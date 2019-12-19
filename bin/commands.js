@@ -6,8 +6,8 @@ const HELP_COMMAND = 'help',
       INITIALISE_COMMAND = 'initialise',
       SET_OPTIONS_COMMAND = 'set-options',
       ADD_DIRECTORY_COMMAND = 'add-directory',
-      LIST_DIRECTORIES_COMMAND = 'list-directories',
-      REMOVE_DIRECTORY_COMMAND = 'remove-directory';
+      REMOVE_DIRECTORY_COMMAND = 'remove-directory',
+    LIST_DIRECTORIES_COMMAND = 'list-directories';
 
 module.exports = {
   HELP_COMMAND,
@@ -16,6 +16,6 @@ module.exports = {
   INITIALISE_COMMAND,
   SET_OPTIONS_COMMAND,
   ADD_DIRECTORY_COMMAND,
-  LIST_DIRECTORIES_COMMAND,
-  REMOVE_DIRECTORY_COMMAND
+  REMOVE_DIRECTORY_COMMAND,
+  LIST_DIRECTORIES_COMMAND
 };
