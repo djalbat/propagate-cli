@@ -2,7 +2,6 @@
 	"version": "0.1",
 	"options": {},
 	"directories": [
-		"../Public",
 		"./Public",
 		"./Private"
 	]
