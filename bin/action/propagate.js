@@ -2,46 +2,53 @@
 
 const necessary = require('necessary');
 
+const messages = require('../messages'),
+      configuration = require('../configuration'),
+      pathUtilities = require('../utilities/path');
+
+const { exit } = process,
+      { retrieveDirectories } = configuration,
+      { absolutePathFromName } = pathUtilities,
+      { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
+
 const { fileSystemUtilities } = necessary,
       { readDirectory, isEntryDirectory } = fileSystemUtilities;
 
-const { cwd } = process;
-
 function propagate(argument, quietly) {
-  const currentWorkingDirectoryPath = cwd(), ///
-        entryNames = readDirectory(currentWorkingDirectoryPath),
-        directoryNames = entryNames.reduce((directoryNames, entryName) => {
-          const entryDirectory = isEntryDirectory(entryName);
+  if (argument === null) {
+    console.log(NO_SUB_DIRECTORY_SPECIFIED_MESSAGE);
 
-          if (entryDirectory) {
-            const directoryName = entryName;  ///
+    exit();
+  }
 
-            directoryNames.push(directoryName);
-          }
+  const subDirectoryName = argument, ///
+        directories = retrieveDirectories(),
+        directoryNames = [
+          '.',
+          ...directories
+        ],
+        subDirectoryNames = [];
 
-          return directoryNames;
-        }, []);
+  directoryNames.forEach((directoryName) => retrieveSubDirectoryNames(directoryName, subDirectoryNames));
 
-  console.log(directoryNames)
+  console.log(subDirectoryNames)
 }
 
 module.exports = propagate;
 
-function retrieveDirectoryNames(quietly) {
-  const currentWorkingDirectoryPath = cwd(), ///
-        entryNames = readDirectory(currentWorkingDirectoryPath),
-        directoryNames = entryNames.reduce((directoryNames, entryName) => {
-          const entryDirectory = isEntryDirectory(entryName);
+function retrieveSubDirectoryNames(directoryName, subDirectoryNames) {
+  const absoluteDirectoryPath = absolutePathFromName(directoryName),
+        entryNames = readDirectory(absoluteDirectoryPath);
 
-          if (entryDirectory) {
-            const directoryName = entryName;  ///
+  entryNames.forEach((entryName) => {
+    const entryDirectory = isEntryDirectory(entryName);
 
-            directoryNames.push(directoryName);
-          }
+    if (entryDirectory) {
+      const subDirectoryName = entryName;  ///
 
-          return directoryNames;
-        }, []);
+      subDirectoryNames.push(subDirectoryName);
+    }
+  });
 
-  console.log(directoryNames)
-
+  return subDirectoryNames;
 }

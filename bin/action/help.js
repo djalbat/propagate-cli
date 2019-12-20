@@ -3,31 +3,37 @@
 function help() {
   console.log(`Usage: 
   
-  propagate help|--help|-h     Show this help
+  propagate help|--help|-h       Show this help
   
-  propagate --version|-v       Show the version
+  propagate --version|-v         Show the version
 
-  propagate                    Propagate the current package
+  propagate                      Propagate the current package
 
-  propagate <package_names>    Propagate a package or packages
+  propagate <sub-directories>    Propagate a package or packages in the given sub-directories
 
   propagate <command>
 
 Commands:
 
-  initialise                   Create a configuration file
+  initialise                     Create a configuration file
 
-  set-options                  Set options
+  set-options                    Set options
   
-  add-directory                Add an additional directory
+  add-directory                  Add an additional directory
   
-  remove-directory             Remove an additional directory
+  remove-directory               Remove an additional directory
   
-  list-directories             List additional directories
+  list-directories               List additional directories
   
 Options:
 
-  --quietly|-q                 Run quietly
+  --quietly|-q                   Run quietly
+  
+Further information:
+
+Please see the readme file on GitHub:
+
+  https://github.com/djalbat/propagate-cli
 `);
 }
 

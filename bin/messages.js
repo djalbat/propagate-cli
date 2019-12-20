@@ -10,6 +10,7 @@ const INVALID_DIRECTORY_PATH_MESSAGE = 'The directory path should be a relative 
       SUCCESSFUL_SET_OPTIONS_MESSAGE = 'The options have been set successfully.',
       SUCCESSFUL_ADD_DIRECTORY_MESSAGE = 'The directory has been added successfully.',
       NO_DIRECTORIES_MESSAGE = 'There are no additional directories.',
+      NO_SUB_DIRECTORY_SPECIFIED_MESSAGE = 'No sub-directory has been specified.',
       SUCCESSFUL_REMOVE_DIRECTORY_MESSAGE = 'The directory has been removed successfully.',
       DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE = 'The directory has already been added.',
       CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE = 'The action cannot be performed because the configuration file is missing. Run \'propagate initialise\' to create one.';
@@ -25,6 +26,7 @@ module.exports = {
   SUCCESSFUL_SET_OPTIONS_MESSAGE,
   SUCCESSFUL_ADD_DIRECTORY_MESSAGE,
   NO_DIRECTORIES_MESSAGE,
+  NO_SUB_DIRECTORY_SPECIFIED_MESSAGE,
   SUCCESSFUL_REMOVE_DIRECTORY_MESSAGE,
   DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE,
   CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE
