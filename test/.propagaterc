@@ -1,8 +1,5 @@
 {
 	"version": "0.1",
 	"options": {},
-	"directories": [
-		"./Public",
-		"./Private"
-	]
+	"directories": []
 }
