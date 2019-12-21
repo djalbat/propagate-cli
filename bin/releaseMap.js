@@ -2,38 +2,49 @@
 
 const necessary = require('necessary');
 
-const pathUtilities = require('./utilities/path');
+const Release = require('./release'),
+      pathUtilities = require('./utilities/path');
 
 const { absolutePathFromName } = pathUtilities;
 
 const { fileSystemUtilities } = necessary,
       { readDirectory, isEntryDirectory } = fileSystemUtilities;
 
-class PackageMap {
-  constructor(subDirectoryRelativePaths) {
-    this.subDirectoryRelativePaths = subDirectoryRelativePaths;
+class ReleaseMap {
+  constructor(map) {
+    this.map = map;
   }
 
-  getSubDirectoryRelativePaths() {
-    return this.subDirectoryRelativePaths;
-  }
+  isSubDirectoryRPathPresent(subDirectoryRPath) {
+    const subDirectoryRPaths = Object.keys(this.map),
+          subDirectoryRPathsIncludesSubDirectoryRPath = subDirectoryRPaths.includes(subDirectoryRPath),
+          subDirectoryRPathPresent = subDirectoryRPathsIncludesSubDirectoryRPath;  ///
 
-  isSubDirectoryRelativePathPresent() {
-
+    return subDirectoryRPathPresent;
   }
 
   static fromDirectories(directories) {
-    const subDirectoryRelativePaths = subDirectoryRelativePathsFromDirectories(directories),
-          packageMap = new PackageMap(subDirectoryRelativePaths);
+    const map = {},
+          subDirectoryRPaths = subDirectoryRPathsFromDirectories(directories);
 
-    return packageMap;
+    subDirectoryRPaths.forEach((subDirectoryRPath) => {
+      const release = Release.fromSubDirectoryRPath(subDirectoryRPath);
+
+      if (release !== null) {
+        map[subDirectoryRPath] = release;
+      }
+    });
+
+    const releaseMap = new ReleaseMap(map);
+
+    return releaseMap;
   }
 }
 
-module.exports = PackageMap;
+module.exports = ReleaseMap;
 
-function subDirectoryRelativePathsFromDirectories(directories) {
-  const subDirectoryRelativePaths = [],
+function subDirectoryRPathsFromDirectories(directories) {
+  const subDirectoryRPaths = [],
         directoryNames = [
           '.',
           ...directories
@@ -41,19 +52,19 @@ function subDirectoryRelativePathsFromDirectories(directories) {
 
   directoryNames.forEach((directoryName) => {
     const absoluteDirectoryPath = absolutePathFromName(directoryName),
-        entryNames = readDirectory(absoluteDirectoryPath);
+          entryNames = readDirectory(absoluteDirectoryPath);
 
     entryNames.forEach((entryName) => {
-      const entryRelativePath = `${directoryName}/${entryName}`,
-            entryDirectory = isEntryDirectory(entryRelativePath);
+      const entryRPath = `${directoryName}/${entryName}`,
+            entryDirectory = isEntryDirectory(entryRPath);
 
       if (entryDirectory) {
-        const subDirectoryRelativePath = entryRelativePath; ///
+        const subDirectoryRPath = entryRPath; ///
 
-        subDirectoryRelativePaths.push(subDirectoryRelativePath);
+        subDirectoryRPaths.push(subDirectoryRPath);
       }
     });
   });
 
-  return subDirectoryRelativePaths;
+  return subDirectoryRPaths;
 }

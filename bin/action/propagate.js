@@ -1,12 +1,12 @@
 'use strict';
 
 const messages = require('../messages'),
-      PackageMap = require('../packageMap'),
+      ReleaseMap = require('../releaseMap'),
       configuration = require('../configuration');
 
 const { exit } = process,
       { retrieveDirectories } = configuration,
-      { NO_SUB_DIRECTORY_MESSAGE, NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
+      { NO_RELEASE_MESSAGE, NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
 
 function propagate(argument, quietly) {
   if (argument === null) {
@@ -15,29 +15,32 @@ function propagate(argument, quietly) {
     exit();
   }
 
-  const directories = retrieveDirectories(),
-        packageMap = PackageMap.fromDirectories(directories),
-        subDirectoryRelativePath = `./${argument}`,
-        subDirectoryRelativePaths = subDirectoryRelativePathsFromDirectories(directories),
-        subDirectoryRelativePathsIncludesSubDirectoryRelativePath = subDirectoryRelativePaths.includes(subDirectoryRelativePath);
+  const subDirectoryNames = argument.split(','),
+        subDirectoryRPaths = subDirectoryNames.map((subDirectoryName) => `./${subDirectoryName}`),
+        directories = retrieveDirectories(),
+        releaseMap = ReleaseMap.fromDirectories(directories);
 
-  if (!subDirectoryRelativePathsIncludesSubDirectoryRelativePath) {
-    console.log(NO_SUB_DIRECTORY_MESSAGE);
-
-    exit();
-  }
-
-  if (!quietly) {
-    console.log('The sub-directories are:');
-
-    console.log('');
-
-    subDirectoryRelativePaths.forEach((subDirectoryRelativePath) => {
-      console.log(` '${subDirectoryRelativePath}'`);
-    });
-
-    console.log('');
-  }
+  checkReleases(subDirectoryRPaths, releaseMap);
 }
 
 module.exports = propagate;
+
+function checkReleases(subDirectoryRPaths, releaseMap) {
+  console.log('Checking packages...');
+
+  console.log('');
+
+  subDirectoryRPaths.forEach((subDirectoryRPath) => {
+    console.log(` '${subDirectoryRPath}'`);
+
+    const subDirectoryRPathPresent = releaseMap.isSubDirectoryRPathPresent(subDirectoryRPath);
+
+    if (!subDirectoryRPathPresent) {
+      console.log(NO_RELEASE_MESSAGE);
+
+      exit();
+    }
+  });
+
+  console.log('');
+}
