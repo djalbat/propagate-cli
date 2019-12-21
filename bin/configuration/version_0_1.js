@@ -17,7 +17,7 @@ function createConfiguration() {
   return configuration;
 }
 
-function upgradeConfigurationToVersion_0_1(configuration) {
+function migrateConfigurationToVersion_0_1(configuration) {
   const { options } = configuration;
 
   const version = VERSION_0_1,  ///
@@ -35,5 +35,5 @@ function upgradeConfigurationToVersion_0_1(configuration) {
 
 module.exports = {
   createConfiguration,
-  upgradeConfigurationToVersion_0_1
+  migrateConfigurationToVersion_0_1
 };

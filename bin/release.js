@@ -9,9 +9,10 @@ const { fileSystemUtilities } = necessary,
       { readFile, checkFileExists } = fileSystemUtilities;
 
 class Release {
-  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath) {
+  constructor(name, version, newVersion, dependencyMap, devDependencyMap, subDirectoryPath) {
     this.name = name;
     this.version = version;
+    this.newVersion = newVersion;
     this.dependencyMap = dependencyMap;
     this.devDependencyMap = devDependencyMap;
     this.subDirectoryPath = subDirectoryPath;
@@ -25,6 +26,10 @@ class Release {
     return this.version;
   }
 
+  getNewVersion() {
+    return this.newVersion;
+  }
+
   getDependencyMap() {
     return this.dependencyMap;
   }
@@ -35,6 +40,10 @@ class Release {
 
   getSubDirectoryPath() {
     return this.subDirectoryPath;
+  }
+
+  setNewVersion(newVersion) {
+    this.newVersion = newVersion;
   }
 
   isPublishable() {
@@ -53,10 +62,11 @@ class Release {
       const packageJSONFileContent = readFile(packageJSONFilePath),
             packageJSON = JSON.parse(packageJSONFileContent),
             { name = null, version = null, dependencies = {}, devDependencies = {}  } = packageJSON,
+            newVersion = null,
             dependencyMap = dependencies, ///
             devDependencyMap = devDependencies; ///
 
-      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath);
+      release = new Release(name, version, newVersion, dependencyMap, devDependencyMap, subDirectoryPath);
    }
 
     return release;

@@ -39,9 +39,10 @@ function propagate(argument, quietly) {
   const dependencyGraph = DependencyGraph.fromReleaseMap(releaseMap);
 
   const version = release.getVersion(),
+        newVersion = version, ///
         dependentReleases = dependencyGraph.retrieveDependentReleases(release);
 
-  dependentReleases.setDependencyVersion
+  debugger
 
 
 
