@@ -7,7 +7,9 @@ const messages = require('../messages'),
 
 const { exit } = process,
       { retrieveDirectories } = configuration,
-      { NO_RELEASE_PRESENT_MESSAGE, RELEASE_NOT_PUBLISHABLE_MESSAGE, NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
+      { NO_RELEASE_PRESENT_MESSAGE,
+        RELEASE_NOT_PUBLISHABLE_MESSAGE,
+        NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
 
 function propagate(argument, quietly) {
   if (argument === null) {
@@ -36,16 +38,39 @@ function propagate(argument, quietly) {
     exit();
   }
 
+  release.propagate();  ///
+
   const dependencyGraph = DependencyGraph.fromReleaseMap(releaseMap);
 
-  const version = release.getVersion(),
-        newVersion = version, ///
-        dependentReleases = dependencyGraph.retrieveDependentReleases(release);
-
-  debugger
-
-
-
+  propagateRelease(release, dependencyGraph);
 }
 
 module.exports = propagate;
+
+function propagateRelease(release, dependencyGraph) {
+  const name = release.getName(),
+        version = release.getVersion(),
+        dependentReleases = dependencyGraph.retrieveDependentReleases(release);
+
+  dependentReleases.forEach((dependentRelease) => {
+    dependentRelease.updateDependencyVersion(name, version);
+
+    dependentRelease.updateDevDependencyVersion(name, version);
+
+    const publishable = dependentRelease.isPublishable();
+
+    if (publishable) {
+      const propagated = dependentRelease.hasPropagated();
+
+      if (!propagated) {
+        const release = dependentRelease; ///
+
+        release.propagate();
+
+        release.bumpPatchVersion();
+        
+        propagateRelease(release, dependencyGraph);
+      }
+    }
+  });
+}

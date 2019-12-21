@@ -4,15 +4,16 @@ const necessary = require('necessary');
 
 const constants = require('./constants');
 
-const { fileSystemUtilities } = necessary,
+const { arrayUtilities, fileSystemUtilities } = necessary,
+      { second } = arrayUtilities,
       { PACKAGE_JSON_FILE_NAME } = constants,
       { readFile, checkFileExists } = fileSystemUtilities;
 
 class Release {
-  constructor(name, version, newVersion, dependencyMap, devDependencyMap, subDirectoryPath) {
+  constructor(name, version, propagated, dependencyMap, devDependencyMap, subDirectoryPath) {
     this.name = name;
     this.version = version;
-    this.newVersion = newVersion;
+    this.propagated = propagated;
     this.dependencyMap = dependencyMap;
     this.devDependencyMap = devDependencyMap;
     this.subDirectoryPath = subDirectoryPath;
@@ -26,8 +27,8 @@ class Release {
     return this.version;
   }
 
-  getNewVersion() {
-    return this.newVersion;
+  hasPropagated() {
+    return this.propagated;
   }
 
   getDependencyMap() {
@@ -42,8 +43,27 @@ class Release {
     return this.subDirectoryPath;
   }
 
-  setNewVersion(newVersion) {
-    this.newVersion = newVersion;
+  propagate() {
+    this.propagated = true;
+  }
+
+  bumpPatchVersion() {
+    const matches = this.version.match(/(\d+)$/),
+          secondMatch = second(matches);
+
+    let patchNumber = Number(secondMatch);
+
+    patchNumber++;
+
+    this.version = this.version.replace(/(\d+)$/, patchNumber)
+  }
+
+  updateDependencyVersion(name, version) {
+    updateVersion(name, version, this.dependencyMap);
+  }
+
+  updateDevDependencyVersion(name, version) {
+    updateVersion(name, version, this.devDependencyMap);
   }
 
   isPublishable() {
@@ -62,11 +82,11 @@ class Release {
       const packageJSONFileContent = readFile(packageJSONFilePath),
             packageJSON = JSON.parse(packageJSONFileContent),
             { name = null, version = null, dependencies = {}, devDependencies = {}  } = packageJSON,
-            newVersion = null,
+            propagated = null,
             dependencyMap = dependencies, ///
             devDependencyMap = devDependencies; ///
 
-      release = new Release(name, version, newVersion, dependencyMap, devDependencyMap, subDirectoryPath);
+      release = new Release(name, version, propagated, dependencyMap, devDependencyMap, subDirectoryPath);
    }
 
     return release;
@@ -74,3 +94,13 @@ class Release {
 }
 
 module.exports = Release;
+
+function updateVersion(name, version, map) {
+  let semver = map[name] || null;
+
+  if (semver !== null) {
+    semver = semver.replace(/\d+\.\d+\.\d+/, version);
+  }
+
+  map[name] = semver;
+}
