@@ -2,7 +2,8 @@
 
 const messages = require('../messages'),
       ReleaseMap = require('../releaseMap'),
-      configuration = require('../configuration');
+      configuration = require('../configuration'),
+      ReleaseDirectedGraph = require('../releaseDirectedGraph');
 
 const { exit } = process,
       { retrieveDirectories } = configuration,
@@ -21,13 +22,15 @@ function propagate(argument, quietly) {
         releaseMap = ReleaseMap.fromDirectories(directories);
 
   checkSubDirectories(subDirectoryRPaths, releaseMap);
+
+  const releaseDirectedGraph = ReleaseDirectedGraph.fromReleaseMap(releaseMap);
+
+  checkDependencyCycles(releaseDirectedGraph);
 }
 
 module.exports = propagate;
 
 function checkSubDirectories(subDirectoryRPaths, releaseMap) {
-  console.log('Checking sub-directories...');
-
   console.log('');
 
   subDirectoryRPaths.forEach((subDirectoryRPath) => {

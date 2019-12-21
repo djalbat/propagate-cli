@@ -15,10 +15,57 @@ class ReleaseMap {
     this.map = map;
   }
 
+  getNames() {
+    const names = [],
+          releases = Object.values(this.map);
+
+    releases.forEach((release) => {
+      const name = release.getName();
+
+      if (name !== null) {
+        names.push(name);
+      }
+    });
+
+    return names;
+  }
+
+  getSubDirectoryPaths() {
+    const subDirectoryPaths = Object.keys(this.map);
+
+    return subDirectoryPaths;
+  }
+
+  getNameToSubDirectoryPathMap() {
+    const nameToSubDirectoryPathMap = {},
+          subDirectoryPaths = this.getSubDirectoryPaths();
+
+    subDirectoryPaths.forEach((subDirectoryPath) => {
+      const name = this.retrieveName(subDirectoryPath);
+
+      nameToSubDirectoryPathMap[name] = subDirectoryPath;
+    });
+
+    return nameToSubDirectoryPathMap;
+  }
+
+  retrieveName(subDirectoryPath) {
+    const release = this.retrieveRelease(subDirectoryPath),
+          name = release.getName();
+
+    return name;
+  }
+
   retrieveRelease(subDirectoryRPath) {
     const release = this.map[subDirectoryRPath] || null;  ///
 
     return release;
+  }
+
+  retrieveSubDirectoryPath(name) {
+    let subDirectoryPath = null;
+
+    return subDirectoryPath;
   }
 
   static fromDirectories(directories) {

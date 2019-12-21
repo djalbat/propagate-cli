@@ -9,11 +9,11 @@ const { fileSystemUtilities } = necessary,
       { readFile, checkFileExists } = fileSystemUtilities;
 
 class Release {
-  constructor(name, version, dependencies, devDependencies ) {
+  constructor(name, version, dependencyMap, devDependencyMap ) {
     this.name = name;
     this.version = version;
-    this.dependencies = dependencies;
-    this.devDependencies = devDependencies;
+    this.dependencyMap = dependencyMap;
+    this.devDependencyMap = devDependencyMap;
   }
 
   getName() {
@@ -24,12 +24,12 @@ class Release {
     return this.version;
   }
 
-  getDependencies() {
-    return this.dependencies;
+  getDependencyMap() {
+    return this.dependencyMap;
   }
 
-  getDevDependencies() {
-    return this.devDependencies;
+  getDevDependencyMap() {
+    return this.devDependencyMap;
   }
 
   isPublishable() {
@@ -47,9 +47,11 @@ class Release {
     if (packageJSONFIleExists) {
       const packageJSONFileContent = readFile(packageJSONFilePath),
             packageJSON = JSON.parse(packageJSONFileContent),
-            { name = null, version = null, dependencies = {}, devDependencies = {}  } = packageJSON;
+            { name = null, version = null, dependencies = {}, devDependencies = {}  } = packageJSON,
+            dependencyMap = dependencies, ///
+            devDependencyMap = devDependencies; ///
 
-      release = new Release(name, version, dependencies, devDependencies);
+      release = new Release(name, version, dependencyMap, devDependencyMap);
    }
 
     return release;
