@@ -1,25 +1,45 @@
 'use strict';
 
-const necessary = require('necessary'),
-      directedGraphs = require('occam-directed-graphs');
+const necessary = require('necessary');
 
-const { DirectedGraph } = directedGraphs,
-      { arrayUtilities } = necessary,
+const AcyclicGraph = require('./acyclicGraph');
+
+const { arrayUtilities } = necessary,
       { filter } = arrayUtilities;
 
-class ReleaseDirectedGraph {
-  constructor(directedGraph) {
-    this.directedGraph = directedGraph;
+class DependencyGraph {
+  constructor(releaseMap, acyclicGraph) {
+    this.releaseMap = releaseMap;
+    this.acyclicGraph = acyclicGraph;
+  }
+
+  getReleaseMap() {
+    return this.releaseMap;
+  }
+
+  getAcyclicGraph() {
+    return this.acyclicGraph;
+  }
+
+  retrieveDependentReleases(release) {
+    const subDirectoryPath = release.getSubDirectoryPath(),
+          vertexName = subDirectoryPath,  ///
+          vertex = this.acyclicGraph.findVertexByVertexName(vertexName),
+          successorVertexNames = vertex.getSuccessorVertexNames(),
+          dependentSubDirectoryPaths = successorVertexNames,  ///
+          dependentReleases = dependentSubDirectoryPaths.map((dependentSubDirectoryPath) => this.releaseMap.retrieveRelease(dependentSubDirectoryPath));
+
+    return dependentReleases;
   }
 
   static fromReleaseMap(releaseMap) {
-    const directedGraph = DirectedGraph.fromNothing(),
+    const acyclicGraph = AcyclicGraph.fromNothing(),
           names = releaseMap.getNames(),
           subDirectoryPaths = releaseMap.getSubDirectoryPaths(),
           nameToSubDirectoryPathMap = releaseMap.getNameToSubDirectoryPathMap(),
           vertexNames = subDirectoryPaths;  ///
 
-    directedGraph.addVerticesByVertexNames(vertexNames);
+    acyclicGraph.addVerticesByVertexNames(vertexNames);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
@@ -49,7 +69,7 @@ class ReleaseDirectedGraph {
               sourceVertexName = dependencySubDirectoryPath,  ///
               targetVertexName = subDirectoryPath;  ///
 
-        directedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+        acyclicGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
       });
 
       devDependencyNames.forEach((devDependencyName) => {
@@ -57,14 +77,14 @@ class ReleaseDirectedGraph {
               sourceVertexName = devDependencySubDirectoryPath,  ///
               targetVertexName = subDirectoryPath;  ///
 
-        directedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+        acyclicGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
       });
     });
 
-    const releaseDirectedGraph = new ReleaseDirectedGraph(directedGraph);
+    const dependencyGraph = new DependencyGraph(releaseMap, acyclicGraph);
 
-    return releaseDirectedGraph;
+    return dependencyGraph;
   }
 }
 
-module.exports = ReleaseDirectedGraph;
+module.exports = DependencyGraph;

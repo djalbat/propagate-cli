@@ -17,7 +17,7 @@ class ReleaseMap {
 
   getNames() {
     const names = [],
-          releases = Object.values(this.map);
+          releases = this.getReleases();
 
     releases.forEach((release) => {
       const name = release.getName();
@@ -28,6 +28,12 @@ class ReleaseMap {
     });
 
     return names;
+  }
+
+  getReleases() {
+    const releases = Object.values(this.map);
+
+    return releases;
   }
 
   getSubDirectoryPaths() {
@@ -41,7 +47,8 @@ class ReleaseMap {
           subDirectoryPaths = this.getSubDirectoryPaths();
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
-      const name = this.retrieveName(subDirectoryPath);
+      const release = this.retrieveRelease(subDirectoryPath),
+            name = release.getName();
 
       nameToSubDirectoryPathMap[name] = subDirectoryPath;
     });
@@ -49,23 +56,10 @@ class ReleaseMap {
     return nameToSubDirectoryPathMap;
   }
 
-  retrieveName(subDirectoryPath) {
-    const release = this.retrieveRelease(subDirectoryPath),
-          name = release.getName();
-
-    return name;
-  }
-
   retrieveRelease(subDirectoryRPath) {
     const release = this.map[subDirectoryRPath] || null;  ///
 
     return release;
-  }
-
-  retrieveSubDirectoryPath(name) {
-    let subDirectoryPath = null;
-
-    return subDirectoryPath;
   }
 
   static fromDirectories(directories) {

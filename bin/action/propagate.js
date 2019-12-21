@@ -3,7 +3,7 @@
 const messages = require('../messages'),
       ReleaseMap = require('../releaseMap'),
       configuration = require('../configuration'),
-      ReleaseDirectedGraph = require('../releaseDirectedGraph');
+      DependencyGraph = require('../dependencyGraph');
 
 const { exit } = process,
       { retrieveDirectories } = configuration,
@@ -16,43 +16,35 @@ function propagate(argument, quietly) {
     exit();
   }
 
-  const subDirectoryNames = argument.split(','),
-        subDirectoryRPaths = subDirectoryNames.map((subDirectoryName) => `./${subDirectoryName}`),
+  const subDirectoryName = argument,  ////
+        subDirectoryRPath = `./${subDirectoryName}`,
         directories = retrieveDirectories(),
-        releaseMap = ReleaseMap.fromDirectories(directories);
+        releaseMap = ReleaseMap.fromDirectories(directories),
+        release = releaseMap.retrieveRelease(subDirectoryRPath);
 
-  checkSubDirectories(subDirectoryRPaths, releaseMap);
+  if (release === null) {
+    console.log(NO_RELEASE_PRESENT_MESSAGE);
 
-  const releaseDirectedGraph = ReleaseDirectedGraph.fromReleaseMap(releaseMap);
+    exit();
+  }
 
-  checkDependencyCycles(releaseDirectedGraph);
+  const releasePublishable = release.isPublishable();
+
+  if (!releasePublishable) {
+    console.log(RELEASE_NOT_PUBLISHABLE_MESSAGE);
+
+    exit();
+  }
+
+  const dependencyGraph = DependencyGraph.fromReleaseMap(releaseMap);
+
+  const version = release.getVersion(),
+        dependentReleases = dependencyGraph.retrieveDependentReleases(release);
+
+  dependentReleases.setDependencyVersion
+
+
+
 }
 
 module.exports = propagate;
-
-function checkSubDirectories(subDirectoryRPaths, releaseMap) {
-  console.log('');
-
-  subDirectoryRPaths.forEach((subDirectoryRPath) => {
-    console.log(` '${subDirectoryRPath}'`);
-
-    const release = releaseMap.retrieveRelease(subDirectoryRPath),
-          releasePresent = (release !== null);
-
-    if (!releasePresent) {
-      console.log(NO_RELEASE_PRESENT_MESSAGE);
-
-      exit();
-    }
-
-    const releasePublishable = release.isPublishable();
-
-    if (!releasePublishable) {
-      console.log(RELEASE_NOT_PUBLISHABLE_MESSAGE);
-
-      exit();
-    }
-  });
-
-  console.log('');
-}

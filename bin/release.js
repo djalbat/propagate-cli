@@ -9,11 +9,12 @@ const { fileSystemUtilities } = necessary,
       { readFile, checkFileExists } = fileSystemUtilities;
 
 class Release {
-  constructor(name, version, dependencyMap, devDependencyMap ) {
+  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath) {
     this.name = name;
     this.version = version;
     this.dependencyMap = dependencyMap;
     this.devDependencyMap = devDependencyMap;
+    this.subDirectoryPath = subDirectoryPath;
   }
 
   getName() {
@@ -30,6 +31,10 @@ class Release {
 
   getDevDependencyMap() {
     return this.devDependencyMap;
+  }
+
+  getSubDirectoryPath() {
+    return this.subDirectoryPath;
   }
 
   isPublishable() {
@@ -51,7 +56,7 @@ class Release {
             dependencyMap = dependencies, ///
             devDependencyMap = devDependencies; ///
 
-      release = new Release(name, version, dependencyMap, devDependencyMap);
+      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath);
    }
 
     return release;
