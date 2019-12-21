@@ -6,7 +6,7 @@ const messages = require('../messages'),
 
 const { exit } = process,
       { retrieveDirectories } = configuration,
-      { NO_RELEASE_MESSAGE, NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
+      { NO_RELEASE_PRESENT_MESSAGE, RELEASE_NOT_PUBLISHABLE_MESSAGE, NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
 
 function propagate(argument, quietly) {
   if (argument === null) {
@@ -20,23 +20,32 @@ function propagate(argument, quietly) {
         directories = retrieveDirectories(),
         releaseMap = ReleaseMap.fromDirectories(directories);
 
-  checkReleases(subDirectoryRPaths, releaseMap);
+  checkSubDirectories(subDirectoryRPaths, releaseMap);
 }
 
 module.exports = propagate;
 
-function checkReleases(subDirectoryRPaths, releaseMap) {
-  console.log('Checking packages...');
+function checkSubDirectories(subDirectoryRPaths, releaseMap) {
+  console.log('Checking sub-directories...');
 
   console.log('');
 
   subDirectoryRPaths.forEach((subDirectoryRPath) => {
     console.log(` '${subDirectoryRPath}'`);
 
-    const subDirectoryRPathPresent = releaseMap.isSubDirectoryRPathPresent(subDirectoryRPath);
+    const release = releaseMap.retrieveRelease(subDirectoryRPath),
+          releasePresent = (release !== null);
 
-    if (!subDirectoryRPathPresent) {
-      console.log(NO_RELEASE_MESSAGE);
+    if (!releasePresent) {
+      console.log(NO_RELEASE_PRESENT_MESSAGE);
+
+      exit();
+    }
+
+    const releasePublishable = release.isPublishable();
+
+    if (!releasePublishable) {
+      console.log(RELEASE_NOT_PUBLISHABLE_MESSAGE);
 
       exit();
     }

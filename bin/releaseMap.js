@@ -15,12 +15,10 @@ class ReleaseMap {
     this.map = map;
   }
 
-  isSubDirectoryRPathPresent(subDirectoryRPath) {
-    const subDirectoryRPaths = Object.keys(this.map),
-          subDirectoryRPathsIncludesSubDirectoryRPath = subDirectoryRPaths.includes(subDirectoryRPath),
-          subDirectoryRPathPresent = subDirectoryRPathsIncludesSubDirectoryRPath;  ///
+  retrieveRelease(subDirectoryRPath) {
+    const release = this.map[subDirectoryRPath] || null;  ///
 
-    return subDirectoryRPathPresent;
+    return release;
   }
 
   static fromDirectories(directories) {

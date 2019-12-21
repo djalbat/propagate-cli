@@ -32,6 +32,12 @@ class Release {
     return this.devDependencies;
   }
 
+  isPublishable() {
+    const publishable = (this.name !== null) && (this.version !== null);
+
+    return publishable;
+  }
+
   static fromSubDirectoryRPath(subDirectoryPath) {
     let release = null;
 
