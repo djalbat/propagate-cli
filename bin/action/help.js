@@ -17,8 +17,6 @@ Commands:
 
   initialise                   Create a configuration file
 
-  set-options                  Set options
-  
   add-directory                Add an additional directory
   
   remove-directory             Remove an additional directory

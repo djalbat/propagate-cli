@@ -6,7 +6,6 @@ const commands = require('./commands'),
       version = require('./action/version'),
       propagate = require('./action/propagate'),
       initialise = require('./action/initialise'),
-      setOptions = require('./action/setOptions'),
       addDirectory = require('./action/addDirectory'),
       removeDirectory = require('./action/removeDirectory'),
       listDirectories = require('./action/listDirectories');
@@ -18,7 +17,6 @@ const { HELP_OPTION,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
         INITIALISE_COMMAND,
-        SET_OPTIONS_COMMAND,
         ADD_DIRECTORY_COMMAND,
         REMOVE_DIRECTORY_COMMAND,
         LIST_DIRECTORIES_COMMAND } = commands;
@@ -44,7 +42,6 @@ function actions(command, argument, options) {
      && (command !== VERSION_COMMAND)
      && (command !== PROPAGATE_COMMAND)
      && (command !== INITIALISE_COMMAND)
-     && (command !== SET_OPTIONS_COMMAND)
      && (command !== ADD_DIRECTORY_COMMAND)
      && (command !== REMOVE_DIRECTORY_COMMAND)
      && (command !== LIST_DIRECTORIES_COMMAND) ) {
@@ -59,7 +56,6 @@ function actions(command, argument, options) {
     case VERSION_COMMAND : version(); break;
     case PROPAGATE_COMMAND : propagate(argument, quietly); break;
     case INITIALISE_COMMAND : initialise(); break;
-    case SET_OPTIONS_COMMAND : setOptions(); break;
     case ADD_DIRECTORY_COMMAND : addDirectory(); break;
     case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;
     case LIST_DIRECTORIES_COMMAND : listDirectories(); break;

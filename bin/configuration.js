@@ -5,37 +5,26 @@ const necessary = require('necessary');
 const versions = require('./versions'),
       messages = require('./messages'),
       constants = require('./constants'),
-      configurationVersion_0_1 = require('./configuration/version_0_1');
+      configurationVersion_0_1 = require('./configuration/version_0_1'),
+      configurationVersion_0_2 = require('./configuration/version_0_2');
 
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
       { exit } = process,
       { RC_BASE_EXTENSION } = constants,
-      { VERSION_0_0, CURRENT_VERSION } = versions,
+      { VERSION_0_0, VERSION_0_1, CURRENT_VERSION } = versions,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
-      { createConfiguration, migrateConfigurationToVersion_0_1 } = configurationVersion_0_1,
+      { migrateConfigurationToVersion_0_1 } = configurationVersion_0_1,
+      { createConfiguration, migrateConfigurationToVersion_0_2 } = configurationVersion_0_2,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
 setRCBaseExtension(RC_BASE_EXTENSION);
-
-function retrieveOptions() {
-  const configuration = readConfigurationFile(),
-        { options } = configuration;
-
-  return options;
-}
 
 function retrieveDirectories() {
   const configuration = readConfigurationFile(),
         { directories } = configuration;
 
   return directories;
-}
-
-function updateOptions(options) {
-  updateConfigurationFile({
-    options
-  });
 }
 
 function updateDirectories(directories) {
@@ -64,6 +53,11 @@ function migrateConfigurationFile() {
     switch (version) {
       case VERSION_0_0:
         configuration = migrateConfigurationToVersion_0_1(configuration);
+        break;
+
+      case VERSION_0_1:
+        configuration = migrateConfigurationToVersion_0_2(configuration);
+        break;
     }
 
     version = configuration.version || VERSION_0_0; ///
@@ -82,9 +76,7 @@ function checkConfigurationFileExists() {
 }
 
 module.exports = {
-  retrieveOptions,
   retrieveDirectories,
-  updateOptions,
   updateDirectories,
   createConfigurationFile,
   migrateConfigurationFile,
