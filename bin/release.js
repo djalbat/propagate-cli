@@ -2,12 +2,11 @@
 
 const necessary = require('necessary');
 
-const constants = require('./constants');
+const packageJSONUtilities = require('./utilities/packageJSON');
 
-const { arrayUtilities, fileSystemUtilities } = necessary,
+const { arrayUtilities } = necessary,
       { second } = arrayUtilities,
-      { PACKAGE_JSON_FILE_NAME } = constants,
-      { readFile, checkFileExists } = fileSystemUtilities;
+      { readPackageJSONFile } = packageJSONUtilities;
 
 class Release {
   constructor(name, version, propagated, dependencyMap, devDependencyMap, subDirectoryPath) {
@@ -59,11 +58,11 @@ class Release {
   }
 
   updateDependencyVersion(name, version) {
-    updateVersion(name, version, this.dependencyMap);
+    updateSemver(name, version, this.dependencyMap);
   }
 
   updateDevDependencyVersion(name, version) {
-    updateVersion(name, version, this.devDependencyMap);
+    updateSemver(name, version, this.devDependencyMap);
   }
 
   isPublishable() {
@@ -75,14 +74,14 @@ class Release {
   static fromSubDirectoryRPath(subDirectoryPath) {
     let release = null;
 
-    const packageJSONFilePath = `${subDirectoryPath}/${PACKAGE_JSON_FILE_NAME}`,
-          packageJSONFIleExists = checkFileExists(packageJSONFilePath);
+    const packageJSON = readPackageJSONFile(subDirectoryPath);
 
-    if (packageJSONFIleExists) {
-      const packageJSONFileContent = readFile(packageJSONFilePath),
-            packageJSON = JSON.parse(packageJSONFileContent),
-            { name = null, version = null, dependencies = {}, devDependencies = {}  } = packageJSON,
-            propagated = null,
+    if (packageJSON !== null) {
+      const { name = null,
+              version = null,
+              dependencies = {},
+              devDependencies = {} } = packageJSON,
+            propagated = false,
             dependencyMap = dependencies, ///
             devDependencyMap = devDependencies; ///
 
@@ -95,7 +94,7 @@ class Release {
 
 module.exports = Release;
 
-function updateVersion(name, version, map) {
+function updateSemver(name, version, map) {
   let semver = map[name] || null;
 
   if (semver !== null) {

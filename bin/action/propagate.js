@@ -1,6 +1,7 @@
 'use strict';
 
-const messages = require('../messages'),
+const Diff = require('../diff'),
+      messages = require('../messages'),
       ReleaseMap = require('../releaseMap'),
       configuration = require('../configuration'),
       DependencyGraph = require('../dependencyGraph');
@@ -43,6 +44,18 @@ function propagate(argument, quietly) {
   const dependencyGraph = DependencyGraph.fromReleaseMap(releaseMap);
 
   propagateRelease(release, dependencyGraph);
+
+  if (!quietly) {
+    const diffs = retrieveDiffs(release, dependencyGraph);
+
+    diffs.forEach((diff) => {
+      const diffString = diff.asString();
+
+      if (diffString !== null) {
+        console.log(diffString);
+      }
+    });
+  }
 }
 
 module.exports = propagate;
@@ -73,4 +86,32 @@ function propagateRelease(release, dependencyGraph) {
       }
     }
   });
+}
+
+function retrieveDiffs(release, dependencyGraph, diffs = []) {
+  const subDirectoryPath = release.getSubDirectoryPath();
+
+  let diff = diffs.find((diff) => {
+    const diffSubdirectoryPath = diff.getSubDirectoryPath();
+
+    if (diffSubdirectoryPath === subDirectoryPath) {
+      return true;
+    }
+  }) || null;
+
+  if (diff === null) {
+    diff = Diff.fromRelease(release);
+
+    diffs.push(diff);
+
+    const dependentReleases = dependencyGraph.retrieveDependentReleases(release);
+
+    dependentReleases.forEach((dependentRelease) => {
+      const release = dependentRelease; ///
+
+      retrieveDiffs(release, dependencyGraph, diffs);
+    });
+  }
+
+  return diffs;
 }

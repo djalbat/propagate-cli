@@ -1,10 +1,10 @@
 'use strict';
 
 const constants = require('../constants'),
-      packageUtilities = require('../utilities/package');
+      packageJSONUtilities = require('../utilities/packageJSON');
 
 const { PROPAGATE_CLI } = constants,
-      { getPackageVersion } = packageUtilities;
+      { getPackageVersion } = packageJSONUtilities;
 
 function version() {
   const packageVersion = getPackageVersion(),

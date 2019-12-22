@@ -6,7 +6,7 @@ const constants = require('../constants');
 
 const { arrayUtilities, fileSystemUtilities } = necessary,
       { second } = arrayUtilities,
-      { readFile } = fileSystemUtilities,
+      { readFile, checkFileExists } = fileSystemUtilities,
       { PACKAGE_JSON_FILE_NAME } = constants;
 
 const utilitiesDirectoryName = __dirname, ///
@@ -23,6 +23,22 @@ function getPackageVersion() {
 	return packageVersion;
 }
 
+function readPackageJSONFile(subDirectoryPath) {
+  let packageJSON = null;
+
+  const packageJSONFilePath = `${subDirectoryPath}/${PACKAGE_JSON_FILE_NAME}`,
+        packageJSONFIleExists = checkFileExists(packageJSONFilePath);
+
+  if (packageJSONFIleExists) {
+    const packageJSONFileContent = readFile(packageJSONFilePath);
+
+    packageJSON = JSON.parse(packageJSONFileContent);
+  }
+
+  return packageJSON;
+}
+
 module.exports = {
-	getPackageVersion
+	getPackageVersion,
+  readPackageJSONFile
 };
