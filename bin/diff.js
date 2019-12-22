@@ -1,10 +1,12 @@
 'use strict';
 
 const MapDiff = require('./diff/map'),
+      constants = require('./constants'),
       VersionDiff = require('./diff/version'),
       packageJSONUtilities = require('./utilities/packageJSON');
 
-const { readPackageJSONFile } = packageJSONUtilities;
+const { DEPENDENCIES_NAME, DEV_DEPENDENCIES_NAME } = constants,
+      { readPackageJSONFile, writePackageJSONFile } = packageJSONUtilities;
 
 class Diff {
   constructor(release, versionDiff, dependencyMapDiff, devDependencyMapDiff) {
@@ -33,6 +35,19 @@ class Diff {
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
   getName() { return this.release.getName(); }
+
+  apply() {
+    const subDirectoryPath = this.getSubDirectoryPath(),
+          packageJSON = readPackageJSONFile(subDirectoryPath);
+
+    this.versionDiff && this.versionDiff.apply(packageJSON);
+
+    this.dependencyMapDiff && this.dependencyMapDiff.apply(packageJSON, DEPENDENCIES_NAME);
+
+    this.devDependencyMapDiff && this.devDependencyMapDiff.apply(packageJSON, DEV_DEPENDENCIES_NAME);
+
+    writePackageJSONFile(subDirectoryPath, packageJSON);
+  }
 
   asString() {
     let unchanged = true;

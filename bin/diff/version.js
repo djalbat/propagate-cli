@@ -14,6 +14,14 @@ class VersionDiff {
     return this.releaseVersion;
   }
 
+  apply(packageJSON) {
+    const version = this.releaseVersion;  ///
+
+    Object.assign(packageJSON, {
+      version
+    });
+  }
+
   asString() {
     const string = `"${this.version}" -> "${this.releaseVersion}"`;
 

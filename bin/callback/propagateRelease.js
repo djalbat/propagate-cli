@@ -3,7 +3,9 @@
 function propagateReleaseCallback(proceed, abort, context) {
   const { release, releaseMap, dependencyGraph } = context;
 
-  release.propagate();  ///
+  release.propagate();
+
+  release.bumpPatchVersion();
 
   propagateRelease(release, releaseMap, dependencyGraph);
 

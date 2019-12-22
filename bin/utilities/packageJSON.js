@@ -6,8 +6,8 @@ const constants = require('../constants');
 
 const { arrayUtilities, fileSystemUtilities } = necessary,
       { second } = arrayUtilities,
-      { readFile, checkFileExists } = fileSystemUtilities,
-      { PACKAGE_JSON_FILE_NAME } = constants;
+      { PACKAGE_JSON_FILE_NAME } = constants,
+      { readFile, writeFile, checkFileExists } = fileSystemUtilities;
 
 const utilitiesDirectoryName = __dirname, ///
       matches = utilitiesDirectoryName.match(/^(.+)\/bin\/utilities$/),
@@ -26,7 +26,7 @@ function getPackageVersion() {
 function readPackageJSONFile(subDirectoryPath) {
   let packageJSON = null;
 
-  const packageJSONFilePath = `${subDirectoryPath}/${PACKAGE_JSON_FILE_NAME}`,
+  const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
         packageJSONFIleExists = checkFileExists(packageJSONFilePath);
 
   if (packageJSONFIleExists) {
@@ -38,7 +38,21 @@ function readPackageJSONFile(subDirectoryPath) {
   return packageJSON;
 }
 
+function writePackageJSONFile(subDirectoryPath, packageJSON) {
+  const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
+        packageJSONContent = JSON.stringify(packageJSON, null, '  ');
+
+  writeFile(packageJSONFilePath, packageJSONContent);
+}
+
 module.exports = {
 	getPackageVersion,
-  readPackageJSONFile
+  readPackageJSONFile,
+  writePackageJSONFile
 };
+
+function packageJSONFilePathFromSubDirectoryPath(subDirectoryPath) {
+  const packageJSONFilePath = `${subDirectoryPath}/${PACKAGE_JSON_FILE_NAME}`;
+
+  return packageJSONFilePath;
+}

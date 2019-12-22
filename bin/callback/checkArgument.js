@@ -11,6 +11,8 @@ function checkArgumentCallback(proceed, abort, context) {
     console.log(NO_SUB_DIRECTORY_SPECIFIED_MESSAGE);
 
     abort();
+
+    return;
   }
 
   const subDirectoryName = argument,  ////

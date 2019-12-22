@@ -11,6 +11,12 @@ class MapDiff {
     return this.semverDiffs;
   }
 
+  apply(packageJSON, name) {
+    packageJSON = packageJSON[name];  ///
+
+    this.semverDiffs.forEach((semverDiff) => semverDiff.apply(packageJSON))
+  }
+
   asString() {
     const semverDiffsLength = this.semverDiffs.length,
           lastIndex = semverDiffsLength - 1,

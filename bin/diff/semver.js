@@ -19,6 +19,12 @@ class SemverDiff {
     return this.releaseSemver;
   }
 
+  apply(packageJSON) {
+    const semver = this.releaseSemver;
+
+    packageJSON[this.name] = semver;
+  }
+
   asString(last) {
     let string = `     "${this.name}": "${this.semver}" -> "${this.releaseSemver}"`;
 

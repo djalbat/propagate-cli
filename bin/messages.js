@@ -1,8 +1,9 @@
 'use strict';
 
-const INVALID_DIRECTORY_PATH_MESSAGE = 'The directory path should be a relative path, starting with a period or more likely a double period.',
+const INVALID_ANSWER_MESSAGE = 'You must answer (y)es or (n)o.',
+      INVALID_DIRECTORY_PATH_MESSAGE = 'The directory path should be a relative path, starting with a period or more likely a double period.',
       INVALID_DIRECTORY_NUMBER_MESSAGE = 'The directory number should match one of the numbers given above.',
-      FAILED_PROPAGATE_MESSAGE = 'Failed to propagate any package.',
+      FAILED_PROPAGATE_MESSAGE = 'Failed to propagate the package.',
       FAILED_INITIALISE_MESSAGE = 'Failed to create a configuration file because one is already present.',
       FAILED_ADD_DIRECTORY_MESSAGE = 'Failed to add a directory.',
       FAILED_REMOVE_DIRECTORY_MESSAGE = 'Failed to remove a directory.',
@@ -18,6 +19,7 @@ const INVALID_DIRECTORY_PATH_MESSAGE = 'The directory path should be a relative 
       CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE = 'The action cannot be performed because the configuration file is missing. Run \'propagate initialise\' to create one.';
 
 module.exports = {
+  INVALID_ANSWER_MESSAGE,
   INVALID_DIRECTORY_PATH_MESSAGE,
   INVALID_DIRECTORY_NUMBER_MESSAGE,
   FAILED_PROPAGATE_MESSAGE,

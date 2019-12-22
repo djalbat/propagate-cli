@@ -2,12 +2,12 @@
 
 const necessary = require('necessary');
 
-const validate = require('../../validate'),
-      messages = require('../../messages');
+const messages = require('../../messages'),
+      validateUtilities = require('../../utilities/validate');
 
 const { miscellaneousUtilities } = necessary,
-      { validateDirectoryPath } = validate,
       { prompt } = miscellaneousUtilities,
+      { validateDirectoryPath } = validateUtilities,
       { INVALID_DIRECTORY_PATH_MESSAGE } = messages;
 
 function addDirectoryPromptCallback(proceed, abort, context) {

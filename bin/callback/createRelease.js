@@ -12,6 +12,8 @@ function createReleaseCallback(proceed, abort, context) {
     console.log(NO_RELEASE_PRESENT_MESSAGE);
 
     abort();
+
+    return;
   }
 
   const releasePublishable = release.isPublishable();
@@ -20,6 +22,8 @@ function createReleaseCallback(proceed, abort, context) {
     console.log(RELEASE_NOT_PUBLISHABLE_MESSAGE);
 
     abort();
+
+    return;
   }
 
   Object.assign(context, {
