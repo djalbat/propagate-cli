@@ -6,7 +6,8 @@ const PROPAGATE_CLI = 'Propagate-CLI',
       DEFAULT_GIT_COMMANDS = 'git add . ; git commit -m "Propagated." ; git push',
       DEV_DEPENDENCIES_NAME = 'devDependencies',
       DEFAULT_BUILD_COMMANDS = 'npm install ; npm run build',
-      PACKAGE_JSON_FILE_NAME = 'package.json';
+      PACKAGE_JSON_FILE_NAME = 'package.json',
+      DEFAULT_PUBLISH_COMMANDS = 'npm publish';
 
 module.exports = {
   PROPAGATE_CLI,
@@ -15,5 +16,6 @@ module.exports = {
   DEFAULT_GIT_COMMANDS,
   DEV_DEPENDENCIES_NAME,
   DEFAULT_BUILD_COMMANDS,
-  PACKAGE_JSON_FILE_NAME
+  PACKAGE_JSON_FILE_NAME,
+  DEFAULT_PUBLISH_COMMANDS
 };

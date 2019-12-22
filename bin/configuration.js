@@ -6,16 +6,18 @@ const versions = require('./versions'),
       messages = require('./messages'),
       constants = require('./constants'),
       configurationVersion_0_1 = require('./configuration/version_0_1'),
-      configurationVersion_0_2 = require('./configuration/version_0_2');
+      configurationVersion_0_2 = require('./configuration/version_0_2'),
+      configurationVersion_0_3 = require('./configuration/version_0_3');
 
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
       { exit } = process,
       { RC_BASE_EXTENSION } = constants,
-      { VERSION_0_0, VERSION_0_1, CURRENT_VERSION } = versions,
-      { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
       { migrateConfigurationToVersion_0_1 } = configurationVersion_0_1,
-      { createConfiguration, migrateConfigurationToVersion_0_2 } = configurationVersion_0_2,
+      { migrateConfigurationToVersion_0_2 } = configurationVersion_0_2,
+      { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
+      { VERSION_0_0, VERSION_0_1, VERSION_0_2, CURRENT_VERSION } = versions,
+      { createConfiguration, migrateConfigurationToVersion_0_3 } = configurationVersion_0_3,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
 setRCBaseExtension(RC_BASE_EXTENSION);
@@ -57,6 +59,10 @@ function migrateConfigurationFile() {
 
       case VERSION_0_1:
         configuration = migrateConfigurationToVersion_0_2(configuration);
+        break;
+
+      case VERSION_0_2:
+        configuration = migrateConfigurationToVersion_0_3(configuration);
         break;
     }
 
