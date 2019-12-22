@@ -17,8 +17,8 @@ const { miscellaneousUtilities } = necessary,
       { migrateConfigurationToVersion_0_2 } = configurationVersion_0_2,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
       { VERSION_0_0, VERSION_0_1, VERSION_0_2, CURRENT_VERSION } = versions,
-      { createConfiguration, migrateConfigurationToVersion_0_3 } = configurationVersion_0_3,
-      { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
+      { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc,
+      { defaultTerminalCommands, createConfiguration, migrateConfigurationToVersion_0_3 } = configurationVersion_0_3;
 
 setRCBaseExtension(RC_BASE_EXTENSION);
 
@@ -29,9 +29,22 @@ function retrieveDirectories() {
   return directories;
 }
 
+function retrieveTerminalCommands() {
+  const configuration = readConfigurationFile(),
+        { terminalCommands } = configuration;
+
+  return terminalCommands;
+}
+
 function updateDirectories(directories) {
   updateConfigurationFile({
     directories
+  });
+}
+
+function updateTerminalCommands(terminalCommands) {
+  updateConfigurationFile({
+    terminalCommands
   });
 }
 
@@ -82,8 +95,11 @@ function checkConfigurationFileExists() {
 }
 
 module.exports = {
+  defaultTerminalCommands,
   retrieveDirectories,
+  retrieveTerminalCommands,
   updateDirectories,
+  updateTerminalCommands,
   createConfigurationFile,
   migrateConfigurationFile,
   checkConfigurationFileExists

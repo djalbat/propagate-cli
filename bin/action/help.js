@@ -23,10 +23,14 @@ Commands:
   
   list-directories             List additional directories
   
+  set-terminal-commands        Set custom build, Git and publish terminal command sequences
+  
 Options:
 
-  --quietly|-q                 Run quietly
+  --quietly|-q                 Run without printing to the console, bar prompts
   
+  --forced|-f                  Suppress prompts
+
 Further information:
 
 Please see the readme file on GitHub:

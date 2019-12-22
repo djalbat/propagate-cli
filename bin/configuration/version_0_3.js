@@ -46,6 +46,7 @@ function migrateConfigurationToVersion_0_3(configuration) {
 
 
 module.exports = {
+  defaultTerminalCommands,
   createConfiguration,
   migrateConfigurationToVersion_0_3
 };

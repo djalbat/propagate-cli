@@ -1,7 +1,7 @@
 'use strict';
 
 const HELP_OPTION = 'help',
-      FORCED_OPTION = 'force',
+      FORCED_OPTION = 'forced',
       VERSION_OPTION = 'version',
       QUIETLY_OPTION = 'quietly';
 
