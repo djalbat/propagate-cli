@@ -77,10 +77,7 @@ class Release {
     const packageJSON = readPackageJSONFile(subDirectoryPath);
 
     if (packageJSON !== null) {
-      const { name = null,
-              version = null,
-              dependencies = {},
-              devDependencies = {} } = packageJSON,
+      const { name = null, version = null, dependencies = {}, devDependencies = {} } = packageJSON,
             propagated = false,
             dependencyMap = dependencies, ///
             devDependencyMap = devDependencies; ///

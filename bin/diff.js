@@ -95,9 +95,7 @@ class Diff {
   static fromRelease(release) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath),
-          { version = null,
-            dependencies = {},
-            devDependencies = {} } = packageJSON,
+          { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
           dependencyMap = dependencies, ///
           devDependencyMap = devDependencies, ///
           releaseVersion = release.getVersion(),
