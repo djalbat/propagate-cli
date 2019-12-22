@@ -5,9 +5,7 @@ const messages = require('../messages');
 const { NO_RELEASE_PRESENT_MESSAGE, RELEASE_NOT_PUBLISHABLE_MESSAGE } = messages;
 
 function createReleaseCallback(proceed, abort, context) {
-  const { argument, releaseMap } = context,
-        subDirectoryName = argument,  ////
-        subDirectoryRPath = `./${subDirectoryName}`,
+  const { subDirectoryRPath, releaseMap } = context,
         release = releaseMap.retrieveRelease(subDirectoryRPath);
 
   if (release === null) {

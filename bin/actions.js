@@ -11,6 +11,7 @@ const commands = require('./commands'),
       listDirectories = require('./action/listDirectories');
 
 const { HELP_OPTION,
+        FORCE_OPTION,
         VERSION_OPTION,
         QUIETLY_OPTION  } = options,
       { HELP_COMMAND,
@@ -24,9 +25,11 @@ const { HELP_OPTION,
 function actions(command, argument, options) {
   const commandMissing = (command === null),
         helpOptionPresent = options.hasOwnProperty(HELP_OPTION),
+        forceOptionPresent = options.hasOwnProperty(FORCE_OPTION),
         versionOptionPresent = options.hasOwnProperty(VERSION_OPTION),
         quietlyOptionPresent = options.hasOwnProperty(QUIETLY_OPTION),
-        quietly = quietlyOptionPresent; ///
+        quietly = quietlyOptionPresent, ///
+        forced = forceOptionPresent; ///
 
   if (false) {
     ///
@@ -54,7 +57,7 @@ function actions(command, argument, options) {
   switch (command) {
     case HELP_COMMAND : help(); break;
     case VERSION_COMMAND : version(); break;
-    case PROPAGATE_COMMAND : propagate(argument, quietly); break;
+    case PROPAGATE_COMMAND : propagate(argument, quietly, forced); break;
     case INITIALISE_COMMAND : initialise(); break;
     case ADD_DIRECTORY_COMMAND : addDirectory(); break;
     case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;

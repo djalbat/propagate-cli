@@ -13,6 +13,13 @@ function checkArgumentCallback(proceed, abort, context) {
     abort();
   }
 
+  const subDirectoryName = argument,  ////
+        subDirectoryRPath = `./${subDirectoryName}`;
+
+  Object.assign(context, {
+    subDirectoryRPath
+  });
+
   proceed();
 }
 

@@ -13,7 +13,7 @@ const { exit } = process,
       { executeCallbacks } = callbackUtilities,
       { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = messages;
 
-function propagate(argument, quietly) {
+function propagate(argument, quietly, forced) {
   const callbacks = [
           checkArgumentCallback,
           createReleaseMapCallback,
@@ -24,7 +24,8 @@ function propagate(argument, quietly) {
         ],
         context = {
           argument,
-          quietly
+          quietly,
+          forced
         };
 
   executeCallbacks(callbacks, (completed) => {
