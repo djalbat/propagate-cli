@@ -8,26 +8,21 @@ const { arrayUtilities } = necessary,
       { filter } = arrayUtilities;
 
 class DependencyGraph {
-  constructor(releaseMap, acyclicGraph) {
-    this.releaseMap = releaseMap;
+  constructor(acyclicGraph) {
     this.acyclicGraph = acyclicGraph;
-  }
-
-  getReleaseMap() {
-    return this.releaseMap;
   }
 
   getAcyclicGraph() {
     return this.acyclicGraph;
   }
 
-  retrieveDependentReleases(release) {
+  retrieveDependentReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///
           vertex = this.acyclicGraph.findVertexByVertexName(vertexName),
           successorVertexNames = vertex.getSuccessorVertexNames(),
           dependentSubDirectoryPaths = successorVertexNames,  ///
-          dependentReleases = dependentSubDirectoryPaths.map((dependentSubDirectoryPath) => this.releaseMap.retrieveRelease(dependentSubDirectoryPath));
+          dependentReleases = dependentSubDirectoryPaths.map((dependentSubDirectoryPath) => releaseMap.retrieveRelease(dependentSubDirectoryPath));
 
     return dependentReleases;
   }
@@ -81,7 +76,7 @@ class DependencyGraph {
       });
     });
 
-    const dependencyGraph = new DependencyGraph(releaseMap, acyclicGraph);
+    const dependencyGraph = new DependencyGraph(acyclicGraph);
 
     return dependencyGraph;
   }

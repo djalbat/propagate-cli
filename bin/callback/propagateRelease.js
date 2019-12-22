@@ -1,21 +1,21 @@
 'use strict';
 
 function propagateReleaseCallback(proceed, abort, context) {
-  const { release, dependencyGraph } = context;
+  const { release, releaseMap, dependencyGraph } = context;
 
   release.propagate();  ///
 
-  propagateRelease(release, dependencyGraph);
+  propagateRelease(release, releaseMap, dependencyGraph);
 
   proceed();
 }
 
 module.exports = propagateReleaseCallback;
 
-function propagateRelease(release, dependencyGraph) {
+function propagateRelease(release, releaseMap, dependencyGraph) {
   const name = release.getName(),
         version = release.getVersion(),
-        dependentReleases = dependencyGraph.retrieveDependentReleases(release);
+        dependentReleases = dependencyGraph.retrieveDependentReleases(release, releaseMap);
 
   dependentReleases.forEach((dependentRelease) => {
     dependentRelease.updateDependencyVersion(name, version);
@@ -34,7 +34,7 @@ function propagateRelease(release, dependencyGraph) {
 
         release.bumpPatchVersion();
 
-        propagateRelease(release, dependencyGraph);
+        propagateRelease(release, releaseMap, dependencyGraph);
       }
     }
   });

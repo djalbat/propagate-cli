@@ -3,10 +3,10 @@
 const Diff = require('../diff');
 
 function logDiffsCallback(proceed, abort, context) {
-  const { release, quietly, dependencyGraph } = context;
+  const { release, quietly, releaseMap, dependencyGraph } = context;
 
   if (!quietly) {
-    const diffs = retrieveDiffs(release, dependencyGraph);
+    const diffs = retrieveDiffs(release, releaseMap, dependencyGraph);
 
     diffs.forEach((diff) => {
       const diffString = diff.asString();
@@ -22,7 +22,7 @@ function logDiffsCallback(proceed, abort, context) {
 
 module.exports = logDiffsCallback;
 
-function retrieveDiffs(release, dependencyGraph, diffs = []) {
+function retrieveDiffs(release, releaseMap, dependencyGraph, diffs = []) {
   const subDirectoryPath = release.getSubDirectoryPath();
 
   let diff = diffs.find((diff) => {
@@ -38,12 +38,12 @@ function retrieveDiffs(release, dependencyGraph, diffs = []) {
 
     diffs.push(diff);
 
-    const dependentReleases = dependencyGraph.retrieveDependentReleases(release);
+    const dependentReleases = dependencyGraph.retrieveDependentReleases(release, releaseMap);
 
     dependentReleases.forEach((dependentRelease) => {
       const release = dependentRelease; ///
 
-      retrieveDiffs(release, dependencyGraph, diffs);
+      retrieveDiffs(release, releaseMap, dependencyGraph, diffs);
     });
   }
 

@@ -40,4 +40,3 @@ function propagate(argument, quietly) {
 }
 
 module.exports = propagate;
-
