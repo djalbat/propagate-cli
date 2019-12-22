@@ -2,9 +2,11 @@
 
 const INVALID_DIRECTORY_PATH_MESSAGE = 'The directory path should be a relative path, starting with a period or more likely a double period.',
       INVALID_DIRECTORY_NUMBER_MESSAGE = 'The directory number should match one of the numbers given above.',
+      FAILED_PROPAGATE_MESSAGE = 'Failed to propagate any package.',
       FAILED_INITIALISE_MESSAGE = 'Failed to create a configuration file because one is already present.',
       FAILED_ADD_DIRECTORY_MESSAGE = 'Failed to add a directory.',
       FAILED_REMOVE_DIRECTORY_MESSAGE = 'Failed to remove a directory.',
+      SUCCESSFUL_PROPAGATE_MESSAGE = "Propagated the package successfully.",
       SUCCESSFUL_INITIALISE_MESSAGE = 'The configuration file has been created successfully.',
       SUCCESSFUL_ADD_DIRECTORY_MESSAGE = 'The directory has been added successfully.',
       NO_DIRECTORIES_MESSAGE = 'There are no additional directories.',
@@ -18,9 +20,11 @@ const INVALID_DIRECTORY_PATH_MESSAGE = 'The directory path should be a relative 
 module.exports = {
   INVALID_DIRECTORY_PATH_MESSAGE,
   INVALID_DIRECTORY_NUMBER_MESSAGE,
+  FAILED_PROPAGATE_MESSAGE,
   FAILED_INITIALISE_MESSAGE,
   FAILED_ADD_DIRECTORY_MESSAGE,
   FAILED_REMOVE_DIRECTORY_MESSAGE,
+  SUCCESSFUL_PROPAGATE_MESSAGE,
   SUCCESSFUL_INITIALISE_MESSAGE,
   SUCCESSFUL_ADD_DIRECTORY_MESSAGE,
   NO_DIRECTORIES_MESSAGE,
