@@ -15,7 +15,7 @@ class VersionDiff {
   }
 
   asString() {
-    const string = `\n  Version: ${this.version} -> ${this.releaseVersion}\n`;
+    const string = `"${this.version}" -> "${this.releaseVersion}"`;
 
     return string;
   }

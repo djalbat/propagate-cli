@@ -41,35 +41,37 @@ class Diff {
           subDirectoryPath = this.getSubDirectoryPath();
 
     let string = (name === null) ?
-                  `'${subDirectoryPath}':\n` :
-                    `'${subDirectoryPath}' (${name}):\n`;
+                  ` '${subDirectoryPath}':\n` :
+                    ` '${subDirectoryPath}' ("${name}"):\n`;
 
     if (this.versionDiff !== null) {
       const versionDiffString = this.versionDiff.asString();
 
-      string += versionDiffString;
+      string += `\n   "version": ${versionDiffString},`;
 
       unchanged = false;
     }
 
     if (this.dependencyMapDiff !== null) {
-      const dependencyMapDiffString = this.dependencyMapDiff.asSTring();
+      const dependencyMapDiffString = this.dependencyMapDiff.asString();
 
-      string += dependencyMapDiffString;
+      string += `\n   "dependencies": ${dependencyMapDiffString},`;
 
       unchanged = false;
     }
 
     if (this.devDependencyMapDiff !== null) {
-      const devDependencyMapDiffString = this.devDependencyMapDiff.asSTring();
+      const devDependencyMapDiffString = this.devDependencyMapDiff.asString();
 
-      string += devDependencyMapDiffString;
+      string += `\n   "devDependencies": ${devDependencyMapDiffString},`;
 
       unchanged = false;
     }
 
     if (unchanged) {
       string = null;
+    } else {
+      string = string.replace(/,$/, '\n');
     }
 
     return string;
