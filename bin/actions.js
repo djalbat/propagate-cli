@@ -11,7 +11,7 @@ const commands = require('./commands'),
       listDirectories = require('./action/listDirectories');
 
 const { HELP_OPTION,
-        FORCE_OPTION,
+        FORCED_OPTION,
         VERSION_OPTION,
         QUIETLY_OPTION  } = options,
       { HELP_COMMAND,
@@ -25,7 +25,7 @@ const { HELP_OPTION,
 function actions(command, argument, options) {
   const commandMissing = (command === null),
         helpOptionPresent = options.hasOwnProperty(HELP_OPTION),
-        forceOptionPresent = options.hasOwnProperty(FORCE_OPTION),
+        forceOptionPresent = options.hasOwnProperty(FORCED_OPTION),
         versionOptionPresent = options.hasOwnProperty(VERSION_OPTION),
         quietlyOptionPresent = options.hasOwnProperty(QUIETLY_OPTION),
         quietly = quietlyOptionPresent, ///
