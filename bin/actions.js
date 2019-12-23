@@ -62,7 +62,7 @@ function actions(command, argument, options) {
     case ADD_DIRECTORY_COMMAND : addDirectory(); break;
     case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;
     case LIST_DIRECTORIES_COMMAND : listDirectories(); break;
-    case SET_TERMINAL_COMMANDS_COMMAND : setTerminalCommands(quietly); break;
+    case SET_TERMINAL_COMMANDS_COMMAND : setTerminalCommands(); break;
   }
 }
 

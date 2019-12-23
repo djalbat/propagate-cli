@@ -16,8 +16,6 @@ const INVALID_ANSWER_MESSAGE = 'You must answer (y)es or (n)o.',
       NO_DIRECTORIES_MESSAGE = 'There are no additional directories.',
       NO_RELEASE_PRESENT_MESSAGE = 'Either the sub-directory is missing or it does not contain a package.',
       RELEASE_NOT_PUBLISHABLE_MESSAGE = 'The package is not publishable. Its package.json file must contain both name and version fields.',
-      DEFAULT_TERMINAL_COMMANDS_MESSAGE = 'The default terminal command sequences are:',
-      CURRENT_TERMINAL_COMMANDS_MESSAGE = 'The current terminal command sequences are:',
       NO_SUB_DIRECTORY_SPECIFIED_MESSAGE = 'No sub-directory has been specified.',
       DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE = 'The directory has already been added.',
       CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE = 'The action cannot be performed because the configuration file is missing. Run \'propagate initialise\' to create one.';
@@ -39,8 +37,6 @@ module.exports = {
   NO_DIRECTORIES_MESSAGE,
   NO_RELEASE_PRESENT_MESSAGE,
   RELEASE_NOT_PUBLISHABLE_MESSAGE,
-  DEFAULT_TERMINAL_COMMANDS_MESSAGE,
-  CURRENT_TERMINAL_COMMANDS_MESSAGE,
   NO_SUB_DIRECTORY_SPECIFIED_MESSAGE,
   DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE,
   CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE

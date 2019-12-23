@@ -6,8 +6,11 @@ function validateDirectoryPath(directoryPath) { return  /^\.\.?(?:\/[a-zA-Z0-9\-
 
 function validateDirectoryNumber(directoryNumber, directoryNumbers) { return directoryNumbers.includes(directoryNumber); }
 
+function validateTerminalCommands(terminalCommands) { return  /^.*$/.test(terminalCommands); }
+
 module.exports = {
   validateAnswer,
   validateDirectoryPath,
-  validateDirectoryNumber
+  validateDirectoryNumber,
+  validateTerminalCommands
 };

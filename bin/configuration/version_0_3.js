@@ -4,9 +4,7 @@ const versions = require('../versions'),
       constants = require('../constants');
 
 const { VERSION_0_3 } = versions,
-      { DEFAULT_GIT_TERMINAL_COMMANDS,
-        DEFAULT_BUILD_TERMINAL_COMMANDS,
-        DEFAULT_PUBLISH_TERMINAL_COMMANDS } = constants,
+      { DEFAULT_GIT_TERMINAL_COMMANDS, DEFAULT_BUILD_TERMINAL_COMMANDS, DEFAULT_PUBLISH_TERMINAL_COMMANDS } = constants,
       git = DEFAULT_GIT_TERMINAL_COMMANDS,  ///
       build = DEFAULT_BUILD_TERMINAL_COMMANDS,  ///
       publish = DEFAULT_PUBLISH_TERMINAL_COMMANDS,  ///
@@ -46,7 +44,6 @@ function migrateConfigurationToVersion_0_3(configuration) {
 
 
 module.exports = {
-  defaultTerminalCommands,
   createConfiguration,
   migrateConfigurationToVersion_0_3
 };
