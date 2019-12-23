@@ -2,12 +2,11 @@
 
 const path = require('path');
 
-const { cwd } = process,
-      { join } = path;
+const { cwd } = process;
 
 function absolutePathFromName(name) {
   const currentWorkingDirectoryPath = cwd(), ///
-        absolutePath = join(currentWorkingDirectoryPath, name);
+        absolutePath = path.join(currentWorkingDirectoryPath, name);
 
   return absolutePath;
 }

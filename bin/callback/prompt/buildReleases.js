@@ -1,24 +1,33 @@
 'use strict';
 
-const necessary = require('necessary');
+const necessary = require('necessary'),
+      childProcess = require('child_process');
 
 const messages = require('../../messages'),
+      constants = require('../../constants'),
+      configuration = require('../../configuration'),
       promptUtilities = require('../../utilities/prompt'),
       validateUtilities = require('../../utilities/validate');
 
 const { miscellaneousUtilities } = necessary,
+      { UTF8 } = constants,
       { prompt } = miscellaneousUtilities,
+      { cwd, chdir } = process,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { INVALID_ANSWER_MESSAGE } = messages,
+      { retrieveTerminalCommands } = configuration;
 
 function buildReleasesPromptCallback(proceed, abort, context) {
-  const { forced, quietly, releaseMap } = context;
+  const { forced, quietly, releaseMap } = context,
+        releases = releaseMap.getReleases(),
+        terminalCommands = retrieveTerminalCommands(),
+        { build } = terminalCommands,
+        buildTerminalCommands = build,  ///
+        currentWorkingDirectoryPath = cwd();
 
   if (forced) {
-    const releases = releaseMap.getReleases();
-
-    buildReleases(releases, quietly);
+    buildReleases(releases, buildTerminalCommands, currentWorkingDirectoryPath, quietly);
 
     proceed();
 
@@ -41,7 +50,7 @@ function buildReleasesPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        buildReleases(diffs);
+        buildReleases(releases, buildTerminalCommands, currentWorkingDirectoryPath, quietly);
 
         proceed();
 
@@ -55,6 +64,24 @@ function buildReleasesPromptCallback(proceed, abort, context) {
 
 module.exports = buildReleasesPromptCallback;
 
-function buildReleases(releases, quietly) {
-  debugger
+function buildReleases(releases, buildTerminalCommands, currentWorkingDirectoryPath, quietly) {
+  releases.forEach((release) => buildRelease(release, buildTerminalCommands, currentWorkingDirectoryPath, quietly));
+}
+
+function buildRelease(release, buildTerminalCommands, currentWorkingDirectoryPath, quietly) {
+  const releaseSubDirectoryPath = release.getSubDirectoryPath();
+
+  chdir(releaseSubDirectoryPath);
+
+  const encoding = UTF8,  ///
+        options = {
+          encoding
+        },
+        output = childProcess.execSync(buildTerminalCommands, options);
+
+  if (!quietly) {
+    console.log(output);
+  }
+
+  chdir(currentWorkingDirectoryPath);
 }
