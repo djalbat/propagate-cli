@@ -17,22 +17,22 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_ANSWER_MESSAGE } = messages,
       { retrieveShellCommands } = configuration;
 
-function buildReleasesPromptCallback(proceed, abort, context) {
+function publishReleasesPromptCallback(proceed, abort, context) {
   const { forced, quietly, releaseMap } = context,
         releases = releaseMap.getReleases(),
         shellCommands = retrieveShellCommands(),
-        { build } = shellCommands,
-        buildShellCommands = build;  ///
+        { publish } = shellCommands,
+        publishShellCommands = publish;  ///
 
   if (forced) {
-    buildReleases(releases, buildShellCommands, quietly);
+    publishReleases(releases, publishShellCommands, quietly);
 
     proceed();
 
     return;
   }
 
-  const description = 'Build packages? (y)es (n)o: ',
+  const description = 'Publish packages? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -48,7 +48,7 @@ function buildReleasesPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        buildReleases(releases, buildShellCommands, quietly);
+        publishReleases(releases, publishShellCommands, quietly);
 
         proceed();
 
@@ -60,23 +60,27 @@ function buildReleasesPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = buildReleasesPromptCallback;
+module.exports = publishReleasesPromptCallback;
 
-function buildReleases(releases, buildShellCommands, quietly) {
-  releases.forEach((release) => buildRelease(release, buildShellCommands, quietly));
+function publishReleases(releases, publishShellCommands, quietly) {
+  releases.forEach((release) => publishRelease(release, publishShellCommands, quietly));
 }
 
-function buildRelease(release, buildShellCommands, quietly) {
-  const subDirectoryPath = release.getSubDirectoryPath(),
-        currentWorkingDirectoryPath = cwd();
+function publishRelease(release, publishShellCommands, quietly) {
+  const publishable = release.isPublishable();
 
-  chdir(subDirectoryPath);
+  if (publishable) {
+    const subDirectoryPath = release.getSubDirectoryPath(),
+          currentWorkingDirectoryPath = cwd();
 
-  const output = exec(buildShellCommands, quietly);
+    chdir(subDirectoryPath);
 
-  if (!quietly) {
-    console.log(` Building './${subDirectoryPath}': ${output}`)
+    const output = exec(publishShellCommands, quietly);
+
+    if (!quietly) {
+      console.log(` Publishing './${subDirectoryPath}' ("${name}"): ${output}`)
+    }
+
+    chdir(currentWorkingDirectoryPath);
   }
-
-  chdir(currentWorkingDirectoryPath);
 }

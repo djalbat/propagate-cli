@@ -2,8 +2,7 @@
 
 const necessary = require('necessary');
 
-const Diff = require('../../diff'),
-      messages = require('../../messages'),
+const messages = require('../../messages'),
       promptUtilities = require('../../utilities/prompt'),
       validateUtilities = require('../../utilities/validate');
 
@@ -14,12 +13,7 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_ANSWER_MESSAGE } = messages;
 
 function applyDiffsPromptCallback(proceed, abort, context) {
-  const { forced, quietly, release, releaseMap, dependencyGraph } = context,
-        diffs = retrieveDiffs(release, releaseMap, dependencyGraph);
-
-  if (!quietly) {
-    logDiffs(diffs);
-  }
+  const { diffs, forced } = context;
 
   if (forced) {
     applyDiffs(diffs);
@@ -59,44 +53,6 @@ function applyDiffsPromptCallback(proceed, abort, context) {
 
 module.exports = applyDiffsPromptCallback;
 
-function logDiffs(diffs) {
-  diffs.forEach((diff) => {
-    const diffString = diff.asString();
-
-    if (diffString !== null) {
-      console.log(diffString);
-    }
-  });
-}
-
 function applyDiffs(diffs) {
   diffs.forEach((diff) => diff.apply());
-}
-
-function retrieveDiffs(release, releaseMap, dependencyGraph, diffs = []) {
-  const subDirectoryPath = release.getSubDirectoryPath();
-
-  let diff = diffs.find((diff) => {
-    const diffSubdirectoryPath = diff.getSubDirectoryPath();
-
-    if (diffSubdirectoryPath === subDirectoryPath) {
-      return true;
-    }
-  }) || null;
-
-  if (diff === null) {
-    diff = Diff.fromRelease(release);
-
-    diffs.push(diff);
-
-    const dependentReleases = dependencyGraph.retrieveDependentReleases(release, releaseMap);
-
-    dependentReleases.forEach((dependentRelease) => {
-      const release = dependentRelease; ///
-
-      retrieveDiffs(release, releaseMap, dependencyGraph, diffs);
-    });
-  }
-
-  return diffs;
 }
