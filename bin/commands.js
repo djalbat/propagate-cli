@@ -7,7 +7,7 @@ const HELP_COMMAND = 'help',
       ADD_DIRECTORY_COMMAND = 'add-directory',
       REMOVE_DIRECTORY_COMMAND = 'remove-directory',
       LIST_DIRECTORIES_COMMAND = 'list-directories',
-      SET_TERMINAL_COMMANDS_COMMAND = 'set-terminal-commands';
+      SET_SHELL_COMMANDS_COMMAND = 'set-shell-commands';
 
 module.exports = {
   HELP_COMMAND,
@@ -17,5 +17,5 @@ module.exports = {
   ADD_DIRECTORY_COMMAND,
   REMOVE_DIRECTORY_COMMAND,
   LIST_DIRECTORIES_COMMAND,
-  SET_TERMINAL_COMMANDS_COMMAND
+  SET_SHELL_COMMANDS_COMMAND
 };

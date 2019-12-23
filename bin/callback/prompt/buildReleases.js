@@ -16,18 +16,18 @@ const { miscellaneousUtilities } = necessary,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages,
-      { retrieveTerminalCommands } = configuration;
+      { retrieveShellCommands } = configuration;
 
 function buildReleasesPromptCallback(proceed, abort, context) {
   const { forced, quietly, releaseMap } = context,
         releases = releaseMap.getReleases(),
-        terminalCommands = retrieveTerminalCommands(),
-        { build } = terminalCommands,
-        buildTerminalCommands = build,  ///
+        shellCommands = retrieveShellCommands(),
+        { build } = shellCommands,
+        buildShellCommands = build,  ///
         currentWorkingDirectoryPath = cwd();
 
   if (forced) {
-    buildReleases(releases, buildTerminalCommands, currentWorkingDirectoryPath, quietly);
+    buildReleases(releases, buildShellCommands, currentWorkingDirectoryPath, quietly);
 
     proceed();
 
@@ -50,7 +50,7 @@ function buildReleasesPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        buildReleases(releases, buildTerminalCommands, currentWorkingDirectoryPath, quietly);
+        buildReleases(releases, buildShellCommands, currentWorkingDirectoryPath, quietly);
 
         proceed();
 
@@ -64,11 +64,11 @@ function buildReleasesPromptCallback(proceed, abort, context) {
 
 module.exports = buildReleasesPromptCallback;
 
-function buildReleases(releases, buildTerminalCommands, currentWorkingDirectoryPath, quietly) {
-  releases.forEach((release) => buildRelease(release, buildTerminalCommands, currentWorkingDirectoryPath, quietly));
+function buildReleases(releases, buildShellCommands, currentWorkingDirectoryPath, quietly) {
+  releases.forEach((release) => buildRelease(release, buildShellCommands, currentWorkingDirectoryPath, quietly));
 }
 
-function buildRelease(release, buildTerminalCommands, currentWorkingDirectoryPath, quietly) {
+function buildRelease(release, buildShellCommands, currentWorkingDirectoryPath, quietly) {
   const releaseSubDirectoryPath = release.getSubDirectoryPath();
 
   chdir(releaseSubDirectoryPath);
@@ -77,7 +77,7 @@ function buildRelease(release, buildTerminalCommands, currentWorkingDirectoryPat
         options = {
           encoding
         },
-        output = childProcess.execSync(buildTerminalCommands, options);
+        output = childProcess.execSync(buildShellCommands, options);
 
   if (!quietly) {
     console.log(output);

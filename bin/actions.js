@@ -9,7 +9,7 @@ const commands = require('./commands'),
       addDirectory = require('./action/addDirectory'),
       removeDirectory = require('./action/removeDirectory'),
       listDirectories = require('./action/listDirectories'),
-      setTerminalCommands = require('./action/setTerminalCommands');
+      setShellCommands = require('./action/setShellCommands');
 
 const { HELP_OPTION, FORCED_OPTION, VERSION_OPTION, QUIETLY_OPTION  } = options,
       { HELP_COMMAND,
@@ -19,7 +19,7 @@ const { HELP_OPTION, FORCED_OPTION, VERSION_OPTION, QUIETLY_OPTION  } = options,
         ADD_DIRECTORY_COMMAND,
         REMOVE_DIRECTORY_COMMAND,
         LIST_DIRECTORIES_COMMAND,
-        SET_TERMINAL_COMMANDS_COMMAND } = commands;
+        SET_SHELL_COMMANDS_COMMAND } = commands;
 
 function actions(command, argument, options) {
   const commandMissing = (command === null),
@@ -47,7 +47,7 @@ function actions(command, argument, options) {
      && (command !== ADD_DIRECTORY_COMMAND)
      && (command !== REMOVE_DIRECTORY_COMMAND)
      && (command !== LIST_DIRECTORIES_COMMAND)
-     && (command !== SET_TERMINAL_COMMANDS_COMMAND) ) {
+     && (command !== SET_SHELL_COMMANDS_COMMAND) ) {
 
     argument = command; ///
 
@@ -62,7 +62,7 @@ function actions(command, argument, options) {
     case ADD_DIRECTORY_COMMAND : addDirectory(); break;
     case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;
     case LIST_DIRECTORIES_COMMAND : listDirectories(); break;
-    case SET_TERMINAL_COMMANDS_COMMAND : setTerminalCommands(); break;
+    case SET_SHELL_COMMANDS_COMMAND : setShellCommands(); break;
   }
 }
 

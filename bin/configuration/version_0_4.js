@@ -3,40 +3,40 @@
 const versions = require('../versions'),
       constants = require('../constants');
 
-const { VERSION_0_3 } = versions,
+const { VERSION_0_4 } = versions,
       { DEFAULT_GIT_SHELL_COMMANDS, DEFAULT_BUILD_SHELL_COMMANDS, DEFAULT_PUBLISH_SHELL_COMMANDS } = constants,
       git = DEFAULT_GIT_SHELL_COMMANDS,  ///
       build = DEFAULT_BUILD_SHELL_COMMANDS,  ///
       publish = DEFAULT_PUBLISH_SHELL_COMMANDS,  ///
-      defaultTerminalCommands = {
+      defaultShellCommands = {
         git,
         build,
         publish
       };
 
 function createConfiguration() {
-  const version = VERSION_0_3,  ///
+  const version = VERSION_0_4,  ///
         directories = [],
-        terminalCommands = defaultTerminalCommands, ///
+        shellCommands = defaultShellCommands, ///
         configuration = {
           version,
           directories,
-          terminalCommands
+          shellCommands
         } ;
 
   return configuration;
 }
 
-function migrateConfigurationToVersion_0_3(configuration) {
-  const { directories } = configuration;
+function migrateConfigurationToVersion_0_4(configuration) {
+  const { directories, terminalCommands } = configuration;
 
-  const version = VERSION_0_3,  ///
-        terminalCommands = defaultTerminalCommands; ///
+  const version = VERSION_0_4,  ///
+        shellCommands = terminalCommands; ///
 
   configuration = {
     version,
     directories,
-    terminalCommands
+    shellCommands
   };
 
   return configuration;
@@ -45,5 +45,5 @@ function migrateConfigurationToVersion_0_3(configuration) {
 
 module.exports = {
   createConfiguration,
-  migrateConfigurationToVersion_0_3
+  migrateConfigurationToVersion_0_4
 };

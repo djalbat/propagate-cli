@@ -7,7 +7,8 @@ const versions = require('./versions'),
       constants = require('./constants'),
       configurationVersion_0_1 = require('./configuration/version_0_1'),
       configurationVersion_0_2 = require('./configuration/version_0_2'),
-      configurationVersion_0_3 = require('./configuration/version_0_3');
+      configurationVersion_0_3 = require('./configuration/version_0_3'),
+      configurationVersion_0_4 = require('./configuration/version_0_4');
 
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
@@ -15,9 +16,10 @@ const { miscellaneousUtilities } = necessary,
       { RC_BASE_EXTENSION } = constants,
       { migrateConfigurationToVersion_0_1 } = configurationVersion_0_1,
       { migrateConfigurationToVersion_0_2 } = configurationVersion_0_2,
+      { migrateConfigurationToVersion_0_3 } = configurationVersion_0_3,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
-      { VERSION_0_0, VERSION_0_1, VERSION_0_2, CURRENT_VERSION } = versions,
-      { createConfiguration, migrateConfigurationToVersion_0_3 } = configurationVersion_0_3,
+      { createConfiguration, migrateConfigurationToVersion_0_4 } = configurationVersion_0_4,
+      { VERSION_0_0, VERSION_0_1, VERSION_0_2, VERSION_0_3, CURRENT_VERSION } = versions,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
 setRCBaseExtension(RC_BASE_EXTENSION);
@@ -29,11 +31,11 @@ function retrieveDirectories() {
   return directories;
 }
 
-function retrieveTerminalCommands() {
+function retrieveShellCommands() {
   const configuration = readConfigurationFile(),
-        { terminalCommands } = configuration;
+        { shellCommands } = configuration;
 
-  return terminalCommands;
+  return shellCommands;
 }
 
 function updateDirectories(directories) {
@@ -42,9 +44,9 @@ function updateDirectories(directories) {
   });
 }
 
-function updateTerminalCommands(terminalCommands) {
+function updateShellCommands(shellCommands) {
   updateConfigurationFile({
-    terminalCommands
+    shellCommands
   });
 }
 
@@ -77,6 +79,10 @@ function migrateConfigurationFile() {
       case VERSION_0_2:
         configuration = migrateConfigurationToVersion_0_3(configuration);
         break;
+
+      case VERSION_0_3:
+        configuration = migrateConfigurationToVersion_0_4(configuration);
+        break;
     }
 
     version = configuration.version || VERSION_0_0; ///
@@ -96,9 +102,9 @@ function checkConfigurationFileExists() {
 
 module.exports = {
   retrieveDirectories,
-  retrieveTerminalCommands,
+  retrieveShellCommands,
   updateDirectories,
-  updateTerminalCommands,
+  updateShellCommands,
   createConfigurationFile,
   migrateConfigurationFile,
   checkConfigurationFileExists

@@ -6,9 +6,9 @@ const UTF8 = 'utf-8',
       DEPENDENCIES_NAME = 'dependencies',
       DEV_DEPENDENCIES_NAME = 'devDependencies',
       PACKAGE_JSON_FILE_NAME = 'package.json',
-      DEFAULT_GIT_TERMINAL_COMMANDS = 'git add .; git commit -m "Propagated."; git push',
-      DEFAULT_BUILD_TERMINAL_COMMANDS = 'npm install; npm run build',
-      DEFAULT_PUBLISH_TERMINAL_COMMANDS = 'npm publish';
+      DEFAULT_GIT_SHELL_COMMANDS = 'git add .; git commit -m "Propagated."; git push',
+      DEFAULT_BUILD_SHELL_COMMANDS = 'npm install; npm run build',
+      DEFAULT_PUBLISH_SHELL_COMMANDS = 'npm publish';
 
 module.exports = {
   UTF8,
@@ -17,7 +17,7 @@ module.exports = {
   DEPENDENCIES_NAME,
   DEV_DEPENDENCIES_NAME,
   PACKAGE_JSON_FILE_NAME,
-  DEFAULT_GIT_TERMINAL_COMMANDS,
-  DEFAULT_BUILD_TERMINAL_COMMANDS,
-  DEFAULT_PUBLISH_TERMINAL_COMMANDS
+  DEFAULT_GIT_SHELL_COMMANDS,
+  DEFAULT_BUILD_SHELL_COMMANDS,
+  DEFAULT_PUBLISH_SHELL_COMMANDS
 };

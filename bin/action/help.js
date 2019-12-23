@@ -23,7 +23,7 @@ Commands:
   
   list-directories             List additional directories
   
-  set-terminal-commands        Set custom build, Git and publish terminal command sequences
+  set-shell-commands           Set the build, Git and publish shell commands
   
 Options:
 
