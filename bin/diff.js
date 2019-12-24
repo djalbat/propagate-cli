@@ -59,9 +59,17 @@ class Diff {
     return changed;
   }
 
+  getName() { return this.release.getName(); }
+
+  isPublishable() { return this.release.isPublishable(); }
+
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
-  getName() { return this.release.getName(); }
+  git(quietly) { this.release.git(quietly); }
+
+  build(quietly) { this.release.build(quietly); }
+
+  publish(quietly) { this.release.publish(quietly); }
 
   apply() {
     const changed = this.hasChanged();

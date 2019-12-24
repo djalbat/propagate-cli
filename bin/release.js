@@ -2,11 +2,16 @@
 
 const necessary = require('necessary');
 
-const packageJSONUtilities = require('./utilities/packageJSON');
+const configuration = require('./configuration'),
+      shellUtilities = require('./utilities/shell'),
+      packageJSONUtilities = require('./utilities/packageJSON');
 
 const { arrayUtilities } = necessary,
       { second } = arrayUtilities,
-      { readPackageJSONFile } = packageJSONUtilities;
+      { execute } = shellUtilities,
+      { cwd, chdir } = process,
+      { readPackageJSONFile } = packageJSONUtilities,
+      { retrieveShellCommands } = configuration;
 
 class Release {
   constructor(name, version, propagated, dependencyMap, devDependencyMap, subDirectoryPath) {
@@ -42,6 +47,37 @@ class Release {
     return this.subDirectoryPath;
   }
 
+  isPublishable() {
+    const publishable = (this.name !== null) && (this.version !== null);
+
+    return publishable;
+  }
+
+  git(quietly) {
+    debugger
+  }
+
+  build(quietly) {
+    debugger
+  }
+
+  publish(quietly) {
+    const shellCommands = retrieveShellCommands(),
+          { publish } = shellCommands,
+          publishShellCommands = publish, ///
+          currentWorkingDirectoryPath = cwd();
+
+    chdir(this.subDirectoryPath);
+
+    const output = execute(publishShellCommands, quietly);
+
+    if (!quietly) {
+      console.log(` Publishing './${this.subDirectoryPath}' ("${this.name}"): ${output}`)
+    }
+
+    chdir(currentWorkingDirectoryPath);
+  }
+
   propagate() {
     this.propagated = true;
   }
@@ -63,12 +99,6 @@ class Release {
 
   updateDevDependencyVersion(name, version) {
     updateSemver(name, version, this.devDependencyMap);
-  }
-
-  isPublishable() {
-    const publishable = (this.name !== null) && (this.version !== null);
-
-    return publishable;
   }
 
   static fromSubDirectoryRPath(subDirectoryPath) {

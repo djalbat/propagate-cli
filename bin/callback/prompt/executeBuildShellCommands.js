@@ -71,11 +71,11 @@ function executeBuildShellCommands(diffs, buildShellCommands, quietly) {
 
       chdir(subDirectoryPath);
 
-      const output = execute(buildShellCommands, quietly);
-
-      if (!quietly) {
-        console.log(` Building './${subDirectoryPath}': ${output}`)
-      }
+      // const output = execute(buildShellCommands, quietly);
+      //
+      // if (!quietly) {
+      //   console.log(` Building './${subDirectoryPath}': ${output}`)
+      // }
 
       chdir(currentWorkingDirectoryPath);
     }

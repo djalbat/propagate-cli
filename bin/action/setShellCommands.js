@@ -14,9 +14,9 @@ const { exit } = process,
 
 function setShellCommands() {
   const callbacks = [
+          setPublishShellCommandsPromptCallback,
           setBuildShellCommandsPromptCallback,
-          setGitShellCommandsPromptCallback,
-          setPublishShellCommandsPromptCallback
+          setGitShellCommandsPromptCallback
         ],
         shellCommands = retrieveShellCommands(),
         context = {
