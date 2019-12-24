@@ -9,23 +9,22 @@ const messages = require('../../messages'),
       validateUtilities = require('../../utilities/validate');
 
 const { miscellaneousUtilities } = necessary,
-      { exec } = shellUtilities,
       { prompt } = miscellaneousUtilities,
+      { execute } = shellUtilities,
       { cwd, chdir } = process,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages,
       { retrieveShellCommands } = configuration;
 
-function buildReleasesPromptCallback(proceed, abort, context) {
-  const { forced, quietly, releaseMap } = context,
-        releases = releaseMap.getReleases(),
+function executeBuildShellCommandsPromptCallback(proceed, abort, context) {
+  const { forced, quietly, diffs } = context,
         shellCommands = retrieveShellCommands(),
         { build } = shellCommands,
         buildShellCommands = build;  ///
 
   if (forced) {
-    buildReleases(releases, buildShellCommands, quietly);
+    executeBuildShellCommands(diffs, buildShellCommands, quietly);
 
     proceed();
 
@@ -48,7 +47,7 @@ function buildReleasesPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        buildReleases(releases, buildShellCommands, quietly);
+        executeBuildShellCommands(diffs, buildShellCommands, quietly);
 
         proceed();
 
@@ -60,23 +59,25 @@ function buildReleasesPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = buildReleasesPromptCallback;
+module.exports = executeBuildShellCommandsPromptCallback;
 
-function buildReleases(releases, buildShellCommands, quietly) {
-  releases.forEach((release) => buildRelease(release, buildShellCommands, quietly));
-}
+function executeBuildShellCommands(diffs, buildShellCommands, quietly) {
+  diffs.forEach((diff) => {
+    const devDependenciesChanged = diff.haveDevDependenciesChanged();
 
-function buildRelease(release, buildShellCommands, quietly) {
-  const subDirectoryPath = release.getSubDirectoryPath(),
-        currentWorkingDirectoryPath = cwd();
+    if (devDependenciesChanged) {
+      const subDirectoryPath = diff.getSubDirectoryPath(),
+            currentWorkingDirectoryPath = cwd();
 
-  chdir(subDirectoryPath);
+      chdir(subDirectoryPath);
 
-  const output = exec(buildShellCommands, quietly);
+      const output = execute(buildShellCommands, quietly);
 
-  if (!quietly) {
-    console.log(` Building './${subDirectoryPath}': ${output}`)
-  }
+      if (!quietly) {
+        console.log(` Building './${subDirectoryPath}': ${output}`)
+      }
 
-  chdir(currentWorkingDirectoryPath);
+      chdir(currentWorkingDirectoryPath);
+    }
+  });
 }

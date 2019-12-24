@@ -9,8 +9,8 @@ const messages = require('../../messages'),
       validateUtilities = require('../../utilities/validate');
 
 const { miscellaneousUtilities } = necessary,
-      { exec } = shellUtilities,
       { prompt } = miscellaneousUtilities,
+      { execute } = shellUtilities,
       { cwd, chdir } = process,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
@@ -75,7 +75,7 @@ function publishRelease(release, publishShellCommands, quietly) {
 
     chdir(subDirectoryPath);
 
-    const output = exec(publishShellCommands, quietly);
+    const output = execute(publishShellCommands, quietly);
 
     if (!quietly) {
       console.log(` Publishing './${subDirectoryPath}' ("${name}"): ${output}`)

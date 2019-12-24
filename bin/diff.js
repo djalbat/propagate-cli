@@ -32,21 +32,61 @@ class Diff {
     return this.devDependencyMapDiff;
   }
 
+  hasVersionChanged() {
+    const versionChanged = (this.versionDiff !== null);
+
+    return versionChanged;
+  }
+
+  haveDependenciesChanged() {
+    const dependenciesChanged = (this.dependencyMapDiff !== null);
+
+    return dependenciesChanged;
+  }
+
+  haveDevDependenciesChanged() {
+    const devDependenciesChanged = (this.devDependencyMapDiff !== null);
+
+    return devDependenciesChanged;
+  }
+
+  hasChanged() {
+    const versionChanged = this.hasVersionChanged(),
+          dependenciesChanged = this.haveDependenciesChanged(),
+          devDependenciesChanged = this.haveDevDependenciesChanged(),
+          changed = versionChanged || dependenciesChanged || devDependenciesChanged;
+
+    return changed;
+  }
+
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
   getName() { return this.release.getName(); }
 
   apply() {
-    const subDirectoryPath = this.getSubDirectoryPath(),
-          packageJSON = readPackageJSONFile(subDirectoryPath);
+    const changed = this.hasChanged();
 
-    this.versionDiff && this.versionDiff.apply(packageJSON);
+    if (changed) {
+      const versionChanged = this.hasVersionChanged(),
+            dependenciesChanged = this.haveDependenciesChanged(),
+            devDependenciesChanged = this.haveDevDependenciesChanged(),
+            subDirectoryPath = this.getSubDirectoryPath(),
+            packageJSON = readPackageJSONFile(subDirectoryPath);
 
-    this.dependencyMapDiff && this.dependencyMapDiff.apply(packageJSON, DEPENDENCIES_NAME);
+      if (versionChanged) {
+        this.versionDiff.apply(packageJSON);
+      }
 
-    this.devDependencyMapDiff && this.devDependencyMapDiff.apply(packageJSON, DEV_DEPENDENCIES_NAME);
+      if (dependenciesChanged) {
+        this.dependencyMapDiff.apply(packageJSON, DEPENDENCIES_NAME);
+      }
 
-    writePackageJSONFile(subDirectoryPath, packageJSON);
+      if (devDependenciesChanged) {
+        this.devDependencyMapDiff.apply(packageJSON, DEV_DEPENDENCIES_NAME);
+      }
+
+      writePackageJSONFile(subDirectoryPath, packageJSON);
+    }
   }
 
   asString() {

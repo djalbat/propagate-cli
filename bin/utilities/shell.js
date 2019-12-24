@@ -6,7 +6,7 @@ const constants = require('../constants');
 
 const { UTF8 } = constants;
 
-function exec(shellCommands) {
+function execute(shellCommands) {
   const encoding = UTF8,  ///
         options = {
           encoding
@@ -17,5 +17,5 @@ function exec(shellCommands) {
 }
 
 module.exports = {
-  exec
+  execute
 };
