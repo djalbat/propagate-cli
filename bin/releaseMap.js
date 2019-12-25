@@ -50,27 +50,29 @@ class ReleaseMap {
       const release = this.retrieveRelease(subDirectoryPath),
             name = release.getName();
 
-      nameToSubDirectoryPathMap[name] = subDirectoryPath;
+      if (name !== null) {
+        nameToSubDirectoryPathMap[name] = subDirectoryPath;
+      }
     });
 
     return nameToSubDirectoryPathMap;
   }
 
-  retrieveRelease(subDirectoryRPath) {
-    const release = this.map[subDirectoryRPath] || null;  ///
+  retrieveRelease(subDirectoryPath) {
+    const release = this.map[subDirectoryPath] || null;  ///
 
     return release;
   }
 
   static fromDirectories(directories) {
     const map = {},
-          subDirectoryRPaths = subDirectoryRPathsFromDirectories(directories);
+          subDirectoryPaths = subDirectoryPathsFromDirectories(directories);
 
-    subDirectoryRPaths.forEach((subDirectoryRPath) => {
-      const release = Release.fromSubDirectoryRPath(subDirectoryRPath);
+    subDirectoryPaths.forEach((subDirectoryPath) => {
+      const release = Release.fromSubDirectoryPath(subDirectoryPath);
 
       if (release !== null) {
-        map[subDirectoryRPath] = release;
+        map[subDirectoryPath] = release;
       }
     });
 
@@ -82,8 +84,8 @@ class ReleaseMap {
 
 module.exports = ReleaseMap;
 
-function subDirectoryRPathsFromDirectories(directories) {
-  const subDirectoryRPaths = [],
+function subDirectoryPathsFromDirectories(directories) {
+  const subDirectoryPaths = [],
         directoryNames = [
           '.',
           ...directories
@@ -98,12 +100,12 @@ function subDirectoryRPathsFromDirectories(directories) {
             entryDirectory = isEntryDirectory(entryRPath);
 
       if (entryDirectory) {
-        const subDirectoryRPath = entryRPath; ///
+        const subDirectoryPath = entryRPath; ///
 
-        subDirectoryRPaths.push(subDirectoryRPath);
+        subDirectoryPaths.push(subDirectoryPath);
       }
     });
   });
 
-  return subDirectoryRPaths;
+  return subDirectoryPaths;
 }

@@ -1,11 +1,6 @@
 'use strict';
 
-const necessary = require('necessary');
-
 const AcyclicGraph = require('./acyclicGraph');
-
-const { arrayUtilities } = necessary,
-      { filter } = arrayUtilities;
 
 class ReleaseGraph {
   constructor(acyclicGraph) {
@@ -21,15 +16,15 @@ class ReleaseGraph {
           vertexName = subDirectoryPath,  ///
           vertex = this.acyclicGraph.findVertexByVertexName(vertexName),
           successorVertexNames = vertex.getSuccessorVertexNames(),
-          dependentSubDirectoryPaths = successorVertexNames,  ///
-          successorReleases = dependentSubDirectoryPaths.map((dependentSubDirectoryPath) => releaseMap.retrieveRelease(dependentSubDirectoryPath));
+          successorSubDirectoryPaths = successorVertexNames,  ///
+          successorReleases = successorSubDirectoryPaths.map((successorSubDirectoryPath) => releaseMap.retrieveRelease(successorSubDirectoryPath));
 
     return successorReleases;
   }
 
   static fromReleaseMap(releaseMap) {
     const acyclicGraph = AcyclicGraph.fromNothing(),
-          names = releaseMap.getNames(),
+          releaseNames = releaseMap.getNames(),
           subDirectoryPaths = releaseMap.getSubDirectoryPaths(),
           nameToSubDirectoryPathMap = releaseMap.getNameToSubDirectoryPathMap(),
           vertexNames = subDirectoryPaths;  ///
@@ -38,38 +33,20 @@ class ReleaseGraph {
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
-            dependencyMap = release.getDependencyMap(),
-            dependencyNames = Object.keys(dependencyMap),
-            devDependencyMap = release.getDevDependencyMap(),
-            devDependencyNames = Object.keys(devDependencyMap);
+            dependencyNames = release.getDependencyNames(),
+            devDependencyNames = release.getDevDependencyNames(),
+            predecessorNames = merge(dependencyNames, devDependencyNames),
+            predecessorReleaseNames = predecessorNames.filter((predecessorName) => {
+              const releaseNamesIncludesPredecessorName = releaseNames.includes(predecessorName);
 
-      filter(dependencyNames, (dependencyName) => {
-        const namesIncludesDependencyName = names.includes(dependencyName);
+              if (releaseNamesIncludesPredecessorName) {
+                return true;
+              }
+            });
 
-        if (namesIncludesDependencyName) {
-          return true;
-        }
-      });
-
-      filter(devDependencyNames, (devDependencyName) => {
-        const namesIncludesDevDependencyName = names.includes(devDependencyName);
-
-        if (namesIncludesDevDependencyName) {
-          return true;
-        }
-      });
-
-      dependencyNames.forEach((dependencyName) => {
-        const dependencySubDirectoryPath = nameToSubDirectoryPathMap[dependencyName],
-              sourceVertexName = dependencySubDirectoryPath,  ///
-              targetVertexName = subDirectoryPath;  ///
-
-        acyclicGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
-      });
-
-      devDependencyNames.forEach((devDependencyName) => {
-        const devDependencySubDirectoryPath = nameToSubDirectoryPathMap[devDependencyName],
-              sourceVertexName = devDependencySubDirectoryPath,  ///
+      predecessorReleaseNames.forEach((predecessorReleaseName) => {
+        const predecessorReleaseSubDirectoryPath = nameToSubDirectoryPathMap[predecessorReleaseName],
+              sourceVertexName = predecessorReleaseSubDirectoryPath,  ///
               targetVertexName = subDirectoryPath;  ///
 
         acyclicGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
@@ -83,3 +60,25 @@ class ReleaseGraph {
 }
 
 module.exports = ReleaseGraph;
+
+function merge(array1, array2) {
+  const array = [];
+
+  array1.forEach((element1) => {
+    const arrayIncludesElement1 = array.includes(element1);
+
+    if (!arrayIncludesElement1) {
+      array.push(element1);
+    }
+  });
+
+  array2.forEach((element2) => {
+    const arrayIncludesElement2 = array.includes(element2);
+
+    if (!arrayIncludesElement2) {
+      array.push(element2);
+    }
+  });
+
+  return array;
+}

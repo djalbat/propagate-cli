@@ -47,6 +47,18 @@ class Release {
     return this.subDirectoryPath;
   }
 
+  getDependencyNames() {
+    const dependencyNames = Object.keys(this.dependencyMap);
+
+    return dependencyNames;
+  }
+
+  getDevDependencyNames() {
+    const devDependencyNames = Object.keys(this.devDependencyMap);
+
+    return devDependencyNames;
+  }
+
   isPublishable() {
     const publishable = (this.name !== null) && (this.version !== null);
 
@@ -101,7 +113,7 @@ class Release {
     updateSemver(name, version, this.devDependencyMap);
   }
 
-  static fromSubDirectoryRPath(subDirectoryPath) {
+  static fromSubDirectoryPath(subDirectoryPath) {
     let release = null;
 
     const packageJSON = readPackageJSONFile(subDirectoryPath);
