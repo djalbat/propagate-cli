@@ -9,7 +9,8 @@ const messages = require('../messages'),
       createReleaseMapCallback = require('../callback/createReleaseMap'),
       propagateReleaseCallback = require('../callback/propagateRelease'),
       applyDiffsPromptCallback = require('../callback/prompt/applyDiffs'),
-      createDependencyGraphCallback = require('../callback/createDependencyGraph');
+      createDependencyGraphCallback = require('../callback/createDependencyGraph'),
+      buildThenPublishPromptCallback = require('../callback/prompt/buildThenPublish');
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,
@@ -22,7 +23,7 @@ function propagate(argument, quietly, forced) {
           createReleaseCallback,
           createDependencyGraphCallback,
           propagateReleaseCallback,
-          createDiffsCallback,
+          createDiffsCallback
           applyDiffsPromptCallback,
           publishPromptCallback
         ],
