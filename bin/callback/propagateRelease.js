@@ -1,42 +1,42 @@
 'use strict';
 
 function propagateReleaseCallback(proceed, abort, context) {
-  const { release, releaseMap, dependencyGraph } = context;
-
-  release.propagate();
+  const { release, releaseMap, releaseGraph } = context;
 
   release.bumpPatchVersion();
 
-  propagateRelease(release, releaseMap, dependencyGraph);
+  release.propagate();
+
+  propagateRelease(release, releaseMap, releaseGraph);
 
   proceed();
 }
 
 module.exports = propagateReleaseCallback;
 
-function propagateRelease(release, releaseMap, dependencyGraph) {
+function propagateRelease(release, releaseMap, releaseGraph) {
   const name = release.getName(),
         version = release.getVersion(),
-        dependentReleases = dependencyGraph.retrieveDependentReleases(release, releaseMap);
+        successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
 
-  dependentReleases.forEach((dependentRelease) => {
-    dependentRelease.updateDependencyVersion(name, version);
+  successorReleases.forEach((successorRelease) => {
+    successorRelease.updateDependencyVersion(name, version);
 
-    dependentRelease.updateDevDependencyVersion(name, version);
+    successorRelease.updateDevDependencyVersion(name, version);
 
-    const publishable = dependentRelease.isPublishable();
+    const publishable = successorRelease.isPublishable();
 
     if (publishable) {
-      const propagated = dependentRelease.hasPropagated();
+      const propagated = successorRelease.hasPropagated();
 
       if (!propagated) {
-        const release = dependentRelease; ///
-
-        release.propagate();
+        const release = successorRelease; ///
 
         release.bumpPatchVersion();
 
-        propagateRelease(release, releaseMap, dependencyGraph);
+        release.propagate();
+
+        propagateRelease(release, releaseMap, releaseGraph);
       }
     }
   });

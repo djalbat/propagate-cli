@@ -12,22 +12,36 @@ const { miscellaneousUtilities } = necessary,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages;
 
-function publishPromptCallback(proceed, abort, context) {
-  const { forced, quietly, diffs } = context;
+function buildPromptCallback(proceed, abort, context) {
+  const { forced, quietly, diffs, publishedNames } = context;
+
+  const diffSubdirectoryPaths = diffs.map((diff) => diff.getSubDirectoryPath());
+
+  const remainingDiffs = diffs.filter((diff) => {
+    let keep = true;
+
+    const name = diff.getName();
+
+    if (name !== null) {
+      const publishedNameIncludesName = publishedNames.includes(name);
+
+      if (publishedNameIncludesName) {
+        keep = false;
+      }
+    }
+
+    return keep;
+  });
 
   if (forced) {
-    const publishedDiffs = publish(diffs, quietly);
-
-    Object.assign(context, {
-      publishedDiffs
-    });
+    build(diffs, quietly);
 
     proceed();
 
     return;
   }
 
-  const description = 'Publish packages? (y)es (n)o: ',
+  const description = 'Build packages? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -43,11 +57,7 @@ function publishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        const publishedDiffs = publish(diffs, quietly);
-
-        Object.assign(context, {
-          publishedDiffs
-        });
+        build(diffs, quietly);
 
         proceed();
 
@@ -59,26 +69,10 @@ function publishPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = publishPromptCallback;
+module.exports = buildPromptCallback;
 
-function publish(diffs, quietly) {
-  const publishedDiffs = [];
-
+function build(diffs, quietly) {
   diffs.forEach((diff) => {
-    const publishable = diff.isPublishable();
-
-    if (publishable) {
-      const devDependenciesChanged = diff.haveDevDependenciesChanged();
-
-      if (!devDependenciesChanged) {
-        diff.publish(quietly);
-
-        const publishedDff = diff;  ///
-
-        publishedDiffs.push(publishedDff);
-      }
-    }
+    ///
   });
-
-  return publishedDiffs;
 }

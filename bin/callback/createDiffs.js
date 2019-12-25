@@ -3,8 +3,8 @@
 const Diff = require('../diff');
 
 function createDiffsCallback(proceed, abort, context) {
-  const { quietly, release, releaseMap, dependencyGraph } = context,
-        diffs = createDiffs(release, releaseMap, dependencyGraph);
+  const { quietly, release, releaseMap, releaseGraph } = context,
+        diffs = createDiffs(release, releaseMap, releaseGraph);
 
   Object.assign(context, {
     diffs
@@ -29,7 +29,7 @@ function logDiffs(diffs) {
   });
 }
 
-function createDiffs(release, releaseMap, dependencyGraph, diffs = []) {
+function createDiffs(release, releaseMap, releaseGraph, diffs = []) {
   const subDirectoryPath = release.getSubDirectoryPath();
 
   let diff = diffs.find((diff) => {
@@ -45,12 +45,12 @@ function createDiffs(release, releaseMap, dependencyGraph, diffs = []) {
 
     diffs.push(diff);
 
-    const dependentReleases = dependencyGraph.retrieveDependentReleases(release, releaseMap);
+    const successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
 
-    dependentReleases.forEach((dependentRelease) => {
-      const release = dependentRelease; ///
+    successorReleases.forEach((successorRelease) => {
+      const release = successorRelease; ///
 
-      createDiffs(release, releaseMap, dependencyGraph, diffs);
+      createDiffs(release, releaseMap, releaseGraph, diffs);
     });
   }
 

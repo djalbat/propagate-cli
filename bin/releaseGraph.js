@@ -7,7 +7,7 @@ const AcyclicGraph = require('./acyclicGraph');
 const { arrayUtilities } = necessary,
       { filter } = arrayUtilities;
 
-class DependencyGraph {
+class ReleaseGraph {
   constructor(acyclicGraph) {
     this.acyclicGraph = acyclicGraph;
   }
@@ -16,15 +16,15 @@ class DependencyGraph {
     return this.acyclicGraph;
   }
 
-  retrieveDependentReleases(release, releaseMap) {
+  retrieveSuccessorReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///
           vertex = this.acyclicGraph.findVertexByVertexName(vertexName),
           successorVertexNames = vertex.getSuccessorVertexNames(),
           dependentSubDirectoryPaths = successorVertexNames,  ///
-          dependentReleases = dependentSubDirectoryPaths.map((dependentSubDirectoryPath) => releaseMap.retrieveRelease(dependentSubDirectoryPath));
+          successorReleases = dependentSubDirectoryPaths.map((dependentSubDirectoryPath) => releaseMap.retrieveRelease(dependentSubDirectoryPath));
 
-    return dependentReleases;
+    return successorReleases;
   }
 
   static fromReleaseMap(releaseMap) {
@@ -76,10 +76,10 @@ class DependencyGraph {
       });
     });
 
-    const dependencyGraph = new DependencyGraph(acyclicGraph);
+    const releaseGraph = new ReleaseGraph(acyclicGraph);
 
-    return dependencyGraph;
+    return releaseGraph;
   }
 }
 
-module.exports = DependencyGraph;
+module.exports = ReleaseGraph;
