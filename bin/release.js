@@ -77,7 +77,14 @@ class Release {
   }
 
   git(quietly) {
-    debugger
+    let shellCommands = retrieveShellCommands();
+
+    const { git } = shellCommands,
+          gitShellCommands = git;
+
+    shellCommands = gitShellCommands; ///
+
+    this.execute(shellCommands, quietly);
   }
 
   build(quietly) {

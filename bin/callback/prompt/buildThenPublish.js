@@ -11,7 +11,7 @@ const { arrayUtilities, miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { BUILDING_THEN_PUBLISHING_MESSAGE, INVALID_ANSWER_MESSAGE, RELEASE_NOT_BUILDABLE_MESSAGE } = messages;
+      { BUILD_THEN_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE, RELEASE_NOT_BUILDABLE_MESSAGE } = messages;
 
 function buildThenPublishPromptCallback(proceed, abort, context) {
   const { forced, quietly, diffs } = context;
@@ -59,7 +59,7 @@ function buildThenPublishPromptCallback(proceed, abort, context) {
 module.exports = buildThenPublishPromptCallback;
 
 function buildThenPublish(diffs, quietly) {
-  console.log(BUILDING_THEN_PUBLISHING_MESSAGE);
+  console.log(BUILD_THEN_PUBLISH_MESSAGE);
 
   const unbuiltDiffs = [],
         success = diffs.every((diff) => {

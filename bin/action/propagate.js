@@ -3,6 +3,7 @@
 const messages = require('../messages'),
       callbackUtilities = require('../utilities/callback'),
       createDiffsCallback = require('../callback/createDiffs'),
+      gitPromptCallback = require('../callback/prompt/git'),
       publishPromptCallback = require('../callback/prompt/publish'),
       checkArgumentCallback = require('../callback/checkArgument'),
       createReleaseCallback = require('../callback/createRelease'),
@@ -26,7 +27,8 @@ function propagate(argument, quietly, forced) {
           createDiffsCallback,
           applyDiffsPromptCallback,
           publishPromptCallback,
-          buildThenPublishPromptCallback
+          buildThenPublishPromptCallback,
+          gitPromptCallback
         ],
         context = {
           argument,

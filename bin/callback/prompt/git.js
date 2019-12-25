@@ -10,20 +10,20 @@ const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { GIT_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
-function applyDiffsPromptCallback(proceed, abort, context) {
-  const { diffs, forced } = context;
+function gitPromptCallback(proceed, abort, context) {
+  const { forced, quietly, diffs } = context;
 
   if (forced) {
-    applyDiffs(diffs);
+    git(diffs, quietly);
 
     proceed();
 
     return;
   }
 
-  const description = 'Apply these changes? (y)es (n)o: ',
+  const description = 'Push changes to Git? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -39,7 +39,7 @@ function applyDiffsPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        applyDiffs(diffs);
+        git(diffs, quietly);
 
         proceed();
 
@@ -51,8 +51,10 @@ function applyDiffsPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = applyDiffsPromptCallback;
+module.exports = gitPromptCallback;
 
-function applyDiffs(diffs) {
-  diffs.forEach((diff) => diff.apply());
+function git(diffs, quietly) {
+  console.log(GIT_MESSAGE);
+
+  diffs.forEach((diff) => diff.git(quietly));
 }
