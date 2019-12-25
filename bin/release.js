@@ -114,7 +114,9 @@ class Release {
     const output = execute(shellCommands, quietly);
 
     if (!quietly) {
-      console.log(` './${this.subDirectoryPath}' ("${this.name}"): ${output}`)
+      (this.name === null) ?
+        console.log(` './${this.subDirectoryPath}': ${output}`) :
+          console.log(` './${this.subDirectoryPath}' ("${this.name}"): ${output}`);
     }
 
     chdir(currentWorkingDirectoryPath);

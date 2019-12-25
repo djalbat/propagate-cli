@@ -3,14 +3,14 @@
 const messages = require('../messages'),
       callbackUtilities = require('../utilities/callback'),
       createDiffsCallback = require('../callback/createDiffs'),
-      buildPromptCallback = require('../callback/prompt/build'),
       publishPromptCallback = require('../callback/prompt/publish'),
       checkArgumentCallback = require('../callback/checkArgument'),
       createReleaseCallback = require('../callback/createRelease'),
       createReleaseMapCallback = require('../callback/createReleaseMap'),
       propagateReleaseCallback = require('../callback/propagateRelease'),
       applyDiffsPromptCallback = require('../callback/prompt/applyDiffs'),
-      createReleaseGraphCallback = require('../callback/createReleaseGraph');
+      createReleaseGraphCallback = require('../callback/createReleaseGraph'),
+      buildThenPublishPromptCallback = require('../callback/prompt/buildThenPublish');
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,
@@ -26,7 +26,7 @@ function propagate(argument, quietly, forced) {
           createDiffsCallback,
           applyDiffsPromptCallback,
           publishPromptCallback,
-          buildPromptCallback
+          buildThenPublishPromptCallback
         ],
         context = {
           argument,

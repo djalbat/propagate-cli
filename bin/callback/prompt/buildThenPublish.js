@@ -11,13 +11,13 @@ const { arrayUtilities, miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { BUILDING_MESSAGE, INVALID_ANSWER_MESSAGE, RELEASE_NOT_BUILDABLE_MESSAGE } = messages;
+      { BUILDING_THEN_PUBLISHING_MESSAGE, INVALID_ANSWER_MESSAGE, RELEASE_NOT_BUILDABLE_MESSAGE } = messages;
 
-function buildPromptCallback(proceed, abort, context) {
+function buildThenPublishPromptCallback(proceed, abort, context) {
   const { forced, quietly, diffs } = context;
 
   if (forced) {
-    const success = build(diffs, quietly);
+    const success = buildThenPublish(diffs, quietly);
 
     success ?
       proceed() :
@@ -26,7 +26,7 @@ function buildPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const description = 'Build packages? (y)es (n)o: ',
+  const description = 'Build then publish packages? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -42,7 +42,7 @@ function buildPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        const success = build(diffs, quietly);
+        const success = buildThenPublish(diffs, quietly);
 
         success ?
           proceed() :
@@ -56,14 +56,14 @@ function buildPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = buildPromptCallback;
+module.exports = buildThenPublishPromptCallback;
 
-function build(diffs, quietly) {
-  console.log(BUILDING_MESSAGE);
+function buildThenPublish(diffs, quietly) {
+  console.log(BUILDING_THEN_PUBLISHING_MESSAGE);
 
   const unbuiltDiffs = [],
         success = diffs.every((diff) => {
-          const success = buildDiff(diff, diffs, quietly, unbuiltDiffs);
+          const success = buildThenPublishDiff(diff, diffs, quietly, unbuiltDiffs);
 
           return success;
         });
@@ -71,7 +71,7 @@ function build(diffs, quietly) {
   return success;
 }
 
-function buildDiff(diff, diffs, quietly, unbuiltDiffs) {
+function buildThenPublishDiff(diff, diffs, quietly, unbuiltDiffs) {
   let success = true;
 
   const buildable = diff.isBuildable();
@@ -106,7 +106,7 @@ function buildDiff(diff, diffs, quietly, unbuiltDiffs) {
 
         success = changedDevDependencyDiffs.every((changedDevDependencyDiff) => {
           const diff = changedDevDependencyDiff,  ///
-                success = buildDiff(diff, diffs, quietly, unbuiltDiffs);
+                success = buildThenPublishDiff(diff, diffs, quietly, unbuiltDiffs);
 
           return success;
         });
@@ -114,6 +114,12 @@ function buildDiff(diff, diffs, quietly, unbuiltDiffs) {
 
       if (success) {
         diff.build(quietly);
+
+        const publishable = diff.isPublishable();
+
+        if (publishable) {
+          diff.publish(quietly);
+        }
 
         prune(unbuiltDiffs, (unbuiltDiff) => {
           if (unbuiltDiff !== diff) {
