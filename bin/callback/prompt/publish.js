@@ -16,11 +16,7 @@ function publishPromptCallback(proceed, abort, context) {
   const { forced, quietly, diffs } = context;
 
   if (forced) {
-    const publishedNames = publish(diffs, quietly);
-
-    Object.assign(context, {
-      publishedNames
-    });
+    publish(diffs, quietly);
 
     proceed();
 
@@ -43,11 +39,7 @@ function publishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        const publishedNames = publish(diffs, quietly);
-
-        Object.assign(context, {
-          publishedNames
-        });
+        publish(diffs, quietly);
 
         proceed();
 
@@ -62,8 +54,6 @@ function publishPromptCallback(proceed, abort, context) {
 module.exports = publishPromptCallback;
 
 function publish(diffs, quietly) {
-  const publishedNames = [];
-
   diffs.forEach((diff) => {
     const publishable = diff.isPublishable();
 
@@ -72,14 +62,7 @@ function publish(diffs, quietly) {
 
       if (!devDependenciesChanged) {
         diff.publish(quietly);
-
-        const name = diff.getName(),
-              publishedName = name;  ///
-
-        publishedNames.push(publishedName);
       }
     }
   });
-
-  return publishedNames;
 }

@@ -27,7 +27,7 @@ function propagateRelease(release, releaseMap, releaseGraph) {
     const publishable = successorRelease.isPublishable();
 
     if (publishable) {
-      const propagated = successorRelease.hasPropagated();
+      const propagated = successorRelease.isPropagated();
 
       if (!propagated) {
         const release = successorRelease; ///

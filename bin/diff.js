@@ -32,6 +32,15 @@ class Diff {
     return this.devDependencyMapDiff;
   }
 
+  hasChanged() {
+    const versionChanged = this.hasVersionChanged(),
+          dependenciesChanged = this.haveDependenciesChanged(),
+          devDependenciesChanged = this.haveDevDependenciesChanged(),
+          changed = versionChanged || dependenciesChanged || devDependenciesChanged;
+
+    return changed;
+  }
+
   hasVersionChanged() {
     const versionChanged = (this.versionDiff !== null);
 
@@ -50,16 +59,39 @@ class Diff {
     return devDependenciesChanged;
   }
 
-  hasChanged() {
-    const versionChanged = this.hasVersionChanged(),
-          dependenciesChanged = this.haveDependenciesChanged(),
-          devDependenciesChanged = this.haveDevDependenciesChanged(),
-          changed = versionChanged || dependenciesChanged || devDependenciesChanged;
+  getChangedDevDependencyNames() {
+    const changedDevDependencyNames = [],
+          devDependenciesChanged = this.haveDevDependenciesChanged();
 
-    return changed;
+    if (devDependenciesChanged) {
+      const semverDiffs = this.devDependencyMapDiff.getSemverDiffs();
+
+      semverDiffs.forEach((semverDiff) => {
+        const name = semverDiff.getName();
+
+        const changedDevDependencyName = name; ///
+
+        changedDevDependencyNames.push(changedDevDependencyName);
+      })
+    }
+
+    return changedDevDependencyNames;
+  }
+
+  isBuildable() {
+    const devDependenciesChanged = this.haveDevDependenciesChanged(),
+          buildable = devDependenciesChanged; ///
+
+    return buildable;
   }
 
   getName() { return this.release.getName(); }
+
+  isBuilt() { return this.release.isBuilt(); }
+
+  isPublished() { return this.release.isPublished(); }
+
+  isPropagated() { return this.release.isPropagated(); }
 
   isPublishable() { return this.release.isPublishable(); }
 

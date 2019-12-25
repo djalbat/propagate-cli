@@ -14,13 +14,16 @@ const { arrayUtilities } = necessary,
       { retrieveShellCommands } = configuration;
 
 class Release {
-  constructor(name, version, propagated, dependencyMap, devDependencyMap, subDirectoryPath) {
+  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath, built, published, propagated) {
     this.name = name;
     this.version = version;
-    this.propagated = propagated;
     this.dependencyMap = dependencyMap;
     this.devDependencyMap = devDependencyMap;
     this.subDirectoryPath = subDirectoryPath;
+
+    this.built = built;
+    this.published = published;
+    this.propagated = propagated;
   }
 
   getName() {
@@ -29,10 +32,6 @@ class Release {
 
   getVersion() {
     return this.version;
-  }
-
-  hasPropagated() {
-    return this.propagated;
   }
 
   getDependencyMap() {
@@ -47,6 +46,24 @@ class Release {
     return this.subDirectoryPath;
   }
 
+  isBuilt() {
+    return this.built;
+  }
+
+  isPublished() {
+    return this.published;
+  }
+
+  isPropagated() {
+    return this.propagated;
+  }
+
+  isPublishable() {
+    const publishable = (this.name !== null) && (this.version !== null);
+
+    return publishable;
+  }
+
   getDependencyNames() {
     const dependencyNames = Object.keys(this.dependencyMap);
 
@@ -59,18 +76,14 @@ class Release {
     return devDependencyNames;
   }
 
-  isPublishable() {
-    const publishable = (this.name !== null) && (this.version !== null);
-
-    return publishable;
-  }
-
   git(quietly) {
     debugger
   }
 
   build(quietly) {
-    debugger
+    ///
+
+    this.built = true;
   }
 
   publish(quietly) {
@@ -88,6 +101,8 @@ class Release {
     }
 
     chdir(currentWorkingDirectoryPath);
+
+    this.published = true;
   }
 
   propagate() {
@@ -120,11 +135,13 @@ class Release {
 
     if (packageJSON !== null) {
       const { name = null, version = null, dependencies = {}, devDependencies = {} } = packageJSON,
-            propagated = false,
             dependencyMap = dependencies, ///
-            devDependencyMap = devDependencies; ///
+            devDependencyMap = devDependencies, ///
+            built = false,
+            published = false,
+            propagated = false;
 
-      release = new Release(name, version, propagated, dependencyMap, devDependencyMap, subDirectoryPath);
+      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath, built, published, propagated);
    }
 
     return release;

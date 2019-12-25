@@ -6,37 +6,22 @@ const messages = require('../../messages'),
       promptUtilities = require('../../utilities/prompt'),
       validateUtilities = require('../../utilities/validate');
 
-const { miscellaneousUtilities } = necessary,
+const { arrayUtilities, miscellaneousUtilities } = necessary,
+      { prune } = arrayUtilities,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { INVALID_ANSWER_MESSAGE, RELEASE_NOT_BUILDABLE_MESSAGE } = messages;
 
 function buildPromptCallback(proceed, abort, context) {
-  const { forced, quietly, diffs, publishedNames } = context;
-
-  const diffSubdirectoryPaths = diffs.map((diff) => diff.getSubDirectoryPath());
-
-  const remainingDiffs = diffs.filter((diff) => {
-    let keep = true;
-
-    const name = diff.getName();
-
-    if (name !== null) {
-      const publishedNameIncludesName = publishedNames.includes(name);
-
-      if (publishedNameIncludesName) {
-        keep = false;
-      }
-    }
-
-    return keep;
-  });
+  const { forced, quietly, diffs } = context;
 
   if (forced) {
-    build(diffs, quietly);
+    const success = build(diffs, quietly);
 
-    proceed();
+    success ?
+      proceed() :
+        abort();
 
     return;
   }
@@ -57,9 +42,11 @@ function buildPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        build(diffs, quietly);
+        const success = build(diffs, quietly);
 
-        proceed();
+        success ?
+          proceed() :
+            abort();
 
         return;
       }
@@ -72,7 +59,68 @@ function buildPromptCallback(proceed, abort, context) {
 module.exports = buildPromptCallback;
 
 function build(diffs, quietly) {
-  diffs.forEach((diff) => {
-    ///
-  });
+  const unbuiltDiffs = [],
+        success = diffs.every((diff) => {
+          const success = buildDiff(diff, diffs, quietly, unbuiltDiffs);
+
+          return success;
+        });
+
+  return success;
+}
+
+function buildDiff(diff, diffs, quietly, unbuiltDiffs) {
+  let success = true;
+
+  const buildable = diff.isBuildable();
+
+  if (buildable) {
+    const built = diff.isBuilt();
+
+    if (!built) {
+      const unbuiltDiffsIncludesDiff = unbuiltDiffs.includes(diff);
+
+      if (unbuiltDiffsIncludesDiff) {
+        console.log(RELEASE_NOT_BUILDABLE_MESSAGE);
+
+        success = false;
+      } else {
+        const unbuiltDiff = diff; ///
+
+        unbuiltDiffs.push(unbuiltDiff);
+
+        const changedDevDependencyNames = diff.getChangedDevDependencyNames(),
+              changedDevDependencyDiffs = changedDevDependencyNames.map((changedDevDependencyName) => {
+                const changedDevDependencyDiff = diffs.find((diff) => {
+                  const name = diff.getName();
+
+                  if (name === changedDevDependencyName) {
+                    return true;
+                  }
+                });
+
+                return changedDevDependencyDiff;
+              });
+
+        success = changedDevDependencyDiffs.every((changedDevDependencyDiff) => {
+          const diff = changedDevDependencyDiff,  ///
+                success = buildDiff(diff, diffs, quietly, unbuiltDiffs);
+
+          return success;
+        });
+      }
+
+      if (success) {
+        diff.build(quietly);
+
+        prune(unbuiltDiffs, (unbuiltDiff) => {
+          if (unbuiltDiff !== diff) {
+            return true;
+          }
+        });
+      }
+    }
+  }
+
+  return success;
 }
