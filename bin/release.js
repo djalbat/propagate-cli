@@ -81,28 +81,43 @@ class Release {
   }
 
   build(quietly) {
-    ///
+    let shellCommands = retrieveShellCommands();
+
+    const { build } = shellCommands,
+          buildShellCommands = build;
+
+    shellCommands = buildShellCommands; ///
+
+    this.execute(shellCommands, quietly);
 
     this.built = true;
   }
 
   publish(quietly) {
-    const shellCommands = retrieveShellCommands(),
-          { publish } = shellCommands,
-          publishShellCommands = publish, ///
-          currentWorkingDirectoryPath = cwd();
+    let shellCommands = retrieveShellCommands();
+
+    const { publish } = shellCommands,
+          publishShellCommands = publish;
+
+    shellCommands = publishShellCommands; ///
+
+    this.execute(shellCommands, quietly);
+
+    this.published = true;
+  }
+
+  execute(shellCommands, quietly) {
+    const currentWorkingDirectoryPath = cwd();
 
     chdir(this.subDirectoryPath);
 
-    const output = execute(publishShellCommands, quietly);
+    const output = execute(shellCommands, quietly);
 
     if (!quietly) {
-      console.log(` Publishing './${this.subDirectoryPath}' ("${this.name}"): ${output}`)
+      console.log(` './${this.subDirectoryPath}' ("${this.name}"): ${output}`)
     }
 
     chdir(currentWorkingDirectoryPath);
-
-    this.published = true;
   }
 
   propagate() {

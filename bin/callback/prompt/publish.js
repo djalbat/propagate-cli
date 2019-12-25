@@ -10,7 +10,7 @@ const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { PUBLISHING_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function publishPromptCallback(proceed, abort, context) {
   const { forced, quietly, diffs } = context;
@@ -54,6 +54,8 @@ function publishPromptCallback(proceed, abort, context) {
 module.exports = publishPromptCallback;
 
 function publish(diffs, quietly) {
+  console.log(PUBLISHING_MESSAGE);
+
   diffs.forEach((diff) => {
     const publishable = diff.isPublishable();
 

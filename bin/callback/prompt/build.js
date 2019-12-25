@@ -11,7 +11,7 @@ const { arrayUtilities, miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE, RELEASE_NOT_BUILDABLE_MESSAGE } = messages;
+      { BUILDING_MESSAGE, INVALID_ANSWER_MESSAGE, RELEASE_NOT_BUILDABLE_MESSAGE } = messages;
 
 function buildPromptCallback(proceed, abort, context) {
   const { forced, quietly, diffs } = context;
@@ -59,6 +59,8 @@ function buildPromptCallback(proceed, abort, context) {
 module.exports = buildPromptCallback;
 
 function build(diffs, quietly) {
+  console.log(BUILDING_MESSAGE);
+
   const unbuiltDiffs = [],
         success = diffs.every((diff) => {
           const success = buildDiff(diff, diffs, quietly, unbuiltDiffs);
