@@ -65,9 +65,9 @@ Managing dependencies in a project can be irksome if your project relies on more
 ```
 Here there are no updates to `dylan` because it does not depend on the `freddie` package, directly or otherwise.
 
-Note that `alice` does not have a version number. If Propagate cannot find both `name` and `version` fields in a package JSON file, it considers the contents of the subdirectory to be a binary, not a package, and will not try to publish them. Nothing is expect to depend on binaries since, without a name, there is no way to reference them. 
+Note that `alice` does not have a version number. If Propagate cannot find both `name` and `version` fields in a package JSON file, it considers the contents of the subdirectory to be a binary, not a package, and will not try to publish them. Nothing is expected to depend on binaries since, without a name, there is no way to reference them. 
 
-Note also that it only supports core [semver](https://semver.org/) versions, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. It does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore leading modifiers such as `^`, `~`, etc. If you are not using either just these modifiers or no modifiers at all, Propagate is unlikely to work for you.
+Note also that Propagate only supports core [semver](https://semver.org/) versions, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. It does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore leading modifiers such as `^`, `~`, etc. If you are not using either just these modifiers or no modifiers at all, Propagate is unlikely to work for you.
 
 ## Installation
 
