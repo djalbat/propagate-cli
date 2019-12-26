@@ -35,7 +35,10 @@ class ReleaseGraph {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
             dependencyNames = release.getDependencyNames(),
             devDependencyNames = release.getDevDependencyNames(),
-            predecessorNames = merge(dependencyNames, devDependencyNames),
+            predecessorNames = [
+              ...dependencyNames,
+              ...devDependencyNames
+            ],
             predecessorReleaseNames = predecessorNames.filter((predecessorName) => {
               const releaseNamesIncludesPredecessorName = releaseNames.includes(predecessorName);
 
@@ -61,24 +64,3 @@ class ReleaseGraph {
 
 module.exports = ReleaseGraph;
 
-function merge(array1, array2) {
-  const array = [];
-
-  array1.forEach((element1) => {
-    const arrayIncludesElement1 = array.includes(element1);
-
-    if (!arrayIncludesElement1) {
-      array.push(element1);
-    }
-  });
-
-  array2.forEach((element2) => {
-    const arrayIncludesElement2 = array.includes(element2);
-
-    if (!arrayIncludesElement2) {
-      array.push(element2);
-    }
-  });
-
-  return array;
-}

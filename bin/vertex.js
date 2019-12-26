@@ -27,11 +27,23 @@ class Vertex {
   }
 
   addSuccessorVertex(successorVertex) {
-    this.successorVertexes.push(successorVertex);
+    const successorVertexName = successorVertex.getName(),
+          successorVertexNames = this.getSuccessorVertexNames(),
+          successorVertexNamesIncludesSuccessorVertexName = successorVertexNames.includes(successorVertexName);
+
+    if (!successorVertexNamesIncludesSuccessorVertexName) {
+      this.successorVertexes.push(successorVertex);
+    }
   }
 
   addPredecessorVertex(predecessorVertex) {
-    this.predecessorVertexes.push(predecessorVertex);
+    const predecessorVertexName = predecessorVertex.getName(),
+          predecessorVertexNames = this.getSuccessorVertexNames(),
+          predecessorVertexNamesIncludesPredecessorVertexName = predecessorVertexNames.includes(predecessorVertexName);
+
+    if (!predecessorVertexNamesIncludesPredecessorVertexName) {
+      this.predecessorVertexes.push(predecessorVertex);
+    }
   }
 
   static fromName(name) {

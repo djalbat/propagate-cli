@@ -1,0 +1,171 @@
+'./occam-lexers' ("occam-lexers"):
+
+   "version": "10.1.15" -> "10.1.16"
+
+ './occam-custom-grammars' ("occam-custom-grammars"):
+
+   "version": "3.0.8" -> "3.0.9",
+   "dependencies": {
+     "occam-grammar-utilities": "^3.0.9" -> "^3.0.10",
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ './occam-client':
+
+   "devDependencies": {
+     "@jecs-imperial/occam-documents": "0.0.167" -> "0.0.168",
+     "@jecs-imperial/occam-editor": "0.0.331" -> "0.0.332",
+     "occam-custom-grammars": "^3.0.8" -> "^3.0.9",
+     "occam-dom": "^1.2.7" -> "^1.2.8",
+     "occam-open-cli": "^2.0.35" -> "^2.0.36"
+   }
+
+ './occam-documents' ("@jecs-imperial/occam-documents"):
+
+   "version": "0.0.167" -> "0.0.168",
+   "dependencies": {
+     "@jecs-imperial/occam-lazy": "0.0.375" -> "0.0.376",
+     "occam-custom-grammars": "^3.0.8" -> "^3.0.9",
+     "occam-dom": "^1.2.7" -> "^1.2.8",
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ './occam-editor' ("@jecs-imperial/occam-editor"):
+
+   "version": "0.0.331" -> "0.0.332",
+   "dependencies": {
+     "@jecs-imperial/occam-documents": "0.0.167" -> "0.0.168",
+     "@jecs-imperial/occam-pretty": "0.0.181" -> "0.0.182"
+   },
+   "devDependencies": {
+     "occam-custom-grammars": "^3.0.8" -> "^3.0.9"
+   }
+
+ './occam-pretty' ("@jecs-imperial/occam-pretty"):
+
+   "version": "0.0.181" -> "0.0.182",
+   "dependencies": {
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   },
+   "devDependencies": {
+     "@jecs-imperial/occam-documents": "0.0.167" -> "0.0.168"
+   }
+
+ './occam-lazy' ("@jecs-imperial/occam-lazy"):
+
+   "version": "0.0.375" -> "0.0.376",
+   "dependencies": {
+     "@jecs-imperial/occam-pretty": "0.0.181" -> "0.0.182",
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ '../Public/occam.science':
+
+   "devDependencies": {
+     "@jecs-imperial/occam-pretty": "0.0.180" -> "0.0.182",
+     "occam-custom-grammars": "^3.0.5" -> "^3.0.9",
+     "occam-dom": "^1.2.6" -> "^1.2.8",
+     "occam-grammar-utilities": "^3.0.8" -> "^3.0.10",
+     "occam-lexers": "^10.1.12" -> "^10.1.16",
+     "occam-parsers": "^10.1.22" -> "^10.1.25"
+   }
+
+ '../Public/openmathematics.org':
+
+   "dependencies": {
+     "@jecs-imperial/occam-documents": "^0.0.157" -> "^0.0.168",
+     "occam-open-cli": "^2.0.2" -> "^2.0.36"
+   },
+   "devDependencies": {
+     "occam-lexers": "^9.0.1" -> "^10.1.16",
+     "occam-parsers": "^9.0.6" -> "^10.1.25",
+     "reaction-with-style": "^1.4.1" -> "^1.4.3"
+   }
+
+ './occam-verifier' ("occam-verifier"):
+
+   "version": "0.0.13" -> "0.0.14",
+   "dependencies": {
+     "occam-custom-grammars": "^3.0.8" -> "^3.0.9",
+     "occam-dom": "^1.2.7" -> "^1.2.8",
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-open-cli": "^2.0.35" -> "^2.0.36",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ './occam-dom' ("occam-dom"):
+
+   "version": "1.2.7" -> "1.2.8",
+   "devDependencies": {
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ './with-style' ("with-style"):
+
+   "version": "1.3.2" -> "1.3.3",
+   "dependencies": {
+     "occam-dom": "^1.2.7" -> "^1.2.8",
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ './reaction-with-style' ("reaction-with-style"):
+
+   "version": "1.4.2" -> "1.4.3",
+   "dependencies": {
+     "with-style": "^1.3.2" -> "^1.3.3"
+   }
+
+ '../Public/schoonercecilie.org':
+
+   "devDependencies": {
+     "reaction-with-style": "^1.4.1" -> "^1.4.3"
+   }
+
+ './occam-grammar-utilities' ("occam-grammar-utilities"):
+
+   "version": "3.0.9" -> "3.0.10",
+   "dependencies": {
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ './occam-open-cli' ("occam-open-cli"):
+
+   "version": "2.0.35" -> "2.0.36",
+   "dependencies": {
+     "occam-lexers": "^10.1.15" -> "^10.1.16",
+     "occam-parsers": "^10.1.24" -> "^10.1.25"
+   }
+
+ './occam-file-system' ("occam-file-system"):
+
+   "version": "2.0.23" -> "2.0.24",
+   "dependencies": {
+     "occam-open-cli": "^2.0.35" -> "^2.0.36"
+   }
+
+ './occam-browser':
+
+   "dependencies": {
+     "occam-file-system": "^2.0.23" -> "^2.0.24"
+   }
+
+ './occam-desktop':
+
+   "dependencies": {
+     "occam-file-system": "^2.0.23" -> "^2.0.24"
+   }
+
+ './occam-parsers' ("occam-parsers"):
+
+   "version": "10.1.24" -> "10.1.25",
+   "dependencies": {
+     "occam-lexers": "^10.1.15" -> "^10.1.16"
+   }
+
