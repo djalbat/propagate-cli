@@ -2,7 +2,7 @@
 
 Propagate updated packages throughout a project.
 
-Managing dependencies in a project can be irksome if your project relies on more than a few frequently updated packages. Consider the following dependency graph. The solid lines represent dependencies, dotted lines 'dev' dependencies:
+Managing dependencies in a project can be irksome if your project relies on more than a few frequently updated packages. Consider the following dependency graph. Here the solid lines represent dependencies, dotted lines dev-dependencies:
 
 ---
                                              alice
