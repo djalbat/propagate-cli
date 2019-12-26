@@ -23,7 +23,7 @@ function gitPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const description = 'Push changes to Git? (y)es (n)o: ',
+  const description = 'Push updates to Git? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {

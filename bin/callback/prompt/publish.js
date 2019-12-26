@@ -60,9 +60,9 @@ function publish(diffs, quietly) {
     const publishable = diff.isPublishable();
 
     if (publishable) {
-      const devDependenciesChanged = diff.haveDevDependenciesChanged();
+      const devDependenciesUpdated = diff.areDevDependenciesUpdated();
 
-      if (!devDependenciesChanged) {
+      if (!devDependenciesUpdated) {
         diff.publish(quietly);
       }
     }

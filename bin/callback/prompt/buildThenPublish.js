@@ -91,21 +91,21 @@ function buildThenPublishDiff(diff, diffs, quietly, unbuiltDiffs) {
 
         unbuiltDiffs.push(unbuiltDiff);
 
-        const changedDevDependencyNames = diff.getChangedDevDependencyNames(),
-              changedDevDependencyDiffs = changedDevDependencyNames.map((changedDevDependencyName) => {
-                const changedDevDependencyDiff = diffs.find((diff) => {
+        const updatedDevDependencyNames = diff.getUpdatedDevDependencyNames(),
+              updatedDevDependencyDiffs = updatedDevDependencyNames.map((updatedDevDependencyName) => {
+                const updatedDevDependencyDiff = diffs.find((diff) => {
                   const name = diff.getName();
 
-                  if (name === changedDevDependencyName) {
+                  if (name === updatedDevDependencyName) {
                     return true;
                   }
                 });
 
-                return changedDevDependencyDiff;
+                return updatedDevDependencyDiff;
               });
 
-        success = changedDevDependencyDiffs.every((changedDevDependencyDiff) => {
-          const diff = changedDevDependencyDiff,  ///
+        success = updatedDevDependencyDiffs.every((updatedDevDependencyDiff) => {
+          const diff = updatedDevDependencyDiff,  ///
                 success = buildThenPublishDiff(diff, diffs, quietly, unbuiltDiffs);
 
           return success;

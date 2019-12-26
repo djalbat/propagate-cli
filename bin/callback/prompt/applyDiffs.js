@@ -23,7 +23,7 @@ function applyDiffsPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const description = 'Apply these changes? (y)es (n)o: ',
+  const description = 'Apply these updates? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {

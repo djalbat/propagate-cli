@@ -32,55 +32,55 @@ class Diff {
     return this.devDependencyMapDiff;
   }
 
-  hasChanged() {
-    const versionChanged = this.hasVersionChanged(),
-          dependenciesChanged = this.haveDependenciesChanged(),
-          devDependenciesChanged = this.haveDevDependenciesChanged(),
-          changed = versionChanged || dependenciesChanged || devDependenciesChanged;
+  isUpdated() {
+    const versionUpdated = this.isVersionUpdated(),
+          dependenciesUpdated = this.areDependenciesUpdated(),
+          devDependenciesUpdated = this.areDevDependenciesUpdated(),
+          updated = versionUpdated || dependenciesUpdated || devDependenciesUpdated;
 
-    return changed;
+    return updated;
   }
 
-  hasVersionChanged() {
-    const versionChanged = (this.versionDiff !== null);
+  isVersionUpdated() {
+    const versionUpdated = (this.versionDiff !== null);
 
-    return versionChanged;
+    return versionUpdated;
   }
 
-  haveDependenciesChanged() {
-    const dependenciesChanged = (this.dependencyMapDiff !== null);
+  areDependenciesUpdated() {
+    const dependenciesUpdated = (this.dependencyMapDiff !== null);
 
-    return dependenciesChanged;
+    return dependenciesUpdated;
   }
 
-  haveDevDependenciesChanged() {
-    const devDependenciesChanged = (this.devDependencyMapDiff !== null);
+  areDevDependenciesUpdated() {
+    const devDependenciesUpdated = (this.devDependencyMapDiff !== null);
 
-    return devDependenciesChanged;
+    return devDependenciesUpdated;
   }
 
-  getChangedDevDependencyNames() {
-    const changedDevDependencyNames = [],
-          devDependenciesChanged = this.haveDevDependenciesChanged();
+  getUpdatedDevDependencyNames() {
+    const updatedDevDependencyNames = [],
+          devDependenciesUpdated = this.areDevDependenciesUpdated();
 
-    if (devDependenciesChanged) {
+    if (devDependenciesUpdated) {
       const semverDiffs = this.devDependencyMapDiff.getSemverDiffs();
 
       semverDiffs.forEach((semverDiff) => {
         const name = semverDiff.getName();
 
-        const changedDevDependencyName = name; ///
+        const updatedDevDependencyName = name; ///
 
-        changedDevDependencyNames.push(changedDevDependencyName);
+        updatedDevDependencyNames.push(updatedDevDependencyName);
       })
     }
 
-    return changedDevDependencyNames;
+    return updatedDevDependencyNames;
   }
 
   isBuildable() {
-    const devDependenciesChanged = this.haveDevDependenciesChanged(),
-          buildable = devDependenciesChanged; ///
+    const devDependenciesUpdated = this.areDevDependenciesUpdated(),
+          buildable = devDependenciesUpdated; ///
 
     return buildable;
   }
@@ -104,24 +104,24 @@ class Diff {
   publish(quietly) { this.release.publish(quietly); }
 
   apply() {
-    const changed = this.hasChanged();
+    const updated = this.isUpdated();
 
-    if (changed) {
-      const versionChanged = this.hasVersionChanged(),
-            dependenciesChanged = this.haveDependenciesChanged(),
-            devDependenciesChanged = this.haveDevDependenciesChanged(),
+    if (updated) {
+      const versionUpdated = this.isVersionUpdated(),
+            dependenciesUpdated = this.areDependenciesUpdated(),
+            devDependenciesUpdated = this.areDevDependenciesUpdated(),
             subDirectoryPath = this.getSubDirectoryPath(),
             packageJSON = readPackageJSONFile(subDirectoryPath);
 
-      if (versionChanged) {
+      if (versionUpdated) {
         this.versionDiff.apply(packageJSON);
       }
 
-      if (dependenciesChanged) {
+      if (dependenciesUpdated) {
         this.dependencyMapDiff.apply(packageJSON, DEPENDENCIES_NAME);
       }
 
-      if (devDependenciesChanged) {
+      if (devDependenciesUpdated) {
         this.devDependencyMapDiff.apply(packageJSON, DEV_DEPENDENCIES_NAME);
       }
 
@@ -130,7 +130,7 @@ class Diff {
   }
 
   asString() {
-    let unchanged = true;
+    let unupdated = true;
 
     const name = this.getName(),
           subDirectoryPath = this.getSubDirectoryPath();
@@ -144,7 +144,7 @@ class Diff {
 
       string += `\n   "version": ${versionDiffString},`;
 
-      unchanged = false;
+      unupdated = false;
     }
 
     if (this.dependencyMapDiff !== null) {
@@ -152,7 +152,7 @@ class Diff {
 
       string += `\n   "dependencies": ${dependencyMapDiffString},`;
 
-      unchanged = false;
+      unupdated = false;
     }
 
     if (this.devDependencyMapDiff !== null) {
@@ -160,10 +160,10 @@ class Diff {
 
       string += `\n   "devDependencies": ${devDependencyMapDiffString},`;
 
-      unchanged = false;
+      unupdated = false;
     }
 
-    if (unchanged) {
+    if (unupdated) {
       string = null;
     } else {
       string = string.replace(/,$/, '\n');
