@@ -97,11 +97,11 @@ In the directory that contains the sub-directories holding your project's packag
 
     propagate initialise
     
-This will create a hidden `.propagaterc` file. Run the following command to get an idea of the commands and options available:
+This will create a hidden `.propagaterc` file. Run the following command to get an idea of the commands and options:
 
     propagate help
 
-Remember to set the shell commands to empty spaces, echo commands or some other benign commands, at least to start with:
+Remember to set the shell commands to empty spaces, echo commands such like, at least to start with:
 
     propagate set-shell-commands
     
@@ -110,7 +110,7 @@ To propagate the `freddie` package, say:
 
     propagate freddie
     
-You can also execute a single `propagate` command from within a package's subdirectory.
+You can also execute a lone `propagate` command from within a package's subdirectory.
 
 ## Contact
 
