@@ -23,8 +23,10 @@ function setBuildShellCommandsPromptCallback(proceed, abort, context) {
           validationFunction
         };
 
-  prompt(options, (build) => {
-    build = build || DEFAULT_BUILD_SHELL_COMMANDS; ///
+  prompt(options, (buildShellCommands) => {
+    const build = (buildShellCommands !== '') ?
+                    buildShellCommands :
+                      DEFAULT_BUILD_SHELL_COMMANDS;
 
     Object.assign(shellCommands, {
       build

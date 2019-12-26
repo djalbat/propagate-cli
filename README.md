@@ -91,7 +91,7 @@ If you would like to contribute or would simply like to have a look at the code,
 
     npm install
     
-# Usage
+## Usage
 
 In the directory that contains the sub-directories holding your project's packages and binaries, run the following command:
 

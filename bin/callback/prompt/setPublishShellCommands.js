@@ -23,8 +23,10 @@ function setPublishShellCommandsPromptCallback(proceed, abort, context) {
           validationFunction
         };
 
-  prompt(options, (publish) => {
-    publish = publish || DEFAULT_PUBLISH_SHELL_COMMANDS; ///
+  prompt(options, (publishShellCommands) => {
+    const publish = (publishShellCommands !== '') ?
+                      publishShellCommands :
+                        DEFAULT_PUBLISH_SHELL_COMMANDS;
 
     Object.assign(shellCommands, {
       publish
