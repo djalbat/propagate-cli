@@ -27,7 +27,7 @@ Managing dependencies in a project can be irksome if your project relies on more
 ---
  Here `alice` depends on `bernard` and `chuck`, `bernard` depends on `dylan` and `erica`, etc. 
  
- If we fix a bug in the `freddie` package and bump its patch number, we must update the package JSON files of both the `erica` and `chuck` packages in order to make sure that they both make use of the updated `freddie` package. However, that is not the end of the task. We must also bump their package numbers and update the package JSON files of any packages or binaries that depend on them and so on, ad nauseam. 
+ If we fix a bug in the `freddie` package and bump its patch number, we must update the package JSON files of both the `erica` and `chuck` packages in order to make sure that they both make use of the updated `freddie` package. However, that is not the end of the task. We must also bump their package numbers and update the package JSON files of packages or binaries that depend on them and so on, ad nauseam. 
  
  Propagate automates this process, updating the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a single package is updated, effectively propagating the original update through the dependency tree. It will also optionally build, publish and push the updates to Git. 
  
