@@ -11,7 +11,7 @@ const messages = require('../messages'),
       propagateReleaseCallback = require('../callback/propagateRelease'),
       applyDiffsPromptCallback = require('../callback/prompt/applyDiffs'),
       createReleaseGraphCallback = require('../callback/createReleaseGraph'),
-      buildThenPublishPromptCallback = require('../callback/prompt/buildThenPublish');
+      buildAndOrPublishPromptCallback = require('../callback/prompt/buildAndOrPublish');
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,
@@ -27,7 +27,7 @@ function propagate(argument, quietly, forced) {
           createDiffsCallback,
           applyDiffsPromptCallback,
           publishPromptCallback,
-          buildThenPublishPromptCallback,
+          buildAndOrPublishPromptCallback,
           gitPromptCallback
         ],
         context = {
