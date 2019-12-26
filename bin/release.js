@@ -122,8 +122,8 @@ class Release {
 
     if (!quietly) {
       (this.name === null) ?
-        console.log(` './${this.subDirectoryPath}': ${output}`) :
-          console.log(` './${this.subDirectoryPath}' ("${this.name}"): ${output}`);
+        console.log(` '${this.subDirectoryPath}': ${output}`) :
+          console.log(` '${this.subDirectoryPath}' ("${this.name}"): ${output}`);
     }
 
     chdir(currentWorkingDirectoryPath);
