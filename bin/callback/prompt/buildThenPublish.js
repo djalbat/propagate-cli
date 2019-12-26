@@ -92,7 +92,7 @@ function buildThenPublishDiff(diff, diffs, quietly, unbuiltDiffs) {
         unbuiltDiffs.push(unbuiltDiff);
 
         const predecessorDiffs = [],
-              updatedDependencyNames = diff.getUpdatedDevDependencyNames(),
+              updatedDependencyNames = diff.getUpdatedDependencyNames(),
               updatedDevDependencyNames = diff.getUpdatedDevDependencyNames(),
               predecessorNames = [
                 ...updatedDependencyNames,
