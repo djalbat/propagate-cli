@@ -5,21 +5,15 @@ const necessary = require('necessary');
 const versions = require('./versions'),
       messages = require('./messages'),
       constants = require('./constants'),
-      configurationVersion_0_1 = require('./configuration/version_0_1'),
-      configurationVersion_0_2 = require('./configuration/version_0_2'),
-      configurationVersion_0_3 = require('./configuration/version_0_3'),
-      configurationVersion_0_4 = require('./configuration/version_0_4');
+      configurationVersion_1_0 = require('./configuration/version_1_0');
 
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
       { exit } = process,
+      { CURRENT_VERSION } = versions,
       { RC_BASE_EXTENSION } = constants,
-      { migrateConfigurationToVersion_0_1 } = configurationVersion_0_1,
-      { migrateConfigurationToVersion_0_2 } = configurationVersion_0_2,
-      { migrateConfigurationToVersion_0_3 } = configurationVersion_0_3,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
-      { createConfiguration, migrateConfigurationToVersion_0_4 } = configurationVersion_0_4,
-      { VERSION_0_0, VERSION_0_1, VERSION_0_2, VERSION_0_3, CURRENT_VERSION } = versions,
+      { createConfiguration, migrateConfigurationToVersion_1_0 } = configurationVersion_1_0,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
 setRCBaseExtension(RC_BASE_EXTENSION);
@@ -68,20 +62,8 @@ function migrateConfigurationFile() {
 
   while (version !== CURRENT_VERSION) {
     switch (version) {
-      case VERSION_0_0:
-        configuration = migrateConfigurationToVersion_0_1(configuration);
-        break;
-
-      case VERSION_0_1:
-        configuration = migrateConfigurationToVersion_0_2(configuration);
-        break;
-
-      case VERSION_0_2:
-        configuration = migrateConfigurationToVersion_0_3(configuration);
-        break;
-
-      case VERSION_0_3:
-        configuration = migrateConfigurationToVersion_0_4(configuration);
+      default :
+        configuration = migrateConfigurationToVersion_1_0(configuration);
         break;
     }
 
