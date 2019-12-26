@@ -5,7 +5,7 @@ const necessary = require('necessary');
 const constants = require('../../constants'),
       validateUtilities = require('../../utilities/validate');
 
-const { validateSHELLCommands } = validateUtilities,
+const { validateShellCommands } = validateUtilities,
       { DEFAULT_BUILD_SHELL_COMMANDS } = constants;
 
 const { miscellaneousUtilities } = necessary,
@@ -15,7 +15,7 @@ function setBuildShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
         { build } = shellCommands,
         initialValue = build, //
-        validationFunction = validateSHELLCommands,  ///
+        validationFunction = validateShellCommands,  ///
         description = 'Build shell commands (leave blank for default): ',
         options = {
           description,
