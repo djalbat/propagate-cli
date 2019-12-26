@@ -27,9 +27,9 @@ Managing dependencies can be irksome if your project relies on more than a few f
 ---
  If we fix a bug in the `freddie` package and bump its patch number, we must update the package JSON files of both the `erica` and `chuck` packages in order to make sure that they both make use of the updated `freddie` package. However, that is not the end of the task. We must also bump their package numbers and update the package JSON files of packages or binaries that depend on them and so on, ad nauseam. 
  
- Propagate automates this process, updating the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a single package is updated, effectively propagating the original update through the dependency graph. It will also optionally build, publish and push the updates with Git. 
+ `propagate` automates this process, updating the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a single package is updated, effectively propagating the original update through the dependency graph. It will also optionally build, publish and push the updates with Git. 
  
- Here are the actual changes to the aforementioned packages and binaries that Propagate would make, assuming that the `freddie` package is initially the one that is updated:
+ Here are the actual changes to the aforementioned packages and binaries that `propagate` would make, assuming that the `freddie` package is initially the one that is updated:
  
 ```
 './freddie' ("freddie"):
@@ -65,33 +65,34 @@ The following points are worth noting:
 
 1. There are no updates to `dylan` because it does not depend on the `freddie` package, directly or otherwise.
 
-2. The `alice` update does not have a version number or a name associated with it. If Propagate cannot find both `name` and `version` fields in a package JSON file, it considers the contents of the subdirectory to be a binary, not a package, and will not publish them. Nothing is expected to depend on binaries since, without a name, there is no way to reference them. 
+2. The `alice` update does not have a version number or a name associated with it. If `propagate` cannot find both `name` and `version` fields in a package JSON file, it considers the contents of the subdirectory to be a binary, not a package, and will not publish them. Nothing is expected to depend on binaries since, without a name, there is no way to reference them. 
 
-3. Propagate only supports core [semver](https://semver.org/) versions, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. It does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore leading modifiers such as `^`, `~`, etc. If you are not using either just these modifiers or no modifiers at all, Propagate is unlikely to work for you.
+3. `propagate` only supports core [semver](https://semver.org/) versions, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. It does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore leading modifiers such as `^`, `~`, etc. If you are not using either just these modifiers or no modifiers at all, `propagate` is unlikely to work for you.
 
-One other thing to bear in mind is the way Propagate decides whether or not to build a package or binary. If it is the case that only a package's or binary's dependencies have changed, Propagate will not build it. If, on the other hand, the dev-dependencies have changed, Propagate will build it. The reasoning behind this is that the dependencies that are needed in order to create a bundle need only be included as dev-dependencies. Typically a package does not supply bundled code, only transpiled code, and transpilation only acts on a package's source code, not the source code of its dependencies. Binaries, if they are required to be built when their dependencies change, should therefore include those dependencies as dev-dependencies. Packages, on the other hand, should only include dependencies as dev-dependencies if they are need to be bundled. This typically happens when the package provides an example or examples that run in a browser. 
+One other thing to bear in mind is the way `propagate` decides whether or not to build a package or binary. If it is the case that only a package's or binary's dependencies have changed, `propagate` will not build it. If, on the other hand, the dev-dependencies have changed, `propagate` will build it. The reasoning behind this is that the dependencies that are used in order to create a bundle need only to be included as dev-dependencies. Typically a package does not supply bundled code, only transpiled code, and transpilation only acts on a package's own source code, not the source code of its dependencies. Binaries, if they are required to be built when their dependencies change, should therefore include those dependencies as dev-dependencies. Packages, on the other hand, should only include dependencies as dev-dependencies if they need to be bundled. This typically happens when the package provides an example or examples that run in a browser. 
 
-Propagate will publish packages that don't require to be built first and then attempt to build and publish one at a time those binaries and packages that require building. In order for a package or binary to be built, all its dependencies that require building must already have been built. Propagate therefore essentially does a depth-first search through the dependency graph and will fail gracefully if it cannot build a package or binary because if a circular dependency.
+`propagate` will publish packages that don't require to be built first and then attempt to build and publish one at a time those binaries and packages that require building. In order for a package or binary to be built, all its dependencies that require building must already have been built. `propagate` therefore essentially does a depth-first search through the dependency graph and will fail gracefully if it cannot build a package or binary because if a circular dependency.
 
-It is recommended that initially you set the Git, build and publish shell commands that Propagate executes to be benign. This gives you a chance to see all the steps in action before committing, so to speak. You will be given 
+It is recommended that initially you set the Git, build and publish shell commands that `propagate` executes to be benign. This gives you a chance to see the updates before committing, so to speak. You will also be given a chance to abort the process before any updates are applied to packakge JSON files. 
 
 ## Installation
 
-With [npm](https://www.npmjs.com/):
-
+If you are an end user, you can install `propagate` via [npm](https://www.npmjs.com/):
+ 
     npm install --global propagate-cli
 
 You may need to prepend [`sudo`](https://en.wikipedia.org/wiki/Sudo), depending on your setup.
 
-You can also clone the repository with [Git](https://git-scm.com/)...
+If you would like to contribute or would simply like to have a look at the code, you can clone the repository with [Git](https://git-scm.com/)...
 
     git clone https://github.com/djalbat/propagate-cli.git
 
 ...then install the necessary modules with npm from within the project's root directory:
 
     npm install
+    
+# Usage
 
-You will need to do this if you want to look at the examples.
 
 ## Contact
 
