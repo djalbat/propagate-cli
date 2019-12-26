@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "license": "MIT, Anti-886",
   "homepage": "https://github.com/djalbat/propagate-cli",
-  "description": "Propagate upgraded packages throughout a project.",
+  "description": "Propagate updated packages throughout a project.",
   "repository": {
     "type": "git",
     "url": "https://github.com/djalbat/Reaction"
