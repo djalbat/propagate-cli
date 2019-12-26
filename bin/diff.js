@@ -59,6 +59,25 @@ class Diff {
     return devDependenciesUpdated;
   }
 
+  getUpdatedDependencyNames() {
+    const updatedDependencyNames = [],
+          dependenciesUpdated = this.areDependenciesUpdated();
+
+    if (dependenciesUpdated) {
+      const semverDiffs = this.dependencyMapDiff.getSemverDiffs();
+
+      semverDiffs.forEach((semverDiff) => {
+        const name = semverDiff.getName();
+
+        const updatedDependencyName = name; ///
+
+        updatedDependencyNames.push(updatedDependencyName);
+      })
+    }
+
+    return updatedDependencyNames;
+  }
+
   getUpdatedDevDependencyNames() {
     const updatedDevDependencyNames = [],
           devDependenciesUpdated = this.areDevDependenciesUpdated();
