@@ -1,17 +1,19 @@
 'use strict';
 
-const commands = require('./commands'),
-      options = require('./options'),
-      help = require('./action/help'),
+const help = require('./action/help'),
       version = require('./action/version'),
+      options = require('./options'),
+      commands = require('./commands'),
       propagate = require('./action/propagate'),
       initialise = require('./action/initialise'),
       addDirectory = require('./action/addDirectory'),
+      optionUtilities = require('./utilities/option'),
       removeDirectory = require('./action/removeDirectory'),
       listDirectories = require('./action/listDirectories'),
       setShellCommands = require('./action/setShellCommands');
 
-const { HELP_OPTION, FORCE_OPTION, VERSION_OPTION, QUIETLY_OPTION  } = options,
+const { isOptionPresent } = optionUtilities,
+      { HELP_OPTION, FORCE_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION  } = options,
       { HELP_COMMAND,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
@@ -23,11 +25,13 @@ const { HELP_OPTION, FORCE_OPTION, VERSION_OPTION, QUIETLY_OPTION  } = options,
 
 function actions(command, argument, options) {
   const commandMissing = (command === null),
-        helpOptionPresent = options.hasOwnProperty(HELP_OPTION),
-        forceOptionPresent = options.hasOwnProperty(FORCE_OPTION),
-        versionOptionPresent = options.hasOwnProperty(VERSION_OPTION),
-        quietlyOptionPresent = options.hasOwnProperty(QUIETLY_OPTION),
+        helpOptionPresent = isOptionPresent(HELP_OPTION, options),
+        forceOptionPresent = isOptionPresent(FORCE_OPTION, options),
+        dryRunOptionPresent = isOptionPresent(DRY_RUN_OPTION, options),
+        versionOptionPresent = isOptionPresent(VERSION_OPTION, options),
+        quietlyOptionPresent = isOptionPresent(QUIETLY_OPTION, options),
         quietly = quietlyOptionPresent, ///
+        dryRun = dryRunOptionPresent, ///
         force = forceOptionPresent; ///
 
   if (false) {
@@ -57,7 +61,7 @@ function actions(command, argument, options) {
   switch (command) {
     case HELP_COMMAND : help(); break;
     case VERSION_COMMAND : version(); break;
-    case PROPAGATE_COMMAND : propagate(argument, quietly, force); break;
+    case PROPAGATE_COMMAND : propagate(argument, quietly, dryRun, force); break;
     case INITIALISE_COMMAND : initialise(); break;
     case ADD_DIRECTORY_COMMAND : addDirectory(); break;
     case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;

@@ -14,7 +14,7 @@ const { exit } = process,
       { executeCallbacks } = callbackUtilities,
       { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = messages;
 
-function propagate(argument, quietly, force) {
+function propagate(argument, quietly, dryRun, force) {
   const callbacks = [
           createSubDirectoryPathCallback,
           createReleaseMapCallback,
@@ -27,6 +27,7 @@ function propagate(argument, quietly, force) {
         context = {
           argument,
           quietly,
+          dryRun,
           force
         };
 

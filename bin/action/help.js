@@ -27,6 +27,8 @@ Commands:
   
 Options:
 
+  --dry-run|-d                 Show updates but do not apply them
+
   --quietly|-q                 Execute shell commands without printing to the console
   
   --force|-f                   Suppress prompts

@@ -3,12 +3,24 @@
 const Diff = require('../diff');
 
 function createDiffsCallback(proceed, abort, context) {
-  const { releaseMap, releaseGraph } = context,
+  const { releaseMap, releaseGraph, dryRun } = context,
         diffs = createDiffs(releaseMap, releaseGraph);
 
   Object.assign(context, {
     diffs
   });
+
+  if (dryRun) {
+    diffs.forEach((diff) => {
+      const diffString = diff.asString();
+
+      console.log(diffString);
+    });
+
+    abort();
+
+    return;
+  }
 
   proceed();
 }
