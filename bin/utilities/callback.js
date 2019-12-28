@@ -3,52 +3,46 @@
 const necessary = require('necessary');
 
 const { asynchronousUtilities } = necessary,
-      { whilst } = asynchronousUtilities;
+      { forEach, whilst } = asynchronousUtilities;
+
+function executeCallback(array, callback, proceed, context) {
+  forEach(array, executeCallback, proceed);
+
+  function executeCallback(element, next, done) {
+    const proceed = next,
+          abort = done;
+
+    callback(element, proceed, abort, context);
+  }
+}
 
 function executeCallbacks(callbacks, callback, context) {
-  const completed = true;
+  const callbacksLength = callbacks.length,
+        lastIndex = callbacksLength - 1;
 
-  Object.assign(context, {
-    callbacks,
-    completed
-  });
+  let completed = true;
 
-  whilst(executeCallback, () => {
-    const { completed } = context;
+  whilst(executeCallback, () => callback(completed), context);
 
-    delete context.callbacks;
+  function executeCallback(next, done, context, index) {
+    if (index > lastIndex) {
+      done();
 
-    delete context.completed;
+      return;
+    }
 
-    callback(completed);
-  }, context);
+    const callback = callbacks[index],
+          proceed = next; ///
+
+    callback(proceed, () => {
+      completed = false;
+
+      done();
+    }, context);
+  }
 }
 
 module.exports = {
+  executeCallback,
 	executeCallbacks
 };
-
-function executeCallback(next, done, context, index) {
-  const { callbacks } = context,
-        callbacksLength = callbacks.length,
-        lastIndex = callbacksLength - 1;
-
-  if (index > lastIndex) {
-    done();
-
-    return;
-  }
-
-  const callback = callbacks[index],
-        proceed = next; ///
-
-  callback(proceed, () => {
-    const completed = false;
-
-    Object.assign(context, {
-      completed
-    });
-
-    done();
-  }, context);
-}

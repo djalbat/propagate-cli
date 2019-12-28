@@ -12,23 +12,28 @@ const { miscellaneousUtilities } = necessary,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages;
 
-function applyDiffsPromptCallback(proceed, abort, context) {
-  const { diffs, forced } = context;
+function savePromptCallback(proceed, abort, context) {
+  const { diff, forced } = context,
+        diffString = diff.asString();
+
+  console.log(diffString);
 
   if (forced) {
-    applyDiffs(diffs);
+    diff.save();
 
     proceed();
 
     return;
   }
 
-  const description = 'Apply these updates? (y)es (n)o: ',
+  const description = 'Save updates? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
+        initialValue = 'y',
         validationFunction = validateAnswer,  ///
         options = {
           description,
           errorMessage,
+          initialValue,
           validationFunction
         };
 
@@ -39,20 +44,12 @@ function applyDiffsPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        applyDiffs(diffs);
-
-        proceed();
-
-        return;
+        diff.save();
       }
     }
 
-    abort();
+    proceed();
   });
 }
 
-module.exports = applyDiffsPromptCallback;
-
-function applyDiffs(diffs) {
-  diffs.forEach((diff) => diff.apply());
-}
+module.exports = savePromptCallback;

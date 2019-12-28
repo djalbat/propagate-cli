@@ -3,13 +3,8 @@
 const Diff = require('../diff');
 
 function createDiffsCallback(proceed, abort, context) {
-  const { release, releaseMap, releaseGraph } = context,
-        diff = Diff.fromRelease(release),
-        diffs = [
-          diff
-        ];
-
-  createDiffs(diff, releaseMap, releaseGraph, diffs);
+  const { releaseMap, releaseGraph } = context,
+        diffs = createDiffs(releaseMap, releaseGraph);
 
   Object.assign(context, {
     diffs
@@ -20,24 +15,19 @@ function createDiffsCallback(proceed, abort, context) {
 
 module.exports = createDiffsCallback;
 
-function createDiffs(diff, releaseMap, releaseGraph, diffs) {
-  const release = diff.getRelease(),
-        successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
+function createDiffs(releaseMap, releaseGraph) {
+  const diffs = [],
+        topologicallyOrderedSubDirectoryNames = releaseGraph.getTopologicallyOrderedSubDirectoryNames(),
+        subDirectoryNames = topologicallyOrderedSubDirectoryNames;  ///
 
-  successorReleases.forEach((successorRelease) => {
-    const release = successorRelease, ///
-          diffed = release.isDiffed();
+  subDirectoryNames.forEach((subDirectoryName) => {
+    const release = releaseMap.retrieveRelease(subDirectoryName),
+          diff = Diff.fromRelease(release);
 
-    if (!diffed) {
-      const diff = Diff.fromRelease(release);
-
-      if (diff !== null) {
-        diffs.push(diff);
-
-        createDiffs(diff, releaseMap, releaseGraph, diffs);
-      }
-
-      release.diff();
+    if (diff !== null) {
+      diffs.push(diff);
     }
   });
+
+  return diffs;
 }

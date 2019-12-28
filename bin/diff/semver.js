@@ -19,7 +19,7 @@ class SemverDiff {
     return this.releaseSemver;
   }
 
-  apply(packageJSON) {
+  save(packageJSON) {
     const semver = this.releaseSemver;
 
     packageJSON[this.name] = semver;

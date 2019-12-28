@@ -23,6 +23,13 @@ class ReleaseGraph {
     return cyclicSubDirectoryNames;
   }
 
+  getTopologicallyOrderedSubDirectoryNames() {
+    const topologicallyOrderedVertexNames = this.directedGraph.getTopologicallyOrderedVertexNames(),
+          topologicallyOrderedSubDirectoryNames = topologicallyOrderedVertexNames;  ///
+
+    return topologicallyOrderedSubDirectoryNames;
+  }
+
   retrieveSuccessorReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///

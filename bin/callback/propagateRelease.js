@@ -3,10 +3,6 @@
 function propagateReleaseCallback(proceed, abort, context) {
   const { release, releaseMap, releaseGraph } = context;
 
-  release.bumpPatchVersion();
-
-  release.propagate();
-
   propagateRelease(release, releaseMap, releaseGraph);
 
   proceed();
@@ -18,6 +14,10 @@ function propagateRelease(release, releaseMap, releaseGraph) {
   const name = release.getName(),
         version = release.getVersion(),
         successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
+
+  release.bumpPatchVersion();
+
+  release.propagate();
 
   successorReleases.forEach((successorRelease) => {
     successorRelease.updateDependencyVersion(name, version);
@@ -31,10 +31,6 @@ function propagateRelease(release, releaseMap, releaseGraph) {
 
       if (!propagated) {
         const release = successorRelease; ///
-
-        release.bumpPatchVersion();
-
-        release.propagate();
 
         propagateRelease(release, releaseMap, releaseGraph);
       }

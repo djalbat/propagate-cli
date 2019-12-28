@@ -11,10 +11,10 @@ class MapDiff {
     return this.semverDiffs;
   }
 
-  apply(packageJSON, name) {
+  save(packageJSON, name) {
     packageJSON = packageJSON[name];  ///
 
-    this.semverDiffs.forEach((semverDiff) => semverDiff.apply(packageJSON))
+    this.semverDiffs.forEach((semverDiff) => semverDiff.save(packageJSON))
   }
 
   asString() {

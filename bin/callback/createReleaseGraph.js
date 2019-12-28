@@ -16,15 +16,17 @@ function createReleaseGraphCallback(proceed, abort, context) {
 
   if (cyclesPresent) {
     const cyclicSubDirectoryNames = releaseGraph.getCyclicSubDirectoryNames(),
-          firstCyclicSubDirectoryName = first(cyclicSubDirectoryNames);
+          firstCyclicSubDirectoryName = first(cyclicSubDirectoryNames),
+          subDirectoryNames = [
+            ...cyclicSubDirectoryNames,
+            firstCyclicSubDirectoryName
+          ];
 
     console.log(AT_LEAST_ONE_CYCLE_MESSAGE);
 
-    cyclicSubDirectoryNames.forEach((cyclicSubDirectoryName) => {
-      console.log(` '${cyclicSubDirectoryName}'`);
+    subDirectoryNames.forEach((subDirectoryName) => {
+      console.log(` '${subDirectoryName}'`);
     });
-
-    console.log(` '${firstCyclicSubDirectoryName}'`);
 
     abort();
 

@@ -12,27 +12,21 @@ const { miscellaneousUtilities } = necessary,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages;
 
-function publishAndOrPublishPromptCallback(proceed, abort, context) {
-  const { diff, quietly, forced } = context,
-        publishable = diff.isPublishable();
-
-  if (!publishable) {
-    proceed();
-
-    return;
-  }
+function buildAndOrPublishPromptCallback(proceed, abort, context) {
+  const { diff, quietly, forced } = context;
 
   if (forced) {
-    diff.publish(quietly);
+    diff.build(quietly);
 
     proceed();
 
     return;
   }
 
-  const description = 'Publish? (y)es (n)o: ',
+  const description = 'Build? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
-        initialValue = 'y',
+        buildable = diff.isBuildable(),
+        initialValue = buildable ? 'y' : 'n',
         validationFunction = validateAnswer,  ///
         options = {
           description,
@@ -48,7 +42,7 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        diff.publish(quietly);
+        diff.build(quietly);
       }
     }
 
@@ -56,4 +50,4 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = publishAndOrPublishPromptCallback;
+module.exports = buildAndOrPublishPromptCallback;

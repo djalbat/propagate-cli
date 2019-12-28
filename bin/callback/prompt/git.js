@@ -6,51 +6,47 @@ const messages = require('../../messages'),
       promptUtilities = require('../../utilities/prompt'),
       validateUtilities = require('../../utilities/validate');
 
-const { asynchronousUtilities, miscellaneousUtilities } = necessary,
+const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
-      { forEach } = asynchronousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages;
 
-function gitPromptCallback(proceed, abort, context) {
-  const { diffs, forced, quietly } = context,
-        description = 'Push updates to Git? (y)es (n)o: ',
+function gitAndOrPublishPromptCallback(proceed, abort, context) {
+  const { diff, quietly, forced } = context;
+
+  if (forced) {
+    diff.git(quietly);
+
+    proceed();
+
+    return;
+  }
+
+  const description = 'Add, commit and push to Git? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
+        initialValue = 'y',
         validationFunction = validateAnswer,  ///
         options = {
           description,
           errorMessage,
+          initialValue,
           validationFunction
         };
 
-  forEach(diffs, (diff, next) => {
-    const subDirectoryPath = diff.getSubDirectoryPath();
+  prompt(options, (answer) => {
+    const valid = (answer !== null);
 
-    console.log(subDirectoryPath);
+    if (valid) {
+      const affirmative = isAnswerAffirmative(answer);
 
-    if (forced) {
-      diff.git(quietly);
-
-      next();
-
-      return;
+      if (affirmative) {
+        diff.git(quietly);
+      }
     }
 
-    prompt(options, (answer) => {
-      const valid = (answer !== null);
-
-      if (valid) {
-        const affirmative = isAnswerAffirmative(answer);
-
-        if (affirmative) {
-          diff.git(quietly);
-        }
-      }
-
-      next();
-    });
-  }, proceed);
+    proceed();
+  });
 }
 
-module.exports = gitPromptCallback;
+module.exports = gitAndOrPublishPromptCallback;
