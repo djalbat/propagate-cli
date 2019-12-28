@@ -3,11 +3,12 @@
 const necessary = require('necessary');
 
 const Release = require('./release'),
+      constants = require('./constants'),
       pathUtilities = require('./utilities/path');
 
-const { absolutePathFromName } = pathUtilities;
-
 const { fileSystemUtilities } = necessary,
+      { absolutePathFromName } = pathUtilities,
+      { DEFAULT_DIRECTORY_NAME } = constants,
       { readDirectory, isEntryDirectory } = fileSystemUtilities;
 
 class ReleaseMap {
@@ -87,7 +88,7 @@ module.exports = ReleaseMap;
 function subDirectoryPathsFromDirectories(directories) {
   const subDirectoryPaths = [],
         directoryNames = [
-          '.',
+          DEFAULT_DIRECTORY_NAME,
           ...directories
         ];
 

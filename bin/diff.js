@@ -9,11 +9,13 @@ const { DEPENDENCIES_NAME, DEV_DEPENDENCIES_NAME } = constants,
       { readPackageJSONFile, writePackageJSONFile } = packageJSONUtilities;
 
 class Diff {
-  constructor(release, versionDiff, dependencyMapDiff, devDependencyMapDiff) {
+  constructor(release, versionDiff, dependencyMapDiff, devDependencyMapDiff, visited) {
     this.release = release;
     this.versionDiff = versionDiff;
     this.dependencyMapDiff = dependencyMapDiff;
     this.devDependencyMapDiff = devDependencyMapDiff;
+
+    this.visited = visited;
   }
 
   getRelease() {
@@ -30,6 +32,10 @@ class Diff {
 
   getDevDependencyMapDiff() {
     return this.devDependencyMapDiff;
+  }
+
+  isVisited() {
+    return this.visited;
   }
 
   isUpdated() {
@@ -122,6 +128,10 @@ class Diff {
 
   publish(quietly) { this.release.publish(quietly); }
 
+  visit() {
+    this.visited = true;
+  }
+
   apply() {
     const updated = this.isUpdated();
 
@@ -195,6 +205,7 @@ class Diff {
     const subDirectoryPath = release.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath),
           { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
+          visited = false,
           dependencyMap = dependencies, ///
           devDependencyMap = devDependencies, ///
           releaseVersion = release.getVersion(),
@@ -203,7 +214,7 @@ class Diff {
           versionDiff = VersionDiff.fromVersionAndReleaseVersion(version, releaseVersion),
           dependencyMapDiff = MapDiff.fromMapAndReleaseMap(dependencyMap, releaseDependencyMap),
           devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap),
-          diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);
+          diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff, visited);
 
     return diff;
   }

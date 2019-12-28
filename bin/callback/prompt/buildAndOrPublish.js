@@ -76,30 +76,33 @@ function buildableDiffsFromDiffs(diffs) {
 }
 
 function buildableDiffsFromDiff(diff, diffs, buildableDiffs) {
-  const buildable = diff.isBuildable();
+  const visited = diff.isVisited();
 
-  if (buildable) { ///
-    const buildableDiff = diff, ///
-          buildableDiffsIncludesBuildableDiff = buildableDiffs.includes(buildableDiff);
+  if (!visited) {
+    diff.visit();
 
-    if (!buildableDiffsIncludesBuildableDiff) {
-      const predecessorDiffs = predecessorDiffsFromBuildableDiff(buildableDiff, diffs);
+    const predecessorDiffs = predecessorDiffsFromDiff(diff, diffs);
 
-      predecessorDiffs.forEach((predecessorDiff) => {
-        const diff = predecessorDiff; ///
+    predecessorDiffs.forEach((predecessorDiff) => {
+      const diff = predecessorDiff; ///
 
-        buildableDiffsFromDiff(diff, diffs, buildableDiffs);
-      });
+      buildableDiffsFromDiff(diff, diffs, buildableDiffs);
+    });
+
+    const buildable = diff.isBuildable();
+
+    if (buildable) { ///
+      const buildableDiff = diff; ///
 
       buildableDiffs.push(buildableDiff);
     }
   }
 }
 
-function predecessorDiffsFromBuildableDiff(buildableDiff, diffs) {
+function predecessorDiffsFromDiff(diff, diffs) {
   const predecessorDiffs = [],
-        updatedDependencyNames = buildableDiff.getUpdatedDependencyNames(),
-        updatedDevDependencyNames = buildableDiff.getUpdatedDevDependencyNames(),
+        updatedDependencyNames = diff.getUpdatedDependencyNames(),
+        updatedDevDependencyNames = diff.getUpdatedDevDependencyNames(),
         predecessorNames = [
           ...updatedDependencyNames,
           ...updatedDevDependencyNames

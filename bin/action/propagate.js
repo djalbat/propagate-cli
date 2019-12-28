@@ -5,12 +5,12 @@ const messages = require('../messages'),
       createDiffsCallback = require('../callback/createDiffs'),
       gitPromptCallback = require('../callback/prompt/git'),
       publishPromptCallback = require('../callback/prompt/publish'),
-      checkArgumentCallback = require('../callback/checkArgument'),
       createReleaseCallback = require('../callback/createRelease'),
       createReleaseMapCallback = require('../callback/createReleaseMap'),
       propagateReleaseCallback = require('../callback/propagateRelease'),
       applyDiffsPromptCallback = require('../callback/prompt/applyDiffs'),
       createReleaseGraphCallback = require('../callback/createReleaseGraph'),
+      createSubDirectoryPathCallback = require('../callback/createSubDirectoryPath'),
       buildAndOrPublishPromptCallback = require('../callback/prompt/buildAndOrPublish');
 
 const { exit } = process,
@@ -19,7 +19,7 @@ const { exit } = process,
 
 function propagate(argument, quietly, forced) {
   const callbacks = [
-          checkArgumentCallback,
+          createSubDirectoryPathCallback,
           createReleaseMapCallback,
           createReleaseCallback,
           createReleaseGraphCallback,
