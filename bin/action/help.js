@@ -23,13 +23,13 @@ Commands:
   
   list-directories             List additional directories
   
-  set-shell-commands           Set the build, Git and publish shell commands
+  set-shell-commands           Set the Git, build and publish shell commands
   
 Options:
 
-  --quietly|-q                 Execute the shell commands wihtout printing to the console
+  --quietly|-q                 Execute shell commands without printing to the console
   
-  --forced|-f                  Suppress the prompts
+  --force|-f                   Suppress prompts
 
 Further information:
 

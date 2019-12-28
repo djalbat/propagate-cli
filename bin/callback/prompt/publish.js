@@ -13,7 +13,7 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_ANSWER_MESSAGE } = messages;
 
 function publishAndOrPublishPromptCallback(proceed, abort, context) {
-  const { diff, quietly, forced } = context,
+  const { diff, quietly, force } = context,
         publishable = diff.isPublishable();
 
   if (!publishable) {
@@ -22,7 +22,7 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  if (forced) {
+  if (force) {
     diff.publish(quietly);
 
     proceed();

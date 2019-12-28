@@ -13,12 +13,12 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_ANSWER_MESSAGE } = messages;
 
 function savePromptCallback(proceed, abort, context) {
-  const { diff, forced } = context,
+  const { diff, force } = context,
         diffString = diff.asString();
 
   console.log(diffString);
 
-  if (forced) {
+  if (force) {
     diff.save();
 
     proceed();

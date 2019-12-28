@@ -13,9 +13,9 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_ANSWER_MESSAGE } = messages;
 
 function buildAndOrPublishPromptCallback(proceed, abort, context) {
-  const { diff, quietly, forced } = context;
+  const { diff, quietly, force } = context;
 
-  if (forced) {
+  if (force) {
     diff.build(quietly);
 
     proceed();
