@@ -69,7 +69,7 @@ The following points are worth noting:
 
 3. Only core [semver](https://semver.org/) versions are supported, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. As yet `propagate` does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore modifiers such as `^` and `~`. If you are not using either just these modifiers or no modifiers at all, `propagate` is unlikely to work for you.
 
-4. If `propagate` finds a circular dependency, it will tell you and exit whether any of the packages or binaries in the cycle would be affected by the propagation or not.
+4. If `propagate` finds a cyclic dependency, it will tell you and exit whether any of the packages or binaries in the cycle would be affected by the propagation or not.
 
 One other thing to bear in mind is the way `propagate` decides whether or not a package or binary needs to be built. The following only really matters when suppressing prompts with the `force` option, otherwise whether or not `propagate` decides if a package or binary can be built only affects the initial value of the corresponding prompt. So... 
 
@@ -99,20 +99,13 @@ In the directory that contains the sub-directories holding your project's packag
 
     propagate initialise
     
-This will create a hidden `.propagaterc` file. Run the following command to get an idea of the commands and options:
-
-    propagate help
-
-Remember to set the shell commands to empty spaces, echo commands such like, at least to start with:
-
-    propagate set-shell-commands
-    
-To propagate the `freddie` package, say:
-
+To propagate the `freddie` package, for example, run the following command:
 
     propagate freddie
     
 You can also execute a lone `propagate` command from within a package's subdirectory.
+
+Provided there are no cyclic dependencies, the updates to the packages and binaries affected by the propagation will be presented in topological order. Unless you use the `force` option, you will always be prompted before any changes are made to package JSON files or any shell commands are executed.
 
 ## Contact
 
