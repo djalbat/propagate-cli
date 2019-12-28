@@ -1,21 +1,24 @@
 'use strict';
 
-const AcyclicGraph = require('./acyclicGraph');
+const directedGraphs = require('occam-directed-graphs');
+
+const { DirectedGraph } = directedGraphs;
 
 class ReleaseGraph {
-  constructor(acyclicGraph) {
-    this.acyclicGraph = acyclicGraph;
+  constructor(directedGraph) {
+    this.directedGraph = directedGraph;
   }
 
-  getAcyclicGraph() {
-    return this.acyclicGraph;
+  getDirectedGraph() {
+    return this.directedGraph;
   }
+
+  areCyclesPresent() { return this.directedGraph.areCyclesPresent(); }
 
   retrieveSuccessorReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///
-          vertex = this.acyclicGraph.findVertexByVertexName(vertexName),
-          successorVertexNames = vertex.getSuccessorVertexNames(),
+          successorVertexNames = this.directedGraph.getSuccessorVertexNamesByVertexName(vertexName),
           successorSubDirectoryPaths = successorVertexNames,  ///
           successorReleases = successorSubDirectoryPaths.map((successorSubDirectoryPath) => releaseMap.retrieveRelease(successorSubDirectoryPath));
 
@@ -23,13 +26,13 @@ class ReleaseGraph {
   }
 
   static fromReleaseMap(releaseMap) {
-    const acyclicGraph = AcyclicGraph.fromNothing(),
+    const directedGraph = DirectedGraph.fromNothing(),
           releaseNames = releaseMap.getNames(),
           subDirectoryPaths = releaseMap.getSubDirectoryPaths(),
           nameToSubDirectoryPathMap = releaseMap.getNameToSubDirectoryPathMap(),
           vertexNames = subDirectoryPaths;  ///
 
-    acyclicGraph.addVerticesByVertexNames(vertexNames);
+    directedGraph.addVerticesByVertexNames(vertexNames);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
@@ -52,11 +55,11 @@ class ReleaseGraph {
               sourceVertexName = predecessorReleaseSubDirectoryPath,  ///
               targetVertexName = subDirectoryPath;  ///
 
-        acyclicGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+        directedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
       });
     });
 
-    const releaseGraph = new ReleaseGraph(acyclicGraph);
+    const releaseGraph = new ReleaseGraph(directedGraph);
 
     return releaseGraph;
   }

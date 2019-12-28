@@ -45,7 +45,6 @@ function propagate(argument, quietly, forced) {
 
     console.log(SUCCESSFUL_PROPAGATE_MESSAGE);
   }, context);
-
 }
 
 module.exports = propagate;
