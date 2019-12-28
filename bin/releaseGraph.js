@@ -15,6 +15,14 @@ class ReleaseGraph {
 
   areCyclesPresent() { return this.directedGraph.areCyclesPresent(); }
 
+  getCyclicSubDirectoryNames() {
+    const firstCycle = this.directedGraph.getFirstCycle(),
+          vertexNames = firstCycle.getVertexNames(),
+          cyclicSubDirectoryNames = vertexNames;  ///
+
+    return cyclicSubDirectoryNames;
+  }
+
   retrieveSuccessorReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///

@@ -1,6 +1,13 @@
 'use strict';
 
-const ReleaseGraph = require('../releaseGraph');
+const necessary = require('necessary');
+
+const messages = require('../messages'),
+      ReleaseGraph = require('../releaseGraph');
+
+const { arrayUtilities } = necessary,
+      { first } = arrayUtilities,
+      { AT_LEAST_ONE_CYCLE_MESSAGE } = messages;
 
 function createReleaseGraphCallback(proceed, abort, context) {
   const { releaseMap } = context,
@@ -8,7 +15,20 @@ function createReleaseGraphCallback(proceed, abort, context) {
         cyclesPresent = releaseGraph.areCyclesPresent();
 
   if (cyclesPresent) {
-    debugger
+    const cyclicSubDirectoryNames = releaseGraph.getCyclicSubDirectoryNames(),
+          firstCyclicSubDirectoryName = first(cyclicSubDirectoryNames);
+
+    console.log(AT_LEAST_ONE_CYCLE_MESSAGE);
+
+    cyclicSubDirectoryNames.forEach((cyclicSubDirectoryName) => {
+      console.log(` '${cyclicSubDirectoryName}'`);
+    });
+
+    console.log(` '${firstCyclicSubDirectoryName}'`);
+
+    abort();
+
+    return;
   }
 
   Object.assign(context, {
