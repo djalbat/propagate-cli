@@ -73,7 +73,7 @@ class Release {
 
     shellCommands = gitShellCommands; ///
 
-    this.execute(shellCommands, quietly);
+    this.executeShellCommands(shellCommands, quietly);
   }
 
   build(quietly) {
@@ -84,7 +84,7 @@ class Release {
 
     shellCommands = buildShellCommands; ///
 
-    this.execute(shellCommands, quietly);
+    this.executeShellCommands(shellCommands, quietly);
   }
 
   publish(quietly) {
@@ -95,17 +95,7 @@ class Release {
 
     shellCommands = publishShellCommands; ///
 
-    this.execute(shellCommands, quietly);
-  }
-
-  execute(shellCommands, quietly) {
-    const currentWorkingDirectoryPath = cwd();
-
-    chdir(this.subDirectoryPath);
-
-    execute(shellCommands, quietly);
-
-    chdir(currentWorkingDirectoryPath);
+    this.executeShellCommands(shellCommands, quietly);
   }
 
   propagate() {
@@ -121,6 +111,16 @@ class Release {
     patchNumber++;
 
     this.version = this.version.replace(/(\d+)$/, patchNumber)
+  }
+
+  executeShellCommands(shellCommands, quietly) {
+    const currentWorkingDirectoryPath = cwd();
+
+    chdir(this.subDirectoryPath);
+
+    execute(shellCommands, quietly);
+
+    chdir(currentWorkingDirectoryPath);
   }
 
   updateDependencyVersion(name, version) {

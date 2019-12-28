@@ -27,9 +27,9 @@ Commands:
   
 Options:
 
-  --quietly|-q                 Run without printing to the console, bar prompts
+  --quietly|-q                 Execute the shell commands wihtout printing to the console
   
-  --forced|-f                  Suppress prompts
+  --forced|-f                  Suppress the prompts
 
 Further information:
 
