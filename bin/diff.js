@@ -32,6 +32,12 @@ class Diff {
     return this.devDependencyMapDiff;
   }
 
+  getName() { return this.release.getName(); }
+
+  isPublishable() { return this.release.isPublishable(); }
+
+  getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
+
   isVersionUpdated() {
     const versionUpdated = (this.versionDiff !== null);
 
@@ -52,16 +58,10 @@ class Diff {
 
   isBuildable() {
     const devDependenciesUpdated = this.areDevDependenciesUpdated(),
-          buildable = devDependenciesUpdated; ///
+      buildable = devDependenciesUpdated; ///
 
     return buildable;
   }
-
-  getName() { return this.release.getName(); }
-
-  isPublishable() { return this.release.isPublishable(); }
-
-  getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
   git(quietly) { this.release.git(quietly); }
 
@@ -129,9 +129,7 @@ class Diff {
 
     const subDirectoryPath = release.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath),
-          { version = null,
-            dependencies = {},
-            devDependencies = {} } = packageJSON,
+          { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
           dependencyMap = dependencies, ///
           devDependencyMap = devDependencies, ///
           releaseVersion = release.getVersion(),
@@ -141,10 +139,7 @@ class Diff {
           dependencyMapDiff = MapDiff.fromMapAndReleaseMap(dependencyMap, releaseDependencyMap),
           devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap);
 
-    if (  (versionDiff !== null) ||
-          (dependencyMapDiff !== null) ||
-          (devDependencyMapDiff !== null) ) {
-
+    if ((versionDiff !== null) || (dependencyMapDiff !== null) || (devDependencyMapDiff !== null)) {
       diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);
     }
 
