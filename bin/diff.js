@@ -92,7 +92,7 @@ class Diff {
   }
 
   asString() {
-    let string = `\n`;
+    let string = ``;
 
     const name = this.getName(),
           subDirectoryPath = this.getSubDirectoryPath();

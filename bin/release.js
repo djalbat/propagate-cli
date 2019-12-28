@@ -98,8 +98,8 @@ class Release {
     this.executeShellCommands(shellCommands, quietly);
   }
 
-  propagate() {
-    this.propagated = true;
+  setPropagated(propagated) {
+    this.propagated = propagated;
   }
 
   bumpPatchVersion() {

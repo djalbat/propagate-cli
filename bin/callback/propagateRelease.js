@@ -11,13 +11,15 @@ function propagateReleaseCallback(proceed, abort, context) {
 module.exports = propagateReleaseCallback;
 
 function propagateRelease(release, releaseMap, releaseGraph) {
-  const name = release.getName(),
-        version = release.getVersion(),
-        successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
+  const propagated = true;
+
+  release.setPropagated(propagated);
 
   release.bumpPatchVersion();
 
-  release.propagate();
+  const name = release.getName(),
+        version = release.getVersion(),
+        successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
 
   successorReleases.forEach((successorRelease) => {
     successorRelease.updateDependencyVersion(name, version);
