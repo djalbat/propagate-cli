@@ -4,16 +4,19 @@ const childProcess = require('child_process');
 
 const constants = require('../constants');
 
-const { UTF8 } = constants;
+const { UTF8 } = constants,
+      { stdout } = process;
 
-function execute(shellCommands) {
+function execute(shellCommands, quietly) {
   const encoding = UTF8,  ///
         options = {
           encoding
         },
         output = childProcess.execSync(shellCommands, options);
 
-  return output;
+  if (!quietly) {
+    stdout.write(output);
+  }
 }
 
 module.exports = {
