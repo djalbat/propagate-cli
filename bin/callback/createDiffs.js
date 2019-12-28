@@ -3,56 +3,41 @@
 const Diff = require('../diff');
 
 function createDiffsCallback(proceed, abort, context) {
-  const { quietly, release, releaseMap, releaseGraph } = context,
-        diffs = createDiffs(release, releaseMap, releaseGraph);
+  const { release, releaseMap, releaseGraph } = context,
+        diff = Diff.fromRelease(release),
+        diffs = [
+          diff
+        ];
+
+  createDiffs(diff, releaseMap, releaseGraph, diffs);
 
   Object.assign(context, {
     diffs
   });
-
-  if (!quietly) {
-    logDiffs(diffs);
-  }
 
   proceed();
 }
 
 module.exports = createDiffsCallback;
 
-function logDiffs(diffs) {
-  diffs.forEach((diff) => {
-    const diffString = diff.asString();
+function createDiffs(diff, releaseMap, releaseGraph, diffs) {
+  const release = diff.getRelease(),
+        successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
 
-    if (diffString !== null) {
-      console.log(diffString);
+  successorReleases.forEach((successorRelease) => {
+    const release = successorRelease, ///
+          diffed = release.isDiffed();
+
+    if (!diffed) {
+      const diff = Diff.fromRelease(release);
+
+      if (diff !== null) {
+        diffs.push(diff);
+
+        createDiffs(diff, releaseMap, releaseGraph, diffs);
+      }
+
+      release.diff();
     }
   });
-}
-
-function createDiffs(release, releaseMap, releaseGraph, diffs = []) {
-  const subDirectoryPath = release.getSubDirectoryPath();
-
-  let diff = diffs.find((diff) => {
-    const diffSubdirectoryPath = diff.getSubDirectoryPath();
-
-    if (diffSubdirectoryPath === subDirectoryPath) {
-      return true;
-    }
-  }) || null;
-
-  if (diff === null) {
-    diff = Diff.fromRelease(release);
-
-    diffs.push(diff);
-
-    const successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
-
-    successorReleases.forEach((successorRelease) => {
-      const release = successorRelease; ///
-
-      createDiffs(release, releaseMap, releaseGraph, diffs);
-    });
-  }
-
-  return diffs;
 }

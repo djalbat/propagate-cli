@@ -14,7 +14,7 @@ const { arrayUtilities } = necessary,
       { retrieveShellCommands } = configuration;
 
 class Release {
-  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath, built, published, propagated) {
+  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath, built, published, propagated, diffed) {
     this.name = name;
     this.version = version;
     this.dependencyMap = dependencyMap;
@@ -24,6 +24,7 @@ class Release {
     this.built = built;
     this.published = published;
     this.propagated = propagated;
+    this.diffed = diffed;
   }
 
   getName() {
@@ -58,6 +59,10 @@ class Release {
     return this.propagated;
   }
 
+  isDiffed() {
+    return this.diffed;
+  }
+
   isPublishable() {
     const publishable = (this.name !== null) && (this.version !== null);
 
@@ -74,6 +79,10 @@ class Release {
     const devDependencyNames = Object.keys(this.devDependencyMap);
 
     return devDependencyNames;
+  }
+
+  diff() {
+    this.diffed = true;
   }
 
   git(quietly) {
@@ -163,9 +172,10 @@ class Release {
             devDependencyMap = devDependencies, ///
             built = false,
             published = false,
-            propagated = false;
+            propagated = false,
+            diffed = false;
 
-      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath, built, published, propagated);
+      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath, built, published, propagated, diffed);
    }
 
     return release;
