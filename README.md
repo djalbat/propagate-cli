@@ -2,7 +2,7 @@
 
 Propagate updated packages throughout a project.
 
-Managing dependencies can be irksome if your project relies on more than a few frequently updated packages. Consider the following dependency graph. Here the solid lines represent dependencies, the dotted lines dev-dependencies:
+Managing dependencies can be irksome if your project relies on more than a few frequently updated packages. Consider the following dependency graph. Here the solid lines represent dependencies, the dotted lines developer dependencies:
 
 ---
                                              alice
@@ -27,9 +27,9 @@ Managing dependencies can be irksome if your project relies on more than a few f
 ---
  If we fix a bug in the `freddie` package and bump its patch number, we must update the package JSON files of both the `erica` and `chuck` packages in order to make sure that they both make use of the updated `freddie` package. However, that is not the end of the task. We must also bump their package numbers and update the package JSON files of packages or binaries that depend on them, too. And so on, ad nauseam. 
  
- The `propagate` tool automates the process, allow you to update the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a single package is updated, effectively propagating the original update through the dependency graph. It will also optionally build, publish and then add, commit and push the updates with Git. 
+ The `propagate` tool automates the process, allowing you to update the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a package is updated, effectively propagating the original update through the dependency graph. It will also optionally build, publish and then add, commit and push the updates with Git. 
  
- Here are the actual changes to the aforementioned packages and binaries that `propagate` would make, assuming that the `freddie` package is initially the one that is updated:
+ Here are the actual updates that `propagate` would make:
  
 ```
 './freddie' ("freddie"):
