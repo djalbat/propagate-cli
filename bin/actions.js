@@ -41,7 +41,7 @@ function actions(command, argument, options) {
   } else if (helpOptionPresent) {
     command = HELP_COMMAND;
   } else if (commandMissing) {
-    command = PROPAGATE_COMMAND;
+    command = HELP_COMMAND;
   }
 
   if (  (command !== HELP_COMMAND)
