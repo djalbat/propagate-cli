@@ -14,7 +14,8 @@ const { miscellaneousUtilities } = necessary,
 function setGitShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
         { git } = shellCommands,
-        initialValue = git, ///
+        gitShellCommands = git, ///
+        initialValue = gitShellCommands, ///
         validationFunction = validateShellCommands,  ///
         description = 'Git shell commands (leave blank for default): ',
         options = {

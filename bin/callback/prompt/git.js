@@ -25,12 +25,10 @@ function gitAndOrPublishPromptCallback(proceed, abort, context) {
 
   const description = 'Add, commit and push with Git? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
-        initialValue = 'y',
         validationFunction = validateAnswer,  ///
         options = {
           description,
           errorMessage,
-          initialValue,
           validationFunction
         };
 

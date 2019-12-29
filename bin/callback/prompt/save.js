@@ -28,12 +28,10 @@ function savePromptCallback(proceed, abort, context) {
 
   const description = 'Save updates? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
-        initialValue = 'y',
         validationFunction = validateAnswer,  ///
         options = {
           description,
           errorMessage,
-          initialValue,
           validationFunction
         };
 

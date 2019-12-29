@@ -14,7 +14,8 @@ const { miscellaneousUtilities } = necessary,
 function setPublishShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
         { publish } = shellCommands,
-        initialValue = publish, ///
+        publishShellCommands = publish, ///
+        initialValue = publishShellCommands, ///
         validationFunction = validateShellCommands,  ///
         description = 'Publish shell commands (leave blank for default): ',
         options = {

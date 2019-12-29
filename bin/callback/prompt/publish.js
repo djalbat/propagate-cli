@@ -32,12 +32,10 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
 
   const description = 'Publish? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
-        initialValue = 'y',
         validationFunction = validateAnswer,  ///
         options = {
           description,
           errorMessage,
-          initialValue,
           validationFunction
         };
 

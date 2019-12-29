@@ -71,10 +71,6 @@ The following points are worth noting:
 
 4. If `propagate` finds a cyclic dependency, it will tell you and exit whether any of the packages or binaries in the cycle would be affected by the propagation or not.
 
-One other thing to bear in mind is the way `propagate` decides whether or not a package or binary needs to be built. The following only really matters when suppressing prompts with the `force` option, otherwise the following only affects the initial value of the prompt. So...
-
-If it is the case that only a package's or binary's dependencies have changed, `propagate` will decided that it does not need to be built. If, on the other hand, the developer dependencies have changed, `propagate` will decide that it does need to be built. The reasoning behind this is that the dependencies that are used in order to create a bundle need only to be included as developer dependencies. Binaries, if they are required to be built when their dependencies change, should therefore include those dependencies as developer dependencies. Packages, on the other hand, should only include dependencies as developer dependencies if the package needs to be built. This typically happens when a package provides an example or examples that run in a browser.
-
 It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. And you should always use the `force` and `quietly` options will caution. This tool gives surety and confidence if used carefully. Used carelessly, it is a blunt instrument!
 
 ## Installation

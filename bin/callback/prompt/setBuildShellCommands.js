@@ -14,7 +14,8 @@ const { miscellaneousUtilities } = necessary,
 function setBuildShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
         { build } = shellCommands,
-        initialValue = build, //
+        buildShellCommands = build, ///
+        initialValue = buildShellCommands, //
         validationFunction = validateShellCommands,  ///
         description = 'Build shell commands (leave blank for default): ',
         options = {

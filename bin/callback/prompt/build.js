@@ -25,13 +25,10 @@ function buildAndOrPublishPromptCallback(proceed, abort, context) {
 
   const description = 'Build? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
-        buildable = diff.isBuildable(),
-        initialValue = buildable ? 'y' : 'n',
         validationFunction = validateAnswer,  ///
         options = {
           description,
           errorMessage,
-          initialValue,
           validationFunction
         };
 
