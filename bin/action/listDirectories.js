@@ -1,34 +1,35 @@
 'use strict';
 
-const messages = require('../messages'),
+const constants = require('../constants'),
       configuration = require('../configuration');
 
 const { retrieveDirectories } = configuration,
-      { NO_DIRECTORIES_MESSAGE } = messages;
+      { DEFAULT_DIRECTORY_NAME } = constants;
 
 function listDirectories() {
-  let directoryNumbers;
+  const directoryNumbers = [],
+        directories = retrieveDirectories(),
+        defaultDirectoryName = DEFAULT_DIRECTORY_NAME,
+        directoryNames = [
+          defaultDirectoryName,
+          ...directories
+        ];
 
-  const directories = retrieveDirectories(),
-        directoriesLength = directories.length;
+  console.log('');
 
-  if (directoriesLength === 0) {
-    directoryNumbers = [];
+  directoryNames.forEach((directoryName, index) => {
+    if (index === 0) {
+      console.log(`    '${directoryName}'`);
+    } else {
+      const directoryNumber = index;  ///
 
-    console.log(NO_DIRECTORIES_MESSAGE);
-  } else {
-    console.log('');
+      console.log(` ${directoryNumber}: '${directoryName}'`);
 
-    directoryNumbers = directories.map((directory, index) => {
-      const directoryNumber = index + 1;
+      directoryNumbers.push(directoryNumber);
+    }
+  });
 
-      console.log(` ${directoryNumber}: '${directory}'`);
-
-      return directoryNumber;
-    });
-
-    console.log('');
-  }
+  console.log('');
 
   return directoryNumbers;
 }

@@ -21,7 +21,7 @@ Commands:
   
   remove-directory             Remove an additional directory
   
-  list-directories             List additional directories
+  list-directories             List directories, including the default directory
   
   set-shell-commands           Set the Git, build and publish shell commands
   
