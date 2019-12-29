@@ -23,7 +23,7 @@ function gitAndOrPublishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const description = 'Add, commit and push to Git? (y)es (n)o: ',
+  const description = 'Add, commit and push with Git? (y)es (n)o: ',
         errorMessage = INVALID_ANSWER_MESSAGE,
         initialValue = 'y',
         validationFunction = validateAnswer,  ///

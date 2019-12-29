@@ -20,6 +20,8 @@ function saveAndApplyDiff(diff, proceed, abort, context) {
     diff
   });
 
+  console.log('');
+
   executeCallbacks(callbacks, (completed) => {
     delete context.diff;
 
