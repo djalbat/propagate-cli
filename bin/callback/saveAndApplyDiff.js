@@ -12,8 +12,8 @@ function saveAndApplyDiff(diff, proceed, abort, context) {
   const callbacks = [
           savePromptCallback,
           buildPromptCallback,
-          publishPromptCallback,
-          gitPromptCallback
+          gitPromptCallback,
+          publishPromptCallback
         ];
 
   Object.assign(context, {
