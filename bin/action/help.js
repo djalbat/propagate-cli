@@ -3,7 +3,7 @@
 function help() {
   console.log(`Usage: 
   
-  propagate help|--help|-h     Show this help
+  propagate [help]             Show this help
   
   propagate --version|-v       Show the version
 
@@ -32,6 +32,8 @@ Options:
   --quietly|-q                 Execute shell commands without printing to the console
   
   --force|-f                   Suppress prompts
+
+  --help|-h                    Show this help
 
 Further information:
 
