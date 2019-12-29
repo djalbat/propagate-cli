@@ -38,29 +38,23 @@ class Diff {
 
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
-  isVersionUpdated() {
-    const versionUpdated = (this.versionDiff !== null);
+  save() {
+    const subDirectoryPath = this.getSubDirectoryPath(),
+          packageJSON = readPackageJSONFile(subDirectoryPath);
 
-    return versionUpdated;
-  }
+    if (this.versionDiff !== null) {
+      this.versionDiff.save(packageJSON);
+    }
 
-  areDependenciesUpdated() {
-    const dependenciesUpdated = (this.dependencyMapDiff !== null);
+    if (this.dependencyMapDiff !== null) {
+      this.dependencyMapDiff.save(packageJSON, DEPENDENCIES_NAME);
+    }
 
-    return dependenciesUpdated;
-  }
+    if (this.devDependencyMapDiff !== null) {
+      this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
+    }
 
-  areDevDependenciesUpdated() {
-    const devDependenciesUpdated = (this.devDependencyMapDiff !== null);
-
-    return devDependenciesUpdated;
-  }
-
-  isBuildable() {
-    const devDependenciesUpdated = this.areDevDependenciesUpdated(),
-      buildable = devDependenciesUpdated; ///
-
-    return buildable;
+    writePackageJSONFile(subDirectoryPath, packageJSON);
   }
 
   git(quietly) { this.release.git(quietly); }
@@ -68,28 +62,6 @@ class Diff {
   build(quietly) { this.release.build(quietly); }
 
   publish(quietly) { this.release.publish(quietly); }
-
-  save() {
-    const subDirectoryPath = this.getSubDirectoryPath(),
-          packageJSON = readPackageJSONFile(subDirectoryPath),
-          versionUpdated = this.isVersionUpdated(),
-          dependenciesUpdated = this.areDependenciesUpdated(),
-          devDependenciesUpdated = this.areDevDependenciesUpdated();
-
-    if (versionUpdated) {
-      this.versionDiff.save(packageJSON);
-    }
-
-    if (dependenciesUpdated) {
-      this.dependencyMapDiff.save(packageJSON, DEPENDENCIES_NAME);
-    }
-
-    if (devDependenciesUpdated) {
-      this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
-    }
-
-    writePackageJSONFile(subDirectoryPath, packageJSON);
-  }
 
   asString() {
     let string = ``;
