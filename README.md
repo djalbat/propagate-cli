@@ -99,9 +99,7 @@ To propagate the `freddie` package, for example, run the following command:
     
 You can also execute a lone `propagate` command from within a package's subdirectory.
 
-Provided there are no cyclic dependencies, the updates to the packages and binaries affected by the propagation will be presented in topological order. Unless you use the `force` option, you will always be prompted before any changes are made to package JSON files or any shell commands are executed.
-
-It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. And you should always use the `force` and `quietly` options with caution. This tool gives surety and confidence if used with care. Used carelessly, it is a blunt instrument!
+Provided there are no cyclic dependencies, the updates to the packages and binaries affected by the propagation will be presented in topological order. Unless you use the `force` option, you will always be prompted before any changes are made to package JSON files or any shell commands are executed. It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. And you should always use the `force` and `quietly` options with caution.
 
 
 ## Contact
