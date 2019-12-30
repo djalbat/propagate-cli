@@ -5,6 +5,7 @@ const necessary = require('necessary');
 const constants = require('../constants');
 
 const { arrayUtilities, fileSystemUtilities } = necessary,
+      { exit } = process,
       { second } = arrayUtilities,
       { PACKAGE_JSON_FILE_NAME } = constants,
       { readFile, writeFile, checkFileExists } = fileSystemUtilities;
@@ -26,23 +27,39 @@ function getPackageVersion() {
 function readPackageJSONFile(subDirectoryPath) {
   let packageJSON = null;
 
-  const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
-        packageJSONFIleExists = checkFileExists(packageJSONFilePath);
+  try {
+    const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
+          packageJSONFIleExists = checkFileExists(packageJSONFilePath);
 
-  if (packageJSONFIleExists) {
-    const packageJSONFileContent = readFile(packageJSONFilePath);
+    if (packageJSONFIleExists) {
+      const packageJSONFileContent = readFile(packageJSONFilePath);
 
-    packageJSON = JSON.parse(packageJSONFileContent);
+      packageJSON = JSON.parse(packageJSONFileContent);
+    }
+  } catch (error) {
+    console.log(`There was an error when reading from the package.json file in the '${subDirectoryPath}' sub-directory:`);
+
+    console.log(error);
+
+    exit();
   }
 
   return packageJSON;
 }
 
 function writePackageJSONFile(subDirectoryPath, packageJSON) {
-  const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
-        packageJSONContent = JSON.stringify(packageJSON, null, '  ');
+  try {
+    const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
+          packageJSONContent = JSON.stringify(packageJSON, null, '  ');
 
-  writeFile(packageJSONFilePath, packageJSONContent);
+    writeFile(packageJSONFilePath, packageJSONContent);
+  } catch (error) {
+    console.log(`There was an error when writing to the package.json file in the '${subDirectoryPath}' sub-directory:`);
+
+    console.log(error);
+
+    exit();
+  }
 }
 
 module.exports = {
