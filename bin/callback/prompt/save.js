@@ -7,6 +7,7 @@ const messages = require('../../messages'),
       validateUtilities = require('../../utilities/validate');
 
 const { miscellaneousUtilities } = necessary,
+      { exit } = process,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
@@ -50,7 +51,7 @@ function savePromptCallback(proceed, abort, context) {
       }
     }
 
-    abort();
+    exit();
   });
 }
 
