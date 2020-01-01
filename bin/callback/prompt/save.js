@@ -43,10 +43,14 @@ function savePromptCallback(proceed, abort, context) {
 
       if (affirmative) {
         diff.save();
+
+        proceed();
+
+        return;
       }
     }
 
-    proceed();
+    abort();
   });
 }
 
