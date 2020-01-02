@@ -50,7 +50,7 @@ function readPackageJSONFile(subDirectoryPath) {
 function writePackageJSONFile(subDirectoryPath, packageJSON) {
   try {
     const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
-          packageJSONContent = JSON.stringify(packageJSON, null, '  ');
+          packageJSONContent = JSON.stringify(packageJSON, null, '  ') + '\n';  ///
 
     writeFile(packageJSONFilePath, packageJSONContent);
   } catch (error) {
