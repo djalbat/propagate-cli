@@ -9,16 +9,22 @@ const callbackUtilities = require('../utilities/callback'),
 const { executeCallbacks } = callbackUtilities;
 
 function saveAndApplyDiff(diff, proceed, abort, context) {
+  if (diff === null) {
+    proceed();
+
+    return;
+  }
+
+  Object.assign(context, {
+    diff
+  });
+
   const callbacks = [
           savePromptCallback,
           buildPromptCallback,
           gitPromptCallback,
           publishPromptCallback
         ];
-
-  Object.assign(context, {
-    diff
-  });
 
   console.log('');
 

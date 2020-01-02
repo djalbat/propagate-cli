@@ -3,12 +3,14 @@
 const necessary = require('necessary');
 
 const messages = require('../../messages'),
+      diffUtilities = require('../../utilities/diff'),
       promptUtilities = require('../../utilities/prompt'),
       validateUtilities = require('../../utilities/validate');
 
 const { miscellaneousUtilities } = necessary,
       { exit } = process,
       { prompt } = miscellaneousUtilities,
+      { eliminateDiff } = diffUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages;
@@ -46,9 +48,15 @@ function savePromptCallback(proceed, abort, context) {
         diff.save();
 
         proceed();
+      } else {
+        const { diffs } = context;
 
-        return;
+        eliminateDiff(diff, diffs);
+
+        abort();
       }
+
+      return;
     }
 
     exit();

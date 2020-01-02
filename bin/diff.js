@@ -38,6 +38,23 @@ class Diff {
 
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
+  isEmpty() {
+    let dependencyMapDiffEmpty = true,
+        devDependencyMapDiffEmpty = true;
+
+    if (this.dependencyMapDiff !== null) {
+      dependencyMapDiffEmpty = this.dependencyMapDiff.isEmpty();
+    }
+
+    if (this.devDependencyMapDiff !== null) {
+      devDependencyMapDiffEmpty = this.devDependencyMapDiff.isEmpty();
+    }
+
+    const empty = (dependencyMapDiffEmpty && devDependencyMapDiffEmpty);
+
+    return empty;
+  }
+
   save() {
     const subDirectoryPath = this.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath);
@@ -62,6 +79,18 @@ class Diff {
   build(quietly) { this.release.build(quietly); }
 
   publish(quietly) { this.release.publish(quietly); }
+
+  removeDependency(name) {
+    if (this.dependencyMapDiff !== null) {
+      this.dependencyMapDiff.removeSemverDiff(name);
+    }
+  }
+
+  removeDevDependency(name) {
+    if (this.devDependencyMapDiff !== null) {
+      this.devDependencyMapDiff.removeSemverDiff(name);
+    }
+  }
 
   asString() {
     let string = ``;
