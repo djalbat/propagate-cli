@@ -8,16 +8,18 @@ function eliminateDiff(diff, diffs) {
   if (publishable) {
     const name = diff.getName();
 
-    diffs.forEach((diff) => {
-      if (diff !== null) {
-        diff.removeDependency(name);
+    diffs.forEach((diff, index) => {
+      if (index > 0) {
+        if (diff !== null) {
+          diff.removeDependency(name);
 
-        diff.removeDevDependency(name);
+          diff.removeDevDependency(name);
 
-        const empty = diff.isEmpty();
+          const empty = diff.isEmpty();
 
-        if (empty) {
-          eliminateDiff(diff, diffs);
+          if (empty) {
+            eliminateDiff(diff, diffs);
+          }
         }
       }
     });
