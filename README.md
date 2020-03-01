@@ -73,7 +73,7 @@ The following points are worth noting:
 
 ## Installation
 
-If you are an end user, you can install Propagate via [npm](https://www.npmjs.com/):
+You can install Propagate via [npm](https://www.npmjs.com/):
  
     npm install --global propagate-cli
 
