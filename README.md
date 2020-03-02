@@ -89,6 +89,44 @@ If you would like to contribute or would simply like to have a look at the code,
     
 ## Usage
 
+The commands and options are as follows:
+
+```
+  propagate [help]             Show this help
+  
+  propagate --version|-v       Show the version
+
+  propagate                    Propagate the current package
+
+  propagate <sub-directory>    Propagate a package in the given sub-directory
+
+  propagate <command>
+
+Commands:
+
+  initialise                   Create a configuration file
+
+  add-directory                Add an additional directory
+  
+  remove-directory             Remove an additional directory
+  
+  list-directories             List directories, including the default directory
+  
+  set-shell-commands           Set the Git, build and publish shell commands
+  
+Options:
+
+  --version|-v                 Show the version
+
+  --dry-run|-d                 Show updates but do not apply them
+
+  --quietly|-q                 Execute shell commands without printing to the console
+  
+  --force|-f                   Suppress prompts
+
+  --help|-h                    Show this help
+```
+
 In the directory that contains the sub-directories holding your project's packages and binaries, run the following command:
 
     propagate initialise
