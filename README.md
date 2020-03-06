@@ -114,6 +114,12 @@ Commands:
   
   set-shell-commands           Set the Git, build and publish shell commands
   
+  add-ignored-dependency       Add an ignored dependency
+  
+  remove-ignored-dependency    Remove an ignored dependency
+  
+  list-ignored-dependencies    List ignored dependencies
+  
 Options:
 
   --version|-v                 Show the version
