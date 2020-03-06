@@ -25,6 +25,7 @@ const INVALID_ANSWER_MESSAGE = 'You must answer (y)es or (n)o.',
       NO_SUB_DIRECTORY_SPECIFIED_MESSAGE = 'No sub-directory has been specified.',
       DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE = 'The directory has already been added.',
       CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE = 'The action cannot be performed because the configuration file is missing. Run \'propagate initialise\' to create one.',
+      IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE = 'You cannot propagate an ignored dependency.',
       IGNORED_DEPENDENCIES_INCLUDES_IGNORED_DEPENDENCY_MESSAGE = 'The ignored dependency has already been added.';
 
 module.exports = {
@@ -53,5 +54,6 @@ module.exports = {
   NO_SUB_DIRECTORY_SPECIFIED_MESSAGE,
   DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE,
   CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE,
+  IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE,
   IGNORED_DEPENDENCIES_INCLUDES_IGNORED_DEPENDENCY_MESSAGE
 };

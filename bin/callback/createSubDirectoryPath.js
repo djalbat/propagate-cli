@@ -1,10 +1,12 @@
 'use strict';
 
 const messages = require('../messages'),
-      constants = require('../constants');
+      constants = require('../constants'),
+      configuration = require('../configuration');
 
 const { DEFAULT_DIRECTORY_NAME } = constants,
-      { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE } = messages;
+      { retrieveIgnoredDependencies } = configuration,
+      { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE, IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE } = messages;
 
 function createSubDirectoryPathCallback(proceed, abort, context) {
   const { argument } = context;
@@ -18,7 +20,18 @@ function createSubDirectoryPathCallback(proceed, abort, context) {
   }
 
   const subDirectoryName = argument,  ////
-        directoryName = DEFAULT_DIRECTORY_NAME, ///
+        ignoredDependencies = retrieveIgnoredDependencies(),
+        ignoredDependenciesIncludesSubDirectoryName = ignoredDependencies.includes(subDirectoryName);
+
+  if (ignoredDependenciesIncludesSubDirectoryName) {
+    console.log(IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE);
+
+    abort();
+
+    return;
+  }
+
+  const directoryName = DEFAULT_DIRECTORY_NAME, ///
         subDirectoryRPath = `${directoryName}/${subDirectoryName}`;
 
   Object.assign(context, {

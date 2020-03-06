@@ -65,9 +65,10 @@ class ReleaseMap {
     return release;
   }
 
-  static fromDirectories(directories) {
+  static fromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies) {
     const map = {},
-          subDirectoryPaths = subDirectoryPathsFromDirectories(directories);
+          ignoredSubDirectoryNames = ignoredDependencies, ///
+          subDirectoryPaths = subDirectoryPathsFromDirectoriesAndIgnoredSubDirectoryNames(directories, ignoredSubDirectoryNames);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = Release.fromSubDirectoryPath(subDirectoryPath);
@@ -85,7 +86,7 @@ class ReleaseMap {
 
 module.exports = ReleaseMap;
 
-function subDirectoryPathsFromDirectories(directories) {
+function subDirectoryPathsFromDirectoriesAndIgnoredSubDirectoryNames(directories, ignoredSubDirectoryNames) {
   const subDirectoryPaths = [],
         directoryNames = [
           DEFAULT_DIRECTORY_NAME,
@@ -101,9 +102,14 @@ function subDirectoryPathsFromDirectories(directories) {
             entryDirectory = isEntryDirectory(entryRPath);
 
       if (entryDirectory) {
-        const subDirectoryPath = entryRPath; ///
+        const subDirectoryName = entryName, ///
+              ignoredSubDirectoryNamesIncludesSubDirectoryName = ignoredSubDirectoryNames.includes(subDirectoryName);
 
-        subDirectoryPaths.push(subDirectoryPath);
+        if (!ignoredSubDirectoryNamesIncludesSubDirectoryName) {
+          const subDirectoryPath = entryRPath; ///
+
+          subDirectoryPaths.push(subDirectoryPath);
+        }
       }
     });
   });

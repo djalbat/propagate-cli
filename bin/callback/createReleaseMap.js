@@ -3,11 +3,12 @@
 const ReleaseMap = require('../releaseMap'),
       configuration = require('../configuration');
 
-const { retrieveDirectories } = configuration;
+const { retrieveDirectories, retrieveIgnoredDependencies } = configuration;
 
 function createReleaseMapCallback(proceed, abort, context) {
   const directories = retrieveDirectories(),
-        releaseMap = ReleaseMap.fromDirectories(directories);
+        ignoredDependencies = retrieveIgnoredDependencies(),
+        releaseMap = ReleaseMap.fromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies);
 
   Object.assign(context, {
     releaseMap
