@@ -10,7 +10,10 @@ const help = require('./action/help'),
       optionUtilities = require('./utilities/option'),
       removeDirectory = require('./action/removeDirectory'),
       listDirectories = require('./action/listDirectories'),
-      setShellCommands = require('./action/setShellCommands');
+      setShellCommands = require('./action/setShellCommands'),
+      addIgnoredDependency = require('./action/addIgnoredDependency'),
+      removeIgnoredDependency = require('./action/removeIgnoredDependency'),
+      listIgnoredDependencies = require('./action/listIgnoredDependencies');
 
 const { isOptionPresent } = optionUtilities,
       { HELP_OPTION, FORCE_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION  } = options,
@@ -21,7 +24,10 @@ const { isOptionPresent } = optionUtilities,
         ADD_DIRECTORY_COMMAND,
         REMOVE_DIRECTORY_COMMAND,
         LIST_DIRECTORIES_COMMAND,
-        SET_SHELL_COMMANDS_COMMAND } = commands;
+        SET_SHELL_COMMANDS_COMMAND,
+        ADD_IGNORED_DEPENDENCY_COMMAND,
+        REMOVE_IGNORED_DEPENDENCY_COMMAND,
+        LIST_IGNORED_DEPENDENCIES_COMMAND } = commands;
 
 function actions(command, argument, options) {
   const commandMissing = (command === null),
@@ -51,7 +57,10 @@ function actions(command, argument, options) {
      && (command !== ADD_DIRECTORY_COMMAND)
      && (command !== REMOVE_DIRECTORY_COMMAND)
      && (command !== LIST_DIRECTORIES_COMMAND)
-     && (command !== SET_SHELL_COMMANDS_COMMAND) ) {
+     && (command !== SET_SHELL_COMMANDS_COMMAND)
+     && (command !== ADD_IGNORED_DEPENDENCY_COMMAND)
+     && (command !== REMOVE_IGNORED_DEPENDENCY_COMMAND)
+     && (command !== LIST_IGNORED_DEPENDENCIES_COMMAND) ) {
 
     argument = command; ///
 
@@ -67,6 +76,9 @@ function actions(command, argument, options) {
     case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;
     case LIST_DIRECTORIES_COMMAND : listDirectories(); break;
     case SET_SHELL_COMMANDS_COMMAND : setShellCommands(); break;
+    case ADD_IGNORED_DEPENDENCY_COMMAND : addIgnoredDependency(); break;
+    case REMOVE_IGNORED_DEPENDENCY_COMMAND : removeIgnoredDependency(); break;
+    case LIST_IGNORED_DEPENDENCIES_COMMAND : listIgnoredDependencies(); break;
   }
 }
 

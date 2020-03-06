@@ -7,7 +7,10 @@ const HELP_COMMAND = 'help',
       ADD_DIRECTORY_COMMAND = 'add-directory',
       REMOVE_DIRECTORY_COMMAND = 'remove-directory',
       LIST_DIRECTORIES_COMMAND = 'list-directories',
-      SET_SHELL_COMMANDS_COMMAND = 'set-shell-commands';
+      SET_SHELL_COMMANDS_COMMAND = 'set-shell-commands',
+      ADD_IGNORED_DEPENDENCY_COMMAND = 'add-ignored-dependency',
+      REMOVE_IGNORED_DEPENDENCY_COMMAND = 'remove-ignored-dependency',
+      LIST_IGNORED_DEPENDENCIES_COMMAND = 'list-ignored-dependencies';
 
 module.exports = {
   HELP_COMMAND,
@@ -17,5 +20,8 @@ module.exports = {
   ADD_DIRECTORY_COMMAND,
   REMOVE_DIRECTORY_COMMAND,
   LIST_DIRECTORIES_COMMAND,
-  SET_SHELL_COMMANDS_COMMAND
+  SET_SHELL_COMMANDS_COMMAND,
+  ADD_IGNORED_DEPENDENCY_COMMAND,
+  REMOVE_IGNORED_DEPENDENCY_COMMAND,
+  LIST_IGNORED_DEPENDENCIES_COMMAND
 };

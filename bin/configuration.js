@@ -5,7 +5,7 @@ const necessary = require('necessary');
 const versions = require('./versions'),
       messages = require('./messages'),
       constants = require('./constants'),
-      configurationVersion_1_0 = require('./configuration/version_1_0');
+      configurationVersion_1_3 = require('./configuration/version_1_3');
 
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
@@ -13,7 +13,7 @@ const { miscellaneousUtilities } = necessary,
       { CURRENT_VERSION } = versions,
       { RC_BASE_EXTENSION } = constants,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
-      { createConfiguration, migrateConfigurationToVersion_1_0 } = configurationVersion_1_0,
+      { createConfiguration, migrateConfigurationToVersion_1_3 } = configurationVersion_1_3,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
 setRCBaseExtension(RC_BASE_EXTENSION);
@@ -32,6 +32,13 @@ function retrieveShellCommands() {
   return shellCommands;
 }
 
+function retrieveIgnoredDependencies() {
+  const configuration = readConfigurationFile(),
+        { ignoredDependencies } = configuration;
+
+  return ignoredDependencies;
+}
+
 function updateDirectories(directories) {
   updateConfigurationFile({
     directories
@@ -41,6 +48,12 @@ function updateDirectories(directories) {
 function updateShellCommands(shellCommands) {
   updateConfigurationFile({
     shellCommands
+  });
+}
+
+function updateIgnoredDependencies(ignoredDependencies) {
+  updateConfigurationFile({
+    ignoredDependencies
   });
 }
 
@@ -63,7 +76,7 @@ function migrateConfigurationFile() {
   while (version !== CURRENT_VERSION) {
     switch (version) {
       default :
-        configuration = migrateConfigurationToVersion_1_0(configuration);
+        configuration = migrateConfigurationToVersion_1_3(configuration);
         break;
     }
 
@@ -85,8 +98,10 @@ function checkConfigurationFileExists() {
 module.exports = {
   retrieveDirectories,
   retrieveShellCommands,
+  retrieveIgnoredDependencies,
   updateDirectories,
   updateShellCommands,
+  updateIgnoredDependencies,
   createConfigurationFile,
   migrateConfigurationFile,
   checkConfigurationFileExists

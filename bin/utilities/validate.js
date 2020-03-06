@@ -8,9 +8,12 @@ function validateShellCommands(shellCommands) { return  /^.*$/.test(shellCommand
 
 function validateDirectoryNumber(directoryNumber, directoryNumbers) { return directoryNumbers.includes(directoryNumber); }
 
+function validateIgnoredDependencyName(ignoredDependencyName) { return  /^.+$/.test(ignoredDependencyName); }
+
 module.exports = {
   validateAnswer,
   validateDirectoryPath,
   validateShellCommands,
-  validateDirectoryNumber
+  validateDirectoryNumber,
+  validateIgnoredDependencyName
 };
