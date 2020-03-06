@@ -14,15 +14,11 @@ function listIgnoredDependencies() {
   console.log('');
 
   ignoredDependencyNames.forEach((ignoredDependencyName, index) => {
-    if (index === 0) {
-      console.log(`    '${ignoredDependencyName}'`);
-    } else {
-      const ignoredDependencyNumber = index;  ///
+    const ignoredDependencyNumber = index + 1;  ///
 
-      console.log(` ${ignoredDependencyNumber}: '${ignoredDependencyName}'`);
+    console.log(` ${ignoredDependencyNumber}: '${ignoredDependencyName}'`);
 
-      ignoredDependencyNumbers.push(ignoredDependencyNumber);
-    }
+    ignoredDependencyNumbers.push(ignoredDependencyNumber);
   });
 
   console.log('');

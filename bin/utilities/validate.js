@@ -10,10 +10,13 @@ function validateDirectoryNumber(directoryNumber, directoryNumbers) { return dir
 
 function validateIgnoredDependencyName(ignoredDependencyName) { return  /^.+$/.test(ignoredDependencyName); }
 
+function validateIgnoredDependencyNumber(ignoredDependencyNumber, ignoredDependencyNumbers) { return ignoredDependencyNumbers.includes(ignoredDependencyNumber); }
+
 module.exports = {
   validateAnswer,
   validateDirectoryPath,
   validateShellCommands,
   validateDirectoryNumber,
-  validateIgnoredDependencyName
+  validateIgnoredDependencyName,
+  validateIgnoredDependencyNumber
 };
