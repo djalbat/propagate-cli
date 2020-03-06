@@ -118,7 +118,7 @@ Commands:
   
   remove-ignored-dependency    Remove an ignored dependency
   
-  list-ignored-dependencies    List ignored dependencies
+  list-ignored-dependencies    List the ignored dependencies
   
 Options:
 
