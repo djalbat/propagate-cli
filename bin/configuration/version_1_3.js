@@ -30,9 +30,11 @@ function createConfiguration() {
 }
 
 function migrateConfigurationToVersion_1_3(configuration) {
-  const ignoredDependencies = [];
+  const version = VERSION_1_3,
+        ignoredDependencies = [];
 
   configuration = Object.assign(configuration, {
+    version,
     ignoredDependencies
   });
 
