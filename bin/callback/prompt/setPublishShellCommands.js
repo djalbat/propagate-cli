@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const constants = require('../../constants'),
-      validateUtilities = require('../../utilities/validate');
+const constants = require("../../constants"),
+      validateUtilities = require("../../utilities/validate");
 
 const { validateShellCommands } = validateUtilities,
       { DEFAULT_PUBLISH_SHELL_COMMANDS } = constants;
@@ -17,7 +17,7 @@ function setPublishShellCommandsPromptCallback(proceed, abort, context) {
         publishShellCommands = publish, ///
         initialValue = publishShellCommands, ///
         validationFunction = validateShellCommands,  ///
-        description = 'Publish shell commands (leave blank for default): ',
+        description = "Publish shell commands (leave blank for default): ",
         options = {
           description,
           initialValue,
@@ -25,7 +25,7 @@ function setPublishShellCommandsPromptCallback(proceed, abort, context) {
         };
 
   prompt(options, (publishShellCommands) => {
-    const publish = (publishShellCommands !== '') ?
+    const publish = (publishShellCommands !== "") ?
                       publishShellCommands :
                         DEFAULT_PUBLISH_SHELL_COMMANDS;
 

@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-const messages = require('../messages'),
-      callbackUtilities = require('../utilities/callback'),
-      createDiffsCallback = require('../callback/createDiffs'),
-      createReleaseCallback = require('../callback/createRelease'),
-      createReleaseMapCallback = require('../callback/createReleaseMap'),
-      propagateReleaseCallback = require('../callback/propagateRelease'),
-      saveAndApplyDiffsCallback = require('../callback/saveAndApplyDiffs'),
-      createReleaseGraphCallback = require('../callback/createReleaseGraph'),
-      createSubDirectoryPathCallback = require('../callback/createSubDirectoryPath');
+const messages = require("../messages"),
+      callbackUtilities = require("../utilities/callback"),
+      createDiffsCallback = require("../callback/createDiffs"),
+      createReleaseCallback = require("../callback/createRelease"),
+      createReleaseMapCallback = require("../callback/createReleaseMap"),
+      propagateReleaseCallback = require("../callback/propagateRelease"),
+      saveAndApplyDiffsCallback = require("../callback/saveAndApplyDiffs"),
+      createReleaseGraphCallback = require("../callback/createReleaseGraph"),
+      createSubDirectoryPathCallback = require("../callback/createSubDirectoryPath");
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,

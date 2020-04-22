@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const constants = require('../constants');
+const constants = require("../constants");
 
 const { arrayUtilities, fileSystemUtilities } = necessary,
       { exit } = process,
@@ -50,7 +50,7 @@ function readPackageJSONFile(subDirectoryPath) {
 function writePackageJSONFile(subDirectoryPath, packageJSON) {
   try {
     const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
-          packageJSONContent = JSON.stringify(packageJSON, null, '  ') + '\n';  ///
+          packageJSONContent = JSON.stringify(packageJSON, null, "  ") + '\n';  ///
 
     writeFile(packageJSONFilePath, packageJSONContent);
   } catch (error) {

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const messages = require('../../messages'),
-      validateUtilities = require('../../utilities/validate');
+const messages = require("../../messages"),
+      validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
@@ -11,7 +11,7 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_DIRECTORY_NUMBER_MESSAGE } = messages;
 
 function removeDirectoryPromptCallback(proceed, abort, context) {
-  const description = 'Specify a directory to remove: ',
+  const description = "Specify a directory to remove: ",
         errorMessage = INVALID_DIRECTORY_NUMBER_MESSAGE,
         { directoryNumbers } = context,
         validationFunction = (directoryNumber) => {

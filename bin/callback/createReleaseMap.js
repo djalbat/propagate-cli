@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const ReleaseMap = require('../releaseMap'),
-      configuration = require('../configuration');
+const ReleaseMap = require("../releaseMap"),
+      configuration = require("../configuration");
 
 const { retrieveDirectories, retrieveIgnoredDependencies } = configuration;
 

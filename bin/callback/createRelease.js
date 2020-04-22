@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const messages = require('../messages');
+const messages = require("../messages");
 
 const { NO_RELEASE_MESSAGE, RELEASE_NOT_PUBLISHABLE_MESSAGE } = messages;
 

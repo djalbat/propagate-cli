@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const messages = require('../../messages'),
-      diffUtilities = require('../../utilities/diff'),
-      promptUtilities = require('../../utilities/prompt'),
-      validateUtilities = require('../../utilities/validate');
+const messages = require("../../messages"),
+      diffUtilities = require("../../utilities/diff"),
+      promptUtilities = require("../../utilities/prompt"),
+      validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { exit } = process,
@@ -33,7 +33,7 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const description = 'Publish? (y)es (n)o: ',
+  const description = "Publish? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {

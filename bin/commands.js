@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
-const HELP_COMMAND = 'help',
-      VERSION_COMMAND = 'version',
-      PROPAGATE_COMMAND = 'propagate',
-      INITIALISE_COMMAND = 'initialise',
-      ADD_DIRECTORY_COMMAND = 'add-directory',
-      REMOVE_DIRECTORY_COMMAND = 'remove-directory',
-      LIST_DIRECTORIES_COMMAND = 'list-directories',
-      SET_SHELL_COMMANDS_COMMAND = 'set-shell-commands',
-      ADD_IGNORED_DEPENDENCY_COMMAND = 'add-ignored-dependency',
-      REMOVE_IGNORED_DEPENDENCY_COMMAND = 'remove-ignored-dependency',
-      LIST_IGNORED_DEPENDENCIES_COMMAND = 'list-ignored-dependencies';
+const HELP_COMMAND = "help",
+      VERSION_COMMAND = "version",
+      PROPAGATE_COMMAND = "propagate",
+      INITIALISE_COMMAND = "initialise",
+      ADD_DIRECTORY_COMMAND = "add-directory",
+      REMOVE_DIRECTORY_COMMAND = "remove-directory",
+      LIST_DIRECTORIES_COMMAND = "list-directories",
+      SET_SHELL_COMMANDS_COMMAND = "set-shell-commands",
+      ADD_IGNORED_DEPENDENCY_COMMAND = "add-ignored-dependency",
+      REMOVE_IGNORED_DEPENDENCY_COMMAND = "remove-ignored-dependency",
+      LIST_IGNORED_DEPENDENCIES_COMMAND = "list-ignored-dependencies";
 
 module.exports = {
   HELP_COMMAND,

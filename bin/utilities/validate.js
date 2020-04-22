@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function validateAnswer(answer) { return  /^(:?yes|no|y|n)$/i.test(answer); }
 

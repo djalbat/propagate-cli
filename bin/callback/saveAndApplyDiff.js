@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const callbackUtilities = require('../utilities/callback'),
-      gitPromptCallback = require('../callback/prompt/git'),
-      savePromptCallback = require('../callback/prompt/save'),
-      buildPromptCallback = require('../callback/prompt/build'),
-      publishPromptCallback = require('../callback/prompt/publish');
+const callbackUtilities = require("../utilities/callback"),
+      gitPromptCallback = require("../callback/prompt/git"),
+      savePromptCallback = require("../callback/prompt/save"),
+      buildPromptCallback = require("../callback/prompt/build"),
+      publishPromptCallback = require("../callback/prompt/publish");
 
 const { executeCallbacks } = callbackUtilities;
 
@@ -26,7 +26,7 @@ function saveAndApplyDiff(diff, proceed, abort, context) {
           publishPromptCallback
         ];
 
-  console.log('');
+  console.log("");
 
   executeCallbacks(callbacks, (completed) => {
     delete context.diff;

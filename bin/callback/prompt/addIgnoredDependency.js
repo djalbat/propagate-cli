@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const messages = require('../../messages'),
-      validateUtilities = require('../../utilities/validate');
+const messages = require("../../messages"),
+      validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
@@ -11,7 +11,7 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_IGNORED_DEPENDENCY_NAME_MESSAGE } = messages;
 
 function addIgnoredDependencyPromptCallback(proceed, abort, context) {
-  const description = 'Ignored dependency: ',
+  const description = "Ignored dependency: ",
         errorMessage = INVALID_IGNORED_DEPENDENCY_NAME_MESSAGE,
         validationFunction = validateIgnoredDependencyName,  ///
         options = {

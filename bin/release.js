@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const configuration = require('./configuration'),
-      shellUtilities = require('./utilities/shell'),
-      packageJSONUtilities = require('./utilities/packageJSON');
+const configuration = require("./configuration"),
+      shellUtilities = require("./utilities/shell"),
+      packageJSONUtilities = require("./utilities/packageJSON");
 
 const { arrayUtilities } = necessary,
       { second } = arrayUtilities,

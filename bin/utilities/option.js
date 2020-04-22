@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const argumentative = require('argumentative');
+const argumentative = require("argumentative");
 
 const { stringUtilities } = argumentative,
       { toCamelCase } = stringUtilities;

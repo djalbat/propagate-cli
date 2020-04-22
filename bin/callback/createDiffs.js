@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const Diff = require('../diff');
+const Diff = require("../diff");
 
 function createDiffsCallback(proceed, abort, context) {
   const { releaseMap, releaseGraph, dryRun } = context,

@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const versions = require('./versions'),
-      messages = require('./messages'),
-      constants = require('./constants'),
-      configurationVersion_1_3 = require('./configuration/version_1_3');
+const versions = require("./versions"),
+      messages = require("./messages"),
+      constants = require("./constants"),
+      configurationVersion_1_3 = require("./configuration/version_1_3");
 
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,

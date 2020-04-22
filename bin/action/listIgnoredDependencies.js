@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const configuration = require('../configuration');
+const configuration = require("../configuration");
 
 const { retrieveIgnoredDependencies } = configuration;
 
@@ -11,7 +11,7 @@ function listIgnoredDependencies() {
           ...ignoredDependencies
         ];
 
-  console.log('');
+  console.log("");
 
   ignoredDependencyNames.forEach((ignoredDependencyName, index) => {
     const ignoredDependencyNumber = index + 1;  ///
@@ -21,7 +21,7 @@ function listIgnoredDependencies() {
     ignoredDependencyNumbers.push(ignoredDependencyNumber);
   });
 
-  console.log('');
+  console.log("");
 
   return ignoredDependencyNumbers;
 }

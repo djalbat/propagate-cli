@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const callbackUtilities = require('../utilities/callback'),
-      saveAndApplyDiffCallback = require('../callback/saveAndApplyDiff');
+const callbackUtilities = require("../utilities/callback"),
+      saveAndApplyDiffCallback = require("../callback/saveAndApplyDiff");
 
 const { executeCallback } = callbackUtilities;
 

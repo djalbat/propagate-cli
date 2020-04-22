@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const actions = require('./actions'),
-      commands = require('./commands'),
-      configuration = require('./configuration');
+const actions = require("./actions"),
+      commands = require("./commands"),
+      configuration = require("./configuration");
 
 const { cwd, chdir } = process,
       { pathUtilities } = necessary,
@@ -19,7 +19,7 @@ function main(command, argument, options) {
     if (!configurationFileExists) {
       const currentWorkingDirectoryPath = cwd(); ///
 
-      chdir('..');
+      chdir("..");
 
       const oldCurrentWorkingDirectoryPath = currentWorkingDirectoryPath; ///
 

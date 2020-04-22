@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const messages = require('../messages'),
-      configuration = require('../configuration'),
-      callbackUtilities = require('../utilities/callback'),
-      listIgnoredDependencies = require('../action/listIgnoredDependencies'),
-      removeIgnoredDependencyPromptCallback = require('../callback/prompt/removeIgnoredDependency');
+const messages = require("../messages"),
+      configuration = require("../configuration"),
+      callbackUtilities = require("../utilities/callback"),
+      listIgnoredDependencies = require("../action/listIgnoredDependencies"),
+      removeIgnoredDependencyPromptCallback = require("../callback/prompt/removeIgnoredDependency");
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,

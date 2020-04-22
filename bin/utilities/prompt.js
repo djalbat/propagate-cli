@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function isAnswerAffirmative(answer) { return /^y.*/i.test(answer); }
 

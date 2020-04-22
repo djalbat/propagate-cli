@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const constants = require('../../constants'),
-      validateUtilities = require('../../utilities/validate');
+const constants = require("../../constants"),
+      validateUtilities = require("../../utilities/validate");
 
 const { validateShellCommands } = validateUtilities,
       { DEFAULT_GIT_SHELL_COMMANDS } = constants;
@@ -17,7 +17,7 @@ function setGitShellCommandsPromptCallback(proceed, abort, context) {
         gitShellCommands = git, ///
         initialValue = gitShellCommands, ///
         validationFunction = validateShellCommands,  ///
-        description = 'Git shell commands (leave blank for default): ',
+        description = "Git shell commands (leave blank for default): ",
         options = {
           description,
           initialValue,
@@ -25,7 +25,7 @@ function setGitShellCommandsPromptCallback(proceed, abort, context) {
         };
 
   prompt(options, (gitShellCommands) => {
-    const git = (gitShellCommands !== '') ?
+    const git = (gitShellCommands !== "") ?
                   gitShellCommands :
                     DEFAULT_GIT_SHELL_COMMANDS;
 

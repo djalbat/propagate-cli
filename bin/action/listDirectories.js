@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const constants = require('../constants'),
-      configuration = require('../configuration');
+const constants = require("../constants"),
+      configuration = require("../configuration");
 
 const { retrieveDirectories } = configuration,
       { DEFAULT_DIRECTORY_NAME } = constants;
@@ -15,7 +15,7 @@ function listDirectories() {
           ...directories
         ];
 
-  console.log('');
+  console.log("");
 
   directoryNames.forEach((directoryName, index) => {
     if (index === 0) {
@@ -29,7 +29,7 @@ function listDirectories() {
     }
   });
 
-  console.log('');
+  console.log("");
 
   return directoryNumbers;
 }

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const messages = require('../messages'),
-      configuration = require('../configuration'),
-      callbackUtilities = require('../utilities/callback'),
-      addDirectoryPromptCallback = require('../callback/prompt/addDirectory');
+const messages = require("../messages"),
+      configuration = require("../configuration"),
+      callbackUtilities = require("../utilities/callback"),
+      addDirectoryPromptCallback = require("../callback/prompt/addDirectory");
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,

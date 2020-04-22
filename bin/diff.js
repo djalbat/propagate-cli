@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const MapDiff = require('./diff/map'),
-      constants = require('./constants'),
-      VersionDiff = require('./diff/version'),
-      packageJSONUtilities = require('./utilities/packageJSON');
+const MapDiff = require("./diff/map"),
+      constants = require("./constants"),
+      VersionDiff = require("./diff/version"),
+      packageJSONUtilities = require("./utilities/packageJSON");
 
 const { DEPENDENCIES_NAME, DEV_DEPENDENCIES_NAME } = constants,
       { readPackageJSONFile, writePackageJSONFile } = packageJSONUtilities;
@@ -120,7 +120,7 @@ class Diff {
       string += `\n   "devDependencies": ${devDependencyMapDiffString},`;
     }
 
-    string = string.replace(/,$/, '\n');
+    string = string.replace(/,$/, "\n");
 
     return string;
   }

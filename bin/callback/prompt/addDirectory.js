@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const messages = require('../../messages'),
-      validateUtilities = require('../../utilities/validate');
+const messages = require("../../messages"),
+      validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
@@ -11,7 +11,7 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_DIRECTORY_PATH_MESSAGE } = messages;
 
 function addDirectoryPromptCallback(proceed, abort, context) {
-  const description = 'Directory path: ',
+  const description = "Directory path: ",
         errorMessage = INVALID_DIRECTORY_PATH_MESSAGE,
         validationFunction = validateDirectoryPath,  ///
         options = {

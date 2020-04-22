@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const messages = require('../messages'),
-      ReleaseGraph = require('../releaseGraph');
+const messages = require("../messages"),
+      ReleaseGraph = require("../releaseGraph");
 
 const { arrayUtilities } = necessary,
       { first } = arrayUtilities,

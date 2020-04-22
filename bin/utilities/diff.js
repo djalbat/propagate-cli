@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function eliminateDiff(diff, diffs) {
   removeDiff(diff, diffs);

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function propagateReleaseCallback(proceed, abort, context) {
   const { release, releaseMap, releaseGraph } = context;

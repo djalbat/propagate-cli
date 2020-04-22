@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const messages = require('../../messages'),
-      promptUtilities = require('../../utilities/prompt'),
-      validateUtilities = require('../../utilities/validate');
+const messages = require("../../messages"),
+      promptUtilities = require("../../utilities/prompt"),
+      validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
@@ -23,7 +23,7 @@ function buildAndOrPublishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const description = 'Build? (y)es (n)o: ',
+  const description = "Build? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {

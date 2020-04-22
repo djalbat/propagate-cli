@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const childProcess = require('child_process');
+const childProcess = require("child_process");
 
-const constants = require('../constants');
+const constants = require("../constants");
 
 const { UTF8 } = constants,
       { stdout } = process;

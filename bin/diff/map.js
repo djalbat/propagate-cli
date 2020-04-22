@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const SemverDiff = require('../diff/semver');
+const SemverDiff = require("../diff/semver");
 
 const { arrayUtilities } = necessary,
       { filter } = arrayUtilities;
@@ -50,7 +50,7 @@ class MapDiff {
             semverDiffsString = `${semverDiffsString}${semverDiffString}`;
 
             return semverDiffsString;
-          }, ''),
+          }, ""),
           string = `{\n${semverDiffsString}\n   }`;
 
     return string;

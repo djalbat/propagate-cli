@@ -1,19 +1,19 @@
-'use strict';
+"use strict";
 
-const help = require('./action/help'),
-      version = require('./action/version'),
-      options = require('./options'),
-      commands = require('./commands'),
-      propagate = require('./action/propagate'),
-      initialise = require('./action/initialise'),
-      addDirectory = require('./action/addDirectory'),
-      optionUtilities = require('./utilities/option'),
-      removeDirectory = require('./action/removeDirectory'),
-      listDirectories = require('./action/listDirectories'),
-      setShellCommands = require('./action/setShellCommands'),
-      addIgnoredDependency = require('./action/addIgnoredDependency'),
-      removeIgnoredDependency = require('./action/removeIgnoredDependency'),
-      listIgnoredDependencies = require('./action/listIgnoredDependencies');
+const help = require("./action/help"),
+      version = require("./action/version"),
+      options = require("./options"),
+      commands = require("./commands"),
+      propagate = require("./action/propagate"),
+      initialise = require("./action/initialise"),
+      addDirectory = require("./action/addDirectory"),
+      optionUtilities = require("./utilities/option"),
+      removeDirectory = require("./action/removeDirectory"),
+      listDirectories = require("./action/listDirectories"),
+      setShellCommands = require("./action/setShellCommands"),
+      addIgnoredDependency = require("./action/addIgnoredDependency"),
+      removeIgnoredDependency = require("./action/removeIgnoredDependency"),
+      listIgnoredDependencies = require("./action/listIgnoredDependencies");
 
 const { isOptionPresent } = optionUtilities,
       { HELP_OPTION, FORCE_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION  } = options,

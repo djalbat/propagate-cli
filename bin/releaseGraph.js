@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const directedGraphs = require('occam-directed-graphs');
+const directedGraphs = require("occam-directed-graphs");
 
 const { DirectedGraph } = directedGraphs;
 

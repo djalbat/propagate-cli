@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const Release = require('./release'),
-      constants = require('./constants'),
-      pathUtilities = require('./utilities/path');
+const Release = require("./release"),
+      constants = require("./constants"),
+      pathUtilities = require("./utilities/path");
 
 const { fileSystemUtilities } = necessary,
       { absolutePathFromName } = pathUtilities,

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 class VersionDiff {
   constructor(version, releaseVersion) {

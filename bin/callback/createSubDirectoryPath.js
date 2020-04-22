@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const messages = require('../messages'),
-      constants = require('../constants'),
-      configuration = require('../configuration');
+const messages = require("../messages"),
+      constants = require("../constants"),
+      configuration = require("../configuration");
 
 const { DEFAULT_DIRECTORY_NAME } = constants,
       { retrieveIgnoredDependencies } = configuration,

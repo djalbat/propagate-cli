@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-const messages = require('../messages'),
-      configuration = require('../configuration'),
-      callbackUtilities = require('../utilities/callback'),
-      setGitShellCommandsPromptCallback = require('../callback/prompt/setGitShellCommands'),
-      setBuildShellCommandsPromptCallback = require('../callback/prompt/setBuildShellCommands'),
-      setPublishShellCommandsPromptCallback = require('../callback/prompt/setPublishShellCommands');
+const messages = require("../messages"),
+      configuration = require("../configuration"),
+      callbackUtilities = require("../utilities/callback"),
+      setGitShellCommandsPromptCallback = require("../callback/prompt/setGitShellCommands"),
+      setBuildShellCommandsPromptCallback = require("../callback/prompt/setBuildShellCommands"),
+      setPublishShellCommandsPromptCallback = require("../callback/prompt/setPublishShellCommands");
 
 const { exit } = process,
       { executeCallbacks } = callbackUtilities,

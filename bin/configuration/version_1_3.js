@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const versions = require('../versions'),
-      constants = require('../constants');
+const versions = require("../versions"),
+      constants = require("../constants");
 
 const { VERSION_1_3 } = versions,
       { DEFAULT_GIT_SHELL_COMMANDS, DEFAULT_BUILD_SHELL_COMMANDS, DEFAULT_PUBLISH_SHELL_COMMANDS } = constants,
