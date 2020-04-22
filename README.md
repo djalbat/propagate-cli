@@ -147,7 +147,6 @@ Bear in mind that in choosing not to save or publish a package, you are also cho
 
 It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. And you should always use the `force` and `quietly` options with caution.
 
-
 ## Contact
 
 - james.smith@djalbat.com
