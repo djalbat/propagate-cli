@@ -9,7 +9,6 @@ const versions = require("./versions"),
 
 const { miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
-      { exit } = process,
       { CURRENT_VERSION } = versions,
       { RC_BASE_EXTENSION } = constants,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
@@ -139,6 +138,6 @@ function assertConfigurationFileExists() {
   if (!configurationFileExists) {
     console.log(CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE);
 
-    exit(1);
+    process.exit(1);
   }
 }

@@ -5,7 +5,6 @@ const necessary = require("necessary");
 const constants = require("../constants");
 
 const { arrayUtilities, fileSystemUtilities } = necessary,
-      { exit } = process,
       { second } = arrayUtilities,
       { PACKAGE_JSON_FILE_NAME } = constants,
       { readFile, writeFile, checkFileExists } = fileSystemUtilities;
@@ -41,7 +40,7 @@ function readPackageJSONFile(subDirectoryPath) {
 
     console.log(error);
 
-    exit();
+    process.exit();
   }
 
   return packageJSON;
@@ -58,7 +57,7 @@ function writePackageJSONFile(subDirectoryPath, packageJSON) {
 
     console.log(error);
 
-    exit();
+    process.exit();
   }
 }
 

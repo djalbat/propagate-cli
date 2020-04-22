@@ -5,8 +5,7 @@ const messages = require("../messages"),
       callbackUtilities = require("../utilities/callback"),
       addDirectoryPromptCallback = require("../callback/prompt/addDirectory");
 
-const { exit } = process,
-      { executeCallbacks } = callbackUtilities,
+const { executeCallbacks } = callbackUtilities,
       { retrieveDirectories, updateDirectories } = configuration,
       { FAILED_ADD_DIRECTORY_MESSAGE, SUCCESSFUL_ADD_DIRECTORY_MESSAGE, DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE } = messages;
 
@@ -20,7 +19,7 @@ function addDirectory() {
     if (!completed) {
       console.log(FAILED_ADD_DIRECTORY_MESSAGE);
 
-      exit();
+      process.exit();
     }
 
     const directories = retrieveDirectories(),

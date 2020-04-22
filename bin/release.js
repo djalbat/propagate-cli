@@ -9,7 +9,6 @@ const configuration = require("./configuration"),
 const { arrayUtilities } = necessary,
       { second } = arrayUtilities,
       { execute } = shellUtilities,
-      { cwd, chdir } = process,
       { readPackageJSONFile } = packageJSONUtilities,
       { retrieveShellCommands } = configuration;
 
@@ -114,13 +113,13 @@ class Release {
   }
 
   executeShellCommands(shellCommands, quietly) {
-    const currentWorkingDirectoryPath = cwd();
+    const currentWorkingDirectoryPath = process.cwd();
 
-    chdir(this.subDirectoryPath);
+    process.chdir(this.subDirectoryPath);
 
     execute(shellCommands, quietly);
 
-    chdir(currentWorkingDirectoryPath);
+    process.chdir(currentWorkingDirectoryPath);
   }
 
   updateDependencyVersion(name, version) {

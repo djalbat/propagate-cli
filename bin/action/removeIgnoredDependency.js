@@ -6,8 +6,7 @@ const messages = require("../messages"),
       listIgnoredDependencies = require("../action/listIgnoredDependencies"),
       removeIgnoredDependencyPromptCallback = require("../callback/prompt/removeIgnoredDependency");
 
-const { exit } = process,
-      { executeCallbacks } = callbackUtilities,
+const { executeCallbacks } = callbackUtilities,
       { updateIgnoredDependencies, retrieveIgnoredDependencies } = configuration,
       { FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE } = messages;
 
@@ -30,7 +29,7 @@ function removeIgnoredDependency() {
     if (!completed) {
       console.log(FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE);
 
-      exit();
+      process.exit();
     }
 
     const { ignoredDependencyNumber } = context,

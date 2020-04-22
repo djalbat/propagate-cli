@@ -7,8 +7,7 @@ const messages = require("../messages"),
       setBuildShellCommandsPromptCallback = require("../callback/prompt/setBuildShellCommands"),
       setPublishShellCommandsPromptCallback = require("../callback/prompt/setPublishShellCommands");
 
-const { exit } = process,
-      { executeCallbacks } = callbackUtilities,
+const { executeCallbacks } = callbackUtilities,
       { retrieveShellCommands, updateShellCommands } = configuration,
       { FAILED_SET_SHELL_COMMANDS_MESSAGE, SUCCESSFUL_SET_SHELL_COMMANDS_MESSAGE } = messages;
 
@@ -27,7 +26,7 @@ function setShellCommands() {
     if (!completed) {
       console.log(FAILED_SET_SHELL_COMMANDS_MESSAGE);
 
-      exit();
+      process.exit();
     }
 
     const { shellCommands } = context;

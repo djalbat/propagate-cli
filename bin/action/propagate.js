@@ -10,8 +10,7 @@ const messages = require("../messages"),
       createReleaseGraphCallback = require("../callback/createReleaseGraph"),
       createSubDirectoryPathCallback = require("../callback/createSubDirectoryPath");
 
-const { exit } = process,
-      { executeCallbacks } = callbackUtilities,
+const { executeCallbacks } = callbackUtilities,
       { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = messages;
 
 function propagate(argument, quietly, dryRun, force) {
@@ -35,7 +34,7 @@ function propagate(argument, quietly, dryRun, force) {
     if (!completed) {
       console.log(FAILED_PROPAGATE_MESSAGE);
 
-      exit();
+      process.exit();
     }
 
     console.log(SUCCESSFUL_PROPAGATE_MESSAGE);

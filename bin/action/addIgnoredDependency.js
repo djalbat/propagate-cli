@@ -5,8 +5,7 @@ const messages = require("../messages"),
       callbackUtilities = require("../utilities/callback"),
       addIgnoredDependencyPromptCallback = require("../callback/prompt/addIgnoredDependency");
 
-const { exit } = process,
-      { executeCallbacks } = callbackUtilities,
+const { executeCallbacks } = callbackUtilities,
       { retrieveIgnoredDependencies, updateIgnoredDependencies } = configuration,
       { FAILED_ADD_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_ADD_IGNORED_DEPENDENCY_MESSAGE, IGNORED_DEPENDENCIES_INCLUDES_IGNORED_DEPENDENCY_MESSAGE } = messages;
 
@@ -20,7 +19,7 @@ function addIgnoredDependency() {
     if (!completed) {
       console.log(FAILED_ADD_IGNORED_DEPENDENCY_MESSAGE);
 
-      exit();
+      process.exit();
     }
 
     const ignoredDependencies = retrieveIgnoredDependencies(),

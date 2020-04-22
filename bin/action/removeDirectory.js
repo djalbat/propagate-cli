@@ -6,8 +6,7 @@ const messages = require("../messages"),
       callbackUtilities = require("../utilities/callback"),
       removeDirectoryPromptCallback = require("../callback/prompt/removeDirectory");
 
-const { exit } = process,
-      { executeCallbacks } = callbackUtilities,
+const { executeCallbacks } = callbackUtilities,
       { updateDirectories, retrieveDirectories } = configuration,
       { FAILED_REMOVE_DIRECTORY_MESSAGE, SUCCESSFUL_REMOVE_DIRECTORY_MESSAGE } = messages;
 
@@ -30,7 +29,7 @@ function removeDirectory() {
     if (!completed) {
       console.log(FAILED_REMOVE_DIRECTORY_MESSAGE);
 
-      exit();
+      process.exit();
     }
 
     const { directoryNumber } = context,
