@@ -147,7 +147,7 @@ Provided there are no cyclic dependencies, the updates to the packages and binar
 
 Bear in mind that in choosing not to save or publish a package, you are also choosing not to propagate it. In which case its dependents will be adjusted accordingly and consequently may not need propagating themselves. For example, if, while propagating the `bernard` package, you chose not to propagate the `erica` package by not saving or publishing it in turn, the `bernard` package would not be propagated either because the `erica` package is its only propagated dependency. That would result in the unpropagated `bernard` package still being a dependency of the topmomst `alice` binary, albeit an indirect one, eessentially defeating the purpose of propagation in the first place. As a rule of thumb, therefore, you should only chose not to propagate a package if the dependency paths are not confluent.
 
-It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. And you should always use the `force` and `quietly` options with caution.
+It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. You should always use the `force` and `quietly` options with caution. Finally, if a script fails and you are not forcing it, you will be prompted to try again but the script itself, coming from the configuration which is loaded only once, cannot be amended in a meantime.
 
 ## Contact
 

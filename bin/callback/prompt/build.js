@@ -10,15 +10,21 @@ const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { FAILED_BUILD_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
-function buildAndOrPublishPromptCallback(proceed, abort, context) {
+function buildPromptCallback(proceed, abort, context) {
   const { diff, quietly, force } = context;
 
   if (force) {
-    diff.build(quietly);
+    diff.build(quietly, (success) => {
+      if (!success) {
+        console.log(FAILED_BUILD_MESSAGE);
 
-    proceed();
+        process.exit();
+      }
+
+      proceed();
+    });
 
     return;
   }
@@ -39,12 +45,22 @@ function buildAndOrPublishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        diff.build(quietly);
+        diff.build(quietly, (success) => {
+          if (!success) {
+            console.log(FAILED_BUILD_MESSAGE);
+
+            process.exit();
+          }
+
+          proceed();
+        });
       }
+
+      return;
     }
 
-    proceed();
+    process.exit();
   });
 }
 
-module.exports = buildAndOrPublishPromptCallback;
+module.exports = buildPromptCallback;

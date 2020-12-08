@@ -12,7 +12,7 @@ const { miscellaneousUtilities } = necessary,
       { eliminateDiff } = diffUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { FAILED_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function publishAndOrPublishPromptCallback(proceed, abort, context) {
   const { diff, quietly, force } = context,
@@ -25,9 +25,15 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
   }
 
   if (force) {
-    diff.publish(quietly);
+    diff.publish(quietly, (success) => {
+      if (!success) {
+        console.log(FAILED_PUBLISH_MESSAGE);
 
-    proceed();
+        process.exit();
+      }
+
+      proceed();
+    });
 
     return;
   }
@@ -48,9 +54,15 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        diff.publish(quietly);
+        diff.publish(quietly, (success) => {
+          if (!success) {
+            console.log(FAILED_PUBLISH_MESSAGE);
 
-        proceed();
+            process.exit();
+          }
+
+          proceed();
+        });
       } else {
         const { diffs } = context;
 

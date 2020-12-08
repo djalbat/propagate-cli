@@ -10,15 +10,21 @@ const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { FAILED_GIT_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
-function gitAndOrPublishPromptCallback(proceed, abort, context) {
+function gitPromptCallback(proceed, abort, context) {
   const { diff, quietly, force } = context;
 
   if (force) {
-    diff.git(quietly);
+    diff.git(quietly, (success) => {
+      if (!success) {
+        console.log(FAILED_GIT_MESSAGE);
 
-    proceed();
+        process.exit();
+      }
+
+      proceed();
+    });
 
     return;
   }
@@ -39,12 +45,22 @@ function gitAndOrPublishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        diff.git(quietly);
+        diff.git(quietly, (success) => {
+          if (!success) {
+            console.log(FAILED_GIT_MESSAGE);
+
+            process.exit();
+          }
+
+          proceed();
+        });
       }
+
+      return;
     }
 
-    proceed();
+    process.exit();
   });
 }
 
-module.exports = gitAndOrPublishPromptCallback;
+module.exports = gitPromptCallback;

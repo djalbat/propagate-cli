@@ -75,7 +75,7 @@ class Release {
     this.executeShellCommands(shellCommands, quietly);
   }
 
-  build(quietly) {
+  build(quietly, callback) {
     let shellCommands = retrieveShellCommands();
 
     const { build } = shellCommands,
@@ -83,7 +83,7 @@ class Release {
 
     shellCommands = buildShellCommands; ///
 
-    this.executeShellCommands(shellCommands, quietly);
+    this.executeShellCommands(shellCommands, quietly, callback);
   }
 
   publish(quietly) {
@@ -112,14 +112,16 @@ class Release {
     this.version = this.version.replace(/(\d+)$/, patchNumber)
   }
 
-  executeShellCommands(shellCommands, quietly) {
+  executeShellCommands(shellCommands, quietly, callback) {
     const currentWorkingDirectoryPath = process.cwd();
 
     process.chdir(this.subDirectoryPath);
 
-    execute(shellCommands, quietly);
+    execute(shellCommands, quietly, (success) => {
+      process.chdir(currentWorkingDirectoryPath);
 
-    process.chdir(currentWorkingDirectoryPath);
+      callback(success);
+    });
   }
 
   updateDependencyVersion(name, version) {
