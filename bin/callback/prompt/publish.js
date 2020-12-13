@@ -53,23 +53,25 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
     if (valid) {
       const affirmative = isAnswerAffirmative(answer);
 
-      if (affirmative) {
-        diff.publish(quietly, (success) => {
-          if (!success) {
-            console.log(FAILED_PUBLISH_MESSAGE);
-
-            process.exit();
-          }
-
-          proceed();
-        });
-      } else {
+      if (!affirmative) {
         const { diffs } = context;
 
         eliminateDiff(diff, diffs);
 
-        abort();
+        proceed();
+
+        return;
       }
+
+      diff.publish(quietly, (success) => {
+        if (!success) {
+          console.log(FAILED_PUBLISH_MESSAGE);
+
+          process.exit();
+        }
+
+        proceed();
+      });
 
       return;
     }

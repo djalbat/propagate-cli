@@ -44,17 +44,21 @@ function buildPromptCallback(proceed, abort, context) {
     if (valid) {
       const affirmative = isAnswerAffirmative(answer);
 
-      if (affirmative) {
-        diff.build(quietly, (success) => {
-          if (!success) {
-            console.log(FAILED_BUILD_MESSAGE);
+      if (!affirmative) {
+        proceed();
 
-            process.exit();
-          }
-
-          proceed();
-        });
+        return;
       }
+
+      diff.build(quietly, (success) => {
+        if (!success) {
+          console.log(FAILED_BUILD_MESSAGE);
+
+          process.exit();
+        }
+
+        proceed();
+      });
 
       return;
     }

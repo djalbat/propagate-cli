@@ -74,11 +74,11 @@ class Diff {
     writePackageJSONFile(subDirectoryPath, packageJSON);
   }
 
-  git(quietly) { this.release.git(quietly); }
+  git(quietly, callback) { this.release.git(quietly, callback); }
 
   build(quietly, callback) { this.release.build(quietly, callback); }
 
-  publish(quietly) { this.release.publish(quietly); }
+  publish(quietly, callback) { this.release.publish(quietly, callback); }
 
   removeDependency(name) {
     if (this.dependencyMapDiff !== null) {

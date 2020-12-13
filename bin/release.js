@@ -64,7 +64,7 @@ class Release {
     return devDependencyNames;
   }
 
-  git(quietly) {
+  git(quietly, callback) {
     let shellCommands = retrieveShellCommands();
 
     const { git } = shellCommands,
@@ -72,7 +72,7 @@ class Release {
 
     shellCommands = gitShellCommands; ///
 
-    this.executeShellCommands(shellCommands, quietly);
+    this.executeShellCommands(shellCommands, quietly, callback);
   }
 
   build(quietly, callback) {
@@ -86,7 +86,7 @@ class Release {
     this.executeShellCommands(shellCommands, quietly, callback);
   }
 
-  publish(quietly) {
+  publish(quietly, callback) {
     let shellCommands = retrieveShellCommands();
 
     const { publish } = shellCommands,
@@ -94,7 +94,7 @@ class Release {
 
     shellCommands = publishShellCommands; ///
 
-    this.executeShellCommands(shellCommands, quietly);
+    this.executeShellCommands(shellCommands, quietly, callback);
   }
 
   setPropagated(propagated) {

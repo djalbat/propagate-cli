@@ -16,7 +16,7 @@ const { miscellaneousUtilities } = necessary,
       { INVALID_ANSWER_MESSAGE } = messages;
 
 function execute(shellCommands, quietly, callback) {
-  let success = execSync(shellCommands, quietly);
+  const success = execSync(shellCommands, quietly);
 
   if (success) {
     callback(success);
@@ -37,11 +37,10 @@ function execute(shellCommands, quietly, callback) {
     const valid = (answer !== null);
 
     if (valid) {
-      const affirmative = isAnswerAffirmative(answer);
-
-      if (affirmative) {
-        success = execSync(shellCommands, quietly);
-      }
+      const affirmative = isAnswerAffirmative(answer),
+            success = affirmative ?
+                        execSync(shellCommands, quietly) :
+                          true; ///
 
       callback(success);
 

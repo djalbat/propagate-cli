@@ -44,17 +44,21 @@ function gitPromptCallback(proceed, abort, context) {
     if (valid) {
       const affirmative = isAnswerAffirmative(answer);
 
-      if (affirmative) {
-        diff.git(quietly, (success) => {
-          if (!success) {
-            console.log(FAILED_GIT_MESSAGE);
+      if (!affirmative) {
+        proceed();
 
-            process.exit();
-          }
-
-          proceed();
-        });
+        return;
       }
+
+      diff.git(quietly, (success) => {
+        if (!success) {
+          console.log(FAILED_GIT_MESSAGE);
+
+          process.exit();
+        }
+
+        proceed();
+      });
 
       return;
     }

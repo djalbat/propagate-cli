@@ -145,9 +145,11 @@ You can also execute a lone `propagate` command from within a package's subdirec
 
 Provided there are no cyclic dependencies, the updates to the packages and binaries affected by the propagation will be presented in topological order, meaning that a dependency will always appear before any of its dependents. Unless you use the `force` option, you will always be prompted before any changes are made to package JSON files or any shell commands are executed. 
 
-Bear in mind that in choosing not to save or publish a package, you are also choosing not to propagate it. In which case its dependents will be adjusted accordingly and consequently may not need propagating themselves. For example, if, while propagating the `bernard` package, you chose not to propagate the `erica` package by not saving or publishing it in turn, the `bernard` package would not be propagated either because the `erica` package is its only propagated dependency. That would result in the unpropagated `bernard` package still being a dependency of the topmomst `alice` binary, albeit an indirect one, eessentially defeating the purpose of propagation in the first place. As a rule of thumb, therefore, you should only chose not to propagate a package if the dependency paths are not confluent.
+Bear in mind that in choosing not to publish a package, you are also choosing not to propagate it. In which case its dependents will be adjusted accordingly and consequently may not need propagating themselves.
 
-It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. Also, you should always use the `force` and `quietly` options with caution. Finally, if a script fails and you are not forcing it, you will be prompted to try again. Bear in mind that script cannot be amended in a meantime, however, because it is loaded only once when the configuration file is initially read.
+It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. Also, you should always use the `force` and `quietly` options with caution.
+
+Finally, if a script fails and you are not forcing it, you will be prompted to try again. Bear in mind that the script cannot be amended in a meantime, however, because it is loaded only once when the configuration file is initially read. Also bear in mind that if you choose not to execute it a second time, propagation will continue, the reasoning being that it should likely not have been executed in the first place. If it fails a second time therefore and as a consequence propagation should halt, simply exit in the usual way.
 
 ## Contact
 
