@@ -15,17 +15,18 @@ function setBuildShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
         { build } = shellCommands,
         buildShellCommands = build, ///
-        initialValue = buildShellCommands, //
+        initialAnswer = buildShellCommands, //
         validationFunction = validateShellCommands,  ///
         description = "Build shell commands (leave blank for default): ",
         options = {
           description,
-          initialValue,
+          initialAnswer,
           validationFunction
         };
 
-  prompt(options, (buildShellCommands) => {
-    const build = (buildShellCommands !== "") ?
+  prompt(options, (answer) => {
+    const buildShellCommands = answer,  ///
+          build = (buildShellCommands !== "") ?
                     buildShellCommands :
                       DEFAULT_BUILD_SHELL_COMMANDS;
 

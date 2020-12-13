@@ -15,17 +15,18 @@ function setGitShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
         { git } = shellCommands,
         gitShellCommands = git, ///
-        initialValue = gitShellCommands, ///
+        initialAnswer = gitShellCommands, ///
         validationFunction = validateShellCommands,  ///
         description = "Git shell commands (leave blank for default): ",
         options = {
           description,
-          initialValue,
+          initialAnswer,
           validationFunction
         };
 
-  prompt(options, (gitShellCommands) => {
-    const git = (gitShellCommands !== "") ?
+  prompt(options, (answer) => {
+    const gitShellCommands = answer,  ///
+          git = (gitShellCommands !== "") ?
                   gitShellCommands :
                     DEFAULT_GIT_SHELL_COMMANDS;
 

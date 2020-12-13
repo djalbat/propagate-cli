@@ -20,8 +20,9 @@ function addIgnoredDependencyPromptCallback(proceed, abort, context) {
           validationFunction
         };
 
-  prompt(options, (ignoredDependencyName) => {
-    const valid = (ignoredDependencyName !== null);
+  prompt(options, (answer) => {
+    const ignoredDependencyName = answer, ///
+          valid = (ignoredDependencyName !== null);
 
     if (valid) {
       const ignoredDependency = ignoredDependencyName;  ///

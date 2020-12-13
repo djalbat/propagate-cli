@@ -15,17 +15,18 @@ function setPublishShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
         { publish } = shellCommands,
         publishShellCommands = publish, ///
-        initialValue = publishShellCommands, ///
+        initialAnswer = publishShellCommands, ///
         validationFunction = validateShellCommands,  ///
         description = "Publish shell commands (leave blank for default): ",
         options = {
           description,
-          initialValue,
+          initialAnswer,
           validationFunction
         };
 
-  prompt(options, (publishShellCommands) => {
-    const publish = (publishShellCommands !== "") ?
+  prompt(options, (answer) => {
+    const publishShellCommands = answer,  ///
+          publish = (publishShellCommands !== "") ?
                       publishShellCommands :
                         DEFAULT_PUBLISH_SHELL_COMMANDS;
 

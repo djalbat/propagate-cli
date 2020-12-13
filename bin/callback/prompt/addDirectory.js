@@ -20,8 +20,9 @@ function addDirectoryPromptCallback(proceed, abort, context) {
           validationFunction
         };
 
-  prompt(options, (directoryPath) => {
-    const valid = (directoryPath !== null);
+  prompt(options, (answer) => {
+    const directoryPath = answer, ///
+          valid = (directoryPath !== null);
 
     if (valid) {
       const directory = directoryPath;  ///
