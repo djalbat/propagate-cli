@@ -1,7 +1,7 @@
 {
   "name": "propagate-cli",
   "author": "James Smith",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/propagate-cli",
   "description": "Propagate updated packages throughout a project.",
@@ -18,8 +18,5 @@
     "occam-directed-graphs": "^1.2.5"
   },
   "devDependencies": {},
-  "scripts": {
-    "build": " ",
-    "build-debug": " "
-  }
+  "scripts": {}
 }
