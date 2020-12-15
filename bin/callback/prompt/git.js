@@ -29,7 +29,7 @@ function gitPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const answer = "no",
+  const answer = "yes",
         description = "Add, commit and push with Git? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///

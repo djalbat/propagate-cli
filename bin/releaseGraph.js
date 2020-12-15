@@ -30,14 +30,18 @@ class ReleaseGraph {
     return topologicallyOrderedSubDirectoryNames;
   }
 
-  retrieveSuccessorReleases(release, releaseMap) {
+  retrieveImmediateSuccessorReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///
-          successorVertexNames = this.directedGraph.getSuccessorVertexNamesByVertexName(vertexName),
-          successorSubDirectoryPaths = successorVertexNames,  ///
-          successorReleases = successorSubDirectoryPaths.map((successorSubDirectoryPath) => releaseMap.retrieveRelease(successorSubDirectoryPath));
+          immediateSuccessorVertexNames = this.directedGraph.getImmediateSuccessorVertexNamesByVertexName(vertexName),
+          immediateSuccessorSubDirectoryPaths = immediateSuccessorVertexNames,  ///
+          immediateSuccessorReleases = immediateSuccessorSubDirectoryPaths.map((immediateSuccessorSubDirectoryPath) => {
+            const immediateSuccessorRelease = releaseMap.retrieveRelease(immediateSuccessorSubDirectoryPath);
 
-    return successorReleases;
+            return immediateSuccessorRelease;
+          });
+
+    return immediateSuccessorReleases;
   }
 
   static fromReleaseMap(releaseMap) {
@@ -45,7 +49,7 @@ class ReleaseGraph {
           releaseNames = releaseMap.getNames(),
           subDirectoryPaths = releaseMap.getSubDirectoryPaths(),
           nameToSubDirectoryPathMap = releaseMap.getNameToSubDirectoryPathMap(),
-          vertexNames = subDirectoryPaths;  ///
+          vertexNames = subDirectoryPaths;
 
     directedGraph.addVerticesByVertexNames(vertexNames);
 
@@ -53,25 +57,60 @@ class ReleaseGraph {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
             dependencyNames = release.getDependencyNames(),
             devDependencyNames = release.getDevDependencyNames(),
-            predecessorNames = [
+            immediatePredecessorVertexNames = [
               ...dependencyNames,
               ...devDependencyNames
             ],
-            predecessorReleaseNames = predecessorNames.filter((predecessorName) => {
-              const releaseNamesIncludesPredecessorName = releaseNames.includes(predecessorName);
+            immediatePredecessorReleaseNames = immediatePredecessorVertexNames.filter((immediatePredecessorVertexName) => {
+              const releaseNamesIncludesPredecessorName = releaseNames.includes(immediatePredecessorVertexName);
 
               if (releaseNamesIncludesPredecessorName) {
                 return true;
               }
             });
 
-      predecessorReleaseNames.forEach((predecessorReleaseName) => {
-        const predecessorReleaseSubDirectoryPath = nameToSubDirectoryPathMap[predecessorReleaseName],
-              sourceVertexName = predecessorReleaseSubDirectoryPath,  ///
+      immediatePredecessorReleaseNames.forEach((immediatePredecessorReleaseName) => {
+        const immediatePredecessorReleaseSubDirectoryPath = nameToSubDirectoryPathMap[immediatePredecessorReleaseName],
+              sourceVertexName = immediatePredecessorReleaseSubDirectoryPath,  ///
               targetVertexName = subDirectoryPath;  ///
 
         directedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
       });
+    });
+
+    subDirectoryPaths.forEach((subDirectoryPath) => {
+      const release = releaseMap.retrieveRelease(subDirectoryPath);
+
+      if (release !== null) {
+        const vertexName = subDirectoryPath,  ///
+              dependencyNames = release.getDependencyNames(),
+              dependencySubDirectoryPaths = [];
+
+        dependencyNames.forEach((dependencyName) => {
+          const dependencySubDirectoryPath = nameToSubDirectoryPathMap[dependencyName] || null;
+
+          if (dependencySubDirectoryPath !== null) {
+            dependencySubDirectoryPaths.push(dependencySubDirectoryPath);
+          }
+        });
+
+        const includeCyclicEdges = true,
+              immediatePredecessorVertexNames = directedGraph.getImmediatePredecessorVertexNamesByVertexName(vertexName, includeCyclicEdges),
+              dependencyPresent = dependencySubDirectoryPaths.some((dependencySubDirectoryPath) => {
+                const immediatePredecessorVertexNamesIncludesDependencySubDirectoryPath = immediatePredecessorVertexNames.includes(dependencySubDirectoryPath);
+
+                if (immediatePredecessorVertexNamesIncludesDependencySubDirectoryPath) {
+                  return true;
+                }
+              });
+
+        if (!dependencyPresent) {
+          const releaseSubDirectoryPath = release.getSubDirectoryPath(),
+                sourceVertexName = releaseSubDirectoryPath; ///
+
+          directedGraph.removeEdgesBySourceVertexName(sourceVertexName);
+        }
+      }
     });
 
     const releaseGraph = new ReleaseGraph(directedGraph);

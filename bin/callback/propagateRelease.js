@@ -19,20 +19,20 @@ function propagateRelease(release, releaseMap, releaseGraph) {
 
   const name = release.getName(),
         version = release.getVersion(),
-        successorReleases = releaseGraph.retrieveSuccessorReleases(release, releaseMap);
+        immediateSuccessorReleases = releaseGraph.retrieveImmediateSuccessorReleases(release, releaseMap);
 
-  successorReleases.forEach((successorRelease) => {
-    successorRelease.updateDependencyVersion(name, version);
+  immediateSuccessorReleases.forEach((immediateSuccessorRelease) => {
+    immediateSuccessorRelease.updateDependencyVersion(name, version);
 
-    successorRelease.updateDevDependencyVersion(name, version);
+    immediateSuccessorRelease.updateDevDependencyVersion(name, version);
 
-    const publishable = successorRelease.isPublishable();
+    const publishable = immediateSuccessorRelease.isPublishable();
 
     if (publishable) {
-      const propagated = successorRelease.isPropagated();
+      const propagated = immediateSuccessorRelease.isPropagated();
 
       if (!propagated) {
-        const release = successorRelease; ///
+        const release = immediateSuccessorRelease; ///
 
         propagateRelease(release, releaseMap, releaseGraph);
       }

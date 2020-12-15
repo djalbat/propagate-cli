@@ -38,7 +38,7 @@ function publishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const answer = "no",
+  const answer = "yes",
         description = "Publish? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///

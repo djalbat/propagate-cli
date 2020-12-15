@@ -32,10 +32,10 @@ function createSubDirectoryPathCallback(proceed, abort, context) {
   }
 
   const directoryName = DEFAULT_DIRECTORY_NAME, ///
-        subDirectoryRPath = `${directoryName}/${subDirectoryName}`;
+        subDirectoryPath = `${directoryName}/${subDirectoryName}`;
 
   Object.assign(context, {
-    subDirectoryRPath
+    subDirectoryPath
   });
 
   proceed();
