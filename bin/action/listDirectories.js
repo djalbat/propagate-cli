@@ -19,11 +19,11 @@ function listDirectories() {
 
   directoryNames.forEach((directoryName, index) => {
     if (index === 0) {
-      console.log(`    '${directoryName}'`);
+      console.log(`    "${directoryName}"`);
     } else {
       const directoryNumber = index;  ///
 
-      console.log(` ${directoryNumber}: '${directoryName}'`);
+      console.log(` ${directoryNumber}: "${directoryName}"`);
 
       directoryNumbers.push(directoryNumber);
     }

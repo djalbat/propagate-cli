@@ -99,8 +99,8 @@ class Diff {
           subDirectoryPath = this.getSubDirectoryPath();
 
     string += (name === null) ?
-            ` '${subDirectoryPath}':\n` :
-              ` '${subDirectoryPath}' ("${name}"):\n`;
+            ` "${subDirectoryPath}":\n` :
+              ` "${subDirectoryPath}" ("${name}"):\n`;
 
     if (this.versionDiff !== null) {
       const versionDiffString = this.versionDiff.asString();

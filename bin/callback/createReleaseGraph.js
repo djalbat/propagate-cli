@@ -25,7 +25,7 @@ function createReleaseGraphCallback(proceed, abort, context) {
     console.log(AT_LEAST_ONE_CYCLE_MESSAGE);
 
     subDirectoryNames.forEach((subDirectoryName) => {
-      console.log(` '${subDirectoryName}'`);
+      console.log(` "${subDirectoryName}"`);
     });
 
     abort();

@@ -49,11 +49,11 @@ function readPackageJSONFile(subDirectoryPath) {
 function writePackageJSONFile(subDirectoryPath, packageJSON) {
   try {
     const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
-          packageJSONContent = JSON.stringify(packageJSON, null, "  ") + '\n';  ///
+          packageJSONContent = JSON.stringify(packageJSON, null, "  ") + "\n";  ///
 
     writeFile(packageJSONFilePath, packageJSONContent);
   } catch (error) {
-    console.log(`There was an error when writing to the package.json file in the '${subDirectoryPath}' sub-directory:`);
+    console.log(`There was an error when writing to the package.json file in the "${subDirectoryPath}" sub-directory:`);
 
     console.log(error);
 
