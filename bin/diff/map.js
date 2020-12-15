@@ -57,8 +57,6 @@ class MapDiff {
   }
 
   static fromMapAndReleaseMap(map, releaseMap) {
-    let mapDiff = null;
-
     const names = Object.keys(map),
           semverDiffs = [];
 
@@ -72,11 +70,7 @@ class MapDiff {
       }
     });
 
-    const semverDiffsLength = semverDiffs.length;
-
-    if (semverDiffsLength > 0) {
-      mapDiff = new MapDiff(semverDiffs);
-    }
+    const mapDiff = new MapDiff(semverDiffs);
 
     return mapDiff;
   }

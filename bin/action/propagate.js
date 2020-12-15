@@ -1,9 +1,11 @@
 "use strict";
 
 const messages = require("../messages"),
+      dryRunCallback = require("../callback/dryRun"),
       callbackUtilities = require("../utilities/callback"),
       createDiffsCallback = require("../callback/createDiffs"),
       createReleaseCallback = require("../callback/createRelease"),
+      eliminateDiffsCallback = require("../callback/eliminateDiffs"),
       createReleaseMapCallback = require("../callback/createReleaseMap"),
       propagateReleaseCallback = require("../callback/propagateRelease"),
       saveAndApplyDiffsCallback = require("../callback/saveAndApplyDiffs"),
@@ -21,6 +23,8 @@ function propagate(argument, quietly, dryRun, force) {
           createReleaseGraphCallback,
           propagateReleaseCallback,
           createDiffsCallback,
+          eliminateDiffsCallback,
+          dryRunCallback,
           saveAndApplyDiffsCallback
         ],
         context = {

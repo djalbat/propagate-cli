@@ -39,18 +39,10 @@ class Diff {
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
   isEmpty() {
-    let dependencyMapDiffEmpty = true,
-        devDependencyMapDiffEmpty = true;
-
-    if (this.dependencyMapDiff !== null) {
-      dependencyMapDiffEmpty = this.dependencyMapDiff.isEmpty();
-    }
-
-    if (this.devDependencyMapDiff !== null) {
-      devDependencyMapDiffEmpty = this.devDependencyMapDiff.isEmpty();
-    }
-
-    const empty = (dependencyMapDiffEmpty && devDependencyMapDiffEmpty);
+    const versionDiffEmpty = this.versionDiff.isEmpty(),
+          dependencyMapDiffEmpty = this.dependencyMapDiff.isEmpty(),
+          devDependencyMapDiffEmpty = this.devDependencyMapDiff.isEmpty(),
+          empty = (versionDiffEmpty && dependencyMapDiffEmpty && devDependencyMapDiffEmpty);
 
     return empty;
   }
@@ -59,17 +51,11 @@ class Diff {
     const subDirectoryPath = this.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath);
 
-    if (this.versionDiff !== null) {
-      this.versionDiff.save(packageJSON);
-    }
+    this.versionDiff.save(packageJSON);
 
-    if (this.dependencyMapDiff !== null) {
-      this.dependencyMapDiff.save(packageJSON, DEPENDENCIES_NAME);
-    }
+    this.dependencyMapDiff.save(packageJSON, DEPENDENCIES_NAME);
 
-    if (this.devDependencyMapDiff !== null) {
-      this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
-    }
+    this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
 
     writePackageJSONFile(subDirectoryPath, packageJSON);
   }
@@ -80,17 +66,9 @@ class Diff {
 
   publish(quietly, callback) { this.release.publish(quietly, callback); }
 
-  removeDependency(name) {
-    if (this.dependencyMapDiff !== null) {
-      this.dependencyMapDiff.removeSemverDiff(name);
-    }
-  }
+  removeDependency(name) { this.dependencyMapDiff.removeSemverDiff(name); }
 
-  removeDevDependency(name) {
-    if (this.devDependencyMapDiff !== null) {
-      this.devDependencyMapDiff.removeSemverDiff(name);
-    }
-  }
+  removeDevDependency(name) { this.devDependencyMapDiff.removeSemverDiff(name); }
 
   asString() {
     let string = ``;
@@ -102,19 +80,23 @@ class Diff {
             ` "${subDirectoryPath}":\n` :
               ` "${subDirectoryPath}" ("${name}"):\n`;
 
-    if (this.versionDiff !== null) {
+    const versionDiffEmpty = this.versionDiff.isEmpty(),
+          dependencyMapDiffEmpty = this.dependencyMapDiff.isEmpty(),
+          devDependencyMapDiffEmpty = this.devDependencyMapDiff.isEmpty();
+
+    if (!versionDiffEmpty) {
       const versionDiffString = this.versionDiff.asString();
 
       string += `\n   "version": ${versionDiffString},`;
     }
 
-    if (this.dependencyMapDiff !== null) {
+    if (!dependencyMapDiffEmpty) {
       const dependencyMapDiffString = this.dependencyMapDiff.asString();
 
       string += `\n   "dependencies": ${dependencyMapDiffString},`;
     }
 
-    if (this.devDependencyMapDiff !== null) {
+    if (!devDependencyMapDiffEmpty) {
       const devDependencyMapDiffString = this.devDependencyMapDiff.asString();
 
       string += `\n   "devDependencies": ${devDependencyMapDiffString},`;
@@ -138,9 +120,12 @@ class Diff {
           releaseDevDependencyMap = release.getDevDependencyMap(),
           versionDiff = VersionDiff.fromVersionAndReleaseVersion(version, releaseVersion),
           dependencyMapDiff = MapDiff.fromMapAndReleaseMap(dependencyMap, releaseDependencyMap),
-          devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap);
+          devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap),
+          versionDiffEmpty = versionDiff.isEmpty(),
+          dependencyMapDiffEmpty = dependencyMapDiff.isEmpty(),
+          devDependencyMapDiffEmpty = devDependencyMapDiff.isEmpty();
 
-    if ((versionDiff !== null) || (dependencyMapDiff !== null) || (devDependencyMapDiff !== null)) {
+    if (!versionDiffEmpty || !dependencyMapDiffEmpty || !devDependencyMapDiffEmpty) {
       diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);
     }
 

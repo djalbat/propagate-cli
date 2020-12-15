@@ -6,6 +6,12 @@ class VersionDiff {
     this.releaseVersion = releaseVersion;
   }
 
+  isEmpty() {
+    const empty = (this.version === this.releaseVersion); ///
+
+    return empty;
+  }
+
   getVersion() {
     return this.version;
   }
@@ -29,11 +35,7 @@ class VersionDiff {
   }
 
   static fromVersionAndReleaseVersion(version, releaseVersion) {
-    let versionDiff = null;
-
-    if (version !== releaseVersion) {
-      versionDiff = new VersionDiff(version, releaseVersion);
-    }
+    const versionDiff = new VersionDiff(version, releaseVersion);
 
     return versionDiff;
   }
