@@ -8,7 +8,7 @@ const { executeCallback } = callbackUtilities;
 function saveAndApplyDiffsCallback(proceed, abort, context) {
   const { diffs } = context;
 
-  executeCallback(diffs, saveAndApplyDiffCallback, proceed, context);
+  executeCallback(diffs, saveAndApplyDiffCallback, proceed, abort, context);
 }
 
 module.exports = saveAndApplyDiffsCallback;

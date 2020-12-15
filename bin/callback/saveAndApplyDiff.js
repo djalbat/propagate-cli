@@ -8,7 +8,7 @@ const callbackUtilities = require("../utilities/callback"),
 
 const { executeCallbacks } = callbackUtilities;
 
-function saveAndApplyDiff(diff, proceed, abort, context) {
+function saveAndApplyDiffCallback(diff, proceed, abort, context) {
   if (diff === null) {
     proceed();
 
@@ -35,4 +35,4 @@ function saveAndApplyDiff(diff, proceed, abort, context) {
   }, context);
 }
 
-module.exports = saveAndApplyDiff;
+module.exports = saveAndApplyDiffCallback;

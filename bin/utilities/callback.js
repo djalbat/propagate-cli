@@ -5,26 +5,34 @@ const necessary = require("necessary");
 const { asynchronousUtilities } = necessary,
       { forEach, whilst } = asynchronousUtilities;
 
-function executeCallback(array, callback, proceed, context) {
-  forEach(array, executeCallback, proceed);
+function executeCallback(array, callback, proceed, abort, context) {
+  let completed = true;
 
-  function executeCallback(element, next, done) {
-    const proceed = next,
-          abort = done;
+  forEach(array, (element, next, done, context) => {
+    const proceed = next, ///
+          abort = () => {
+            completed = false;
+
+            done();
+          }
 
     callback(element, proceed, abort, context);
+  }, done, context);
+
+  function done() {
+    completed ?
+      proceed() :
+        abort();
   }
 }
 
 function executeCallbacks(callbacks, callback, context) {
+  let completed = true;
+
   const callbacksLength = callbacks.length,
         lastIndex = callbacksLength - 1;
 
-  let completed = true;
-
-  whilst(executeCallback, () => callback(completed), context);
-
-  function executeCallback(next, done, context, index) {
+  whilst((next, done, context, index) => {
     if (index > lastIndex) {
       done();
 
@@ -32,13 +40,18 @@ function executeCallbacks(callbacks, callback, context) {
     }
 
     const callback = callbacks[index],
-          proceed = next; ///
+          proceed = next, ///
+          abort = () => {
+            completed = false;
 
-    callback(proceed, () => {
-      completed = false;
+            done();
+          };
 
-      done();
-    }, context);
+    callback(proceed, abort, context);
+  }, done, context);
+
+  function done() {
+    callback(completed);
   }
 }
 

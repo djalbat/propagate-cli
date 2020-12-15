@@ -14,7 +14,7 @@ const { miscellaneousUtilities } = necessary,
       { isAnswerAffirmative } = promptUtilities,
       { FAILED_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
-function publishAndOrPublishPromptCallback(proceed, abort, context) {
+function publishPromptCallback(proceed, abort, context) {
   const { diff, quietly, force } = context,
         publishable = diff.isPublishable();
 
@@ -38,10 +38,12 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const description = "Publish? (y)es (n)o: ",
+  const answer = "no",
+        description = "Publish? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
+          answer,
           description,
           errorMessage,
           validationFunction
@@ -80,4 +82,4 @@ function publishAndOrPublishPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = publishAndOrPublishPromptCallback;
+module.exports = publishPromptCallback;
