@@ -38,6 +38,10 @@ class Diff {
 
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
+  isDependencyMapDiffEmpty() { return this.dependencyMapDiff.isEmpty(); }
+
+  isDevDependencyMapDiffEmpty() { return this.devDependencyMapDiff.isEmpty(); }
+
   isEmpty() {
     const versionDiffEmpty = this.versionDiff.isEmpty(),
           dependencyMapDiffEmpty = this.dependencyMapDiff.isEmpty(),
