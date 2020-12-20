@@ -28,12 +28,10 @@ function savePromptCallback(proceed, abort, context) {
     return;
   }
 
-  const answer = "yes",
-        description = "Save updates? (y)es (n)o: ",
+  const description = "Save updates? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
-          answer,
           description,
           errorMessage,
           validationFunction

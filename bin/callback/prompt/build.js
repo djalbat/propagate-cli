@@ -29,12 +29,10 @@ function buildPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const answer = "yes",
-        description = "Build? (y)es (n)o: ",
+  const description = "Build? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
-          answer,
           description,
           errorMessage,
           validationFunction

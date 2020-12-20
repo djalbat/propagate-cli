@@ -10,8 +10,8 @@ const { arrayUtilities } = necessary,
       { AT_LEAST_ONE_CYCLE_MESSAGE } = messages;
 
 function createReleaseGraphCallback(proceed, abort, context) {
-  const { releaseMap } = context,
-        releaseGraph = ReleaseGraph.fromReleaseMap(releaseMap),
+  const { releaseMap, subDirectoryPath } = context,
+        releaseGraph = ReleaseGraph.fromReleaseMapAndSubDiretoryPath(releaseMap, subDirectoryPath),
         cyclesPresent = releaseGraph.areCyclesPresent();
 
   if (cyclesPresent) {
