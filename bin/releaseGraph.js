@@ -5,117 +5,138 @@ const directedGraphs = require("occam-directed-graphs");
 const { DirectedGraph } = directedGraphs;
 
 class ReleaseGraph {
-  constructor(directedGraph) {
-    this.directedGraph = directedGraph;
+  constructor(dependencyDirectedGraph, devDependencyDirectedGraph) {
+    this.dependencyDirectedGraph = dependencyDirectedGraph;
+    this.devDependencyDirectedGraph = devDependencyDirectedGraph;
   }
 
-  getDirectedGraph() {
-    return this.directedGraph;
+  getDependencyDirectedGraph() {
+    return this.dependencyDirectedGraph;
   }
 
-  areCyclesPresent() { return this.directedGraph.areCyclesPresent(); }
+  getDevDependencyDirectedGraph() {
+    return this.devDependencyDirectedGraph;
+  }
 
-  getCyclicSubDirectoryNames() {
-    const firstCycle = this.directedGraph.getFirstCycle(),
+  isCyclicDependencyPresent() {
+    const cyclesPresent = this.dependencyDirectedGraph.areCyclesPresent(),
+          cyclicDependencyPresent = cyclesPresent;  ///
+
+    return cyclicDependencyPresent;
+  }
+
+  isCyclicDevDependencyPresent() {
+    const cyclesPresent = this.devDependencyDirectedGraph.areCyclesPresent(),
+          cyclicDevDependencyPresent = cyclesPresent;  ///
+
+    return cyclicDevDependencyPresent;
+  }
+
+  getCyclicDependencySubDirectoryNames() {
+    const firstCycle = this.dependencyDirectedGraph.getFirstCycle(),
           vertexNames = firstCycle.getVertexNames(),
-          cyclicSubDirectoryNames = vertexNames;  ///
+          cyclicDependencySubDirectoryNames = vertexNames;  ///
 
-    return cyclicSubDirectoryNames;
+    return cyclicDependencySubDirectoryNames;
   }
 
-  getTopologicallyOrderedSubDirectoryNames() {
-    const topologicallyOrderedVertexNames = this.directedGraph.getTopologicallyOrderedVertexNames(),
-          topologicallyOrderedSubDirectoryNames = topologicallyOrderedVertexNames;  ///
+  getCyclicDevDependencySubDirectoryNames() {
+    const firstCycle = this.devDependencyDirectedGraph.getFirstCycle(),
+          vertexNames = firstCycle.getVertexNames(),
+          cyclicDevDependencySubDirectoryNames = vertexNames;  ///
 
-    return topologicallyOrderedSubDirectoryNames;
+    return cyclicDevDependencySubDirectoryNames;
   }
 
-  retrieveImmediateSuccessorReleases(release, releaseMap) {
+  getTopologicallyOrderedDependencySubDirectoryNames() {
+    const topologicallyOrderedVertexNames = this.dependencyDirectedGraph.getTopologicallyOrderedVertexNames(),
+          topologicallyOrderedDependencySubDirectoryNames = topologicallyOrderedVertexNames;  ///
+
+    return topologicallyOrderedDependencySubDirectoryNames;
+  }
+
+  getTopologicallyOrderedDevDependencySubDirectoryNames() {
+    const topologicallyOrderedVertexNames = this.devDependencyDirectedGraph.getTopologicallyOrderedVertexNames(),
+          topologicallyOrderedDevDependencySubDirectoryNames = topologicallyOrderedVertexNames;  ///
+
+    return topologicallyOrderedDevDependencySubDirectoryNames;
+  }
+
+  retrieveDependentReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///
-          immediateSuccessorVertexNames = this.directedGraph.getImmediateSuccessorVertexNamesByVertexName(vertexName),
-          immediateSuccessorSubDirectoryPaths = immediateSuccessorVertexNames,  ///
-          immediateSuccessorReleases = immediateSuccessorSubDirectoryPaths.map((immediateSuccessorSubDirectoryPath) => {
-            const immediateSuccessorRelease = releaseMap.retrieveRelease(immediateSuccessorSubDirectoryPath);
+          immediateSuccessorVertexNames = this.dependencyDirectedGraph.getImmediateSuccessorVertexNamesByVertexName(vertexName),
+          dependentSubDirectoryPaths = immediateSuccessorVertexNames,
+          dependentReleases = dependentSubDirectoryPaths.map((dependentSubDirectoryPath) => {
+            const dependentRelease = releaseMap.retrieveRelease(dependentSubDirectoryPath);
 
-            return immediateSuccessorRelease;
+            return dependentRelease;
           });
 
-    return immediateSuccessorReleases;
+    return dependentReleases;
   }
 
-  static fromReleaseMapAndSubDiretoryPath(releaseMap, subDirectoryPath) {
-    const directedGraph = DirectedGraph.fromNothing(),
+  retrieveDevDependentReleases(release, releaseMap) {
+    const subDirectoryPath = release.getSubDirectoryPath(),
+          vertexName = subDirectoryPath,  ///
+          immediateSuccessorVertexNames = this.devDependencyDirectedGraph.getImmediateSuccessorVertexNamesByVertexName(vertexName),
+          devDependentSubDirectoryPaths = immediateSuccessorVertexNames,
+          devDependentReleases = devDependentSubDirectoryPaths.map((devDependentSubDirectoryPath) => {
+            const devDependentRelease = releaseMap.retrieveRelease(devDependentSubDirectoryPath);
+
+            return devDependentRelease;
+          });
+
+    return devDependentReleases;
+  }
+
+  static fromReleaseMap(releaseMap) {
+    const dependencyDirectedGraph = DirectedGraph.fromNothing(),
+          devDependencyDirectedGraph = DirectedGraph.fromNothing(),
           releaseNames = releaseMap.getNames(),
           subDirectoryPaths = releaseMap.getSubDirectoryPaths(),
           nameToSubDirectoryPathMap = releaseMap.getNameToSubDirectoryPathMap(),
-          initialSubDirectoryPath = subDirectoryPath, ///
-          vertexNames = subDirectoryPaths;
+          vertexNames = subDirectoryPaths;  ///
 
-    directedGraph.addVerticesByVertexNames(vertexNames);
+    dependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
-            dependencyNames = release.getDependencyNames(),
-            devDependencyNames = release.getDevDependencyNames(),
-            immediatePredecessorVertexNames = [
-              ...dependencyNames,
-              ...devDependencyNames
-            ],
-            immediatePredecessorReleaseNames = immediatePredecessorVertexNames.filter((immediatePredecessorVertexName) => {
-              const releaseNamesIncludesPredecessorName = releaseNames.includes(immediatePredecessorVertexName);
+            releaseDependencyNames = release.getDependencyNames();
 
-              if (releaseNamesIncludesPredecessorName) {
-                return true;
-              }
-            });
+      releaseDependencyNames.forEach((releaseDependencyName) => {
+        const releaseNamesIncludesReleaseDependencyName = releaseNames.includes(releaseDependencyName);
 
-      immediatePredecessorReleaseNames.forEach((immediatePredecessorReleaseName) => {
-        const immediatePredecessorReleaseSubDirectoryPath = nameToSubDirectoryPathMap[immediatePredecessorReleaseName],
-              sourceVertexName = immediatePredecessorReleaseSubDirectoryPath,  ///
-              targetVertexName = subDirectoryPath;  ///
+        if (releaseNamesIncludesReleaseDependencyName) {
+          const dependencySubDirectoryPath = nameToSubDirectoryPathMap[releaseDependencyName],
+                sourceVertexName = dependencySubDirectoryPath,  ///
+                targetVertexName = subDirectoryPath;  ///
 
-        directedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+          dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+        }
       });
     });
 
+    devDependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
+
     subDirectoryPaths.forEach((subDirectoryPath) => {
-      if (subDirectoryPath !== initialSubDirectoryPath) {
-        const release = releaseMap.retrieveRelease(subDirectoryPath);
+      const release = releaseMap.retrieveRelease(subDirectoryPath),
+            releaseDevDependencyNames = release.getDevDependencyNames();
 
-        if (release !== null) {
-          const vertexName = subDirectoryPath,  ///
-                dependencyNames = release.getDependencyNames(),
-                includeCyclicEdges = true,
-                dependencySubDirectoryPaths = [],
-                immediatePredecessorVertexNames = directedGraph.getImmediatePredecessorVertexNamesByVertexName(vertexName, includeCyclicEdges);
+      releaseDevDependencyNames.forEach((releaseDevDependencyName) => {
+        const releaseNamesIncludesReleaseDevDependencyName = releaseNames.includes(releaseDevDependencyName);
 
-          dependencyNames.forEach((dependencyName) => {
-            const dependencySubDirectoryPath = nameToSubDirectoryPathMap[dependencyName] || null;
+        if (releaseNamesIncludesReleaseDevDependencyName) {
+          const devDependencySubDirectoryPath = nameToSubDirectoryPathMap[releaseDevDependencyName],
+                sourceVertexName = devDependencySubDirectoryPath,  ///
+                targetVertexName = subDirectoryPath;  ///
 
-            if (dependencySubDirectoryPath !== null) {
-              const immediatePredecessorVertexNamesIncludesDependencySubDirectoryPath = immediatePredecessorVertexNames.includes(dependencySubDirectoryPath);
-
-              if (immediatePredecessorVertexNamesIncludesDependencySubDirectoryPath) {
-                dependencySubDirectoryPaths.push(dependencySubDirectoryPath);
-              }
-            }
-          });
-
-          const dependencySubDirectoryPathsLength = dependencySubDirectoryPaths.length,
-                dependencyPresent = (dependencySubDirectoryPathsLength > 0);
-
-          if (!dependencyPresent) {
-            const releaseSubDirectoryPath = release.getSubDirectoryPath(),
-                  sourceVertexName = releaseSubDirectoryPath; ///
-
-            directedGraph.removeEdgesBySourceVertexName(sourceVertexName);
-          }
+          devDependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
         }
-      }
+      });
     });
 
-    const releaseGraph = new ReleaseGraph(directedGraph);
+    const releaseGraph = new ReleaseGraph(dependencyDirectedGraph, devDependencyDirectedGraph);
 
     return releaseGraph;
   }

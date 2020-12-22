@@ -23,11 +23,12 @@ const INVALID_ANSWER_MESSAGE = "You must answer (y)es or (n)o.",
       SUCCESSFUL_ADD_IGNORED_DEPENDENCY_MESSAGE = "The ignored dependency was added successfully.",
       SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE = "The ignored dependency was added successfully.",
       NO_RELEASE_MESSAGE = "Either the sub-directory is missing or it does not contain a package.json file.",
-      AT_LEAST_ONE_CYCLE_MESSAGE = "There is at least one cycle.",
       RELEASE_NOT_PUBLISHABLE_MESSAGE = "The package.json file must contain both name and version fields in order to be publishable.",
       NO_SUB_DIRECTORY_SPECIFIED_MESSAGE = "No sub-directory has been specified.",
       DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE = "The directory has already been added.",
       CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE = "The action cannot be performed because the configuration file is missing. Run 'propagate initialise' to create one.",
+      AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE = "There is at least one cyclic dependency.",
+      AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE = "There is at least one cyclic developer dependency.",
       IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE = "You cannot propagate an ignored dependency.",
       IGNORED_DEPENDENCIES_INCLUDES_IGNORED_DEPENDENCY_MESSAGE = "The ignored dependency has already been added.";
 
@@ -55,11 +56,12 @@ module.exports = {
   SUCCESSFUL_ADD_IGNORED_DEPENDENCY_MESSAGE,
   SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE,
   NO_RELEASE_MESSAGE,
-  AT_LEAST_ONE_CYCLE_MESSAGE,
   RELEASE_NOT_PUBLISHABLE_MESSAGE,
   NO_SUB_DIRECTORY_SPECIFIED_MESSAGE,
   DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE,
   CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE,
+  AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE,
+  AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE,
   IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE,
   IGNORED_DEPENDENCIES_INCLUDES_IGNORED_DEPENDENCY_MESSAGE
 };

@@ -13,13 +13,14 @@ const { arrayUtilities } = necessary,
       { retrieveShellCommands } = configuration;
 
 class Release {
-  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath, propagated) {
+  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath, propagated, bumped) {
     this.name = name;
     this.version = version;
     this.dependencyMap = dependencyMap;
     this.devDependencyMap = devDependencyMap;
     this.subDirectoryPath = subDirectoryPath;
     this.propagated = propagated;
+    this.bumped = bumped;
   }
 
   getName() {
@@ -46,6 +47,10 @@ class Release {
     return this.propagated;
   }
 
+  isBumped() {
+    return this.bumped;
+  }
+
   isPublishable() {
     const publishable = (this.name !== null) && (this.version !== null);
 
@@ -62,6 +67,18 @@ class Release {
     const devDependencyNames = Object.keys(this.devDependencyMap);
 
     return devDependencyNames;
+  }
+
+  propagate() {
+    const propagated = true;
+
+    this.setPropagated(propagated);
+  }
+
+  bump() {
+    this.bumpPatchVersion();
+
+    this.bumped = true;
   }
 
   git(quietly, callback) {
@@ -141,10 +158,11 @@ class Release {
       const { name = null, version = null, dependencies = {}, devDependencies = {} } = packageJSON,
             dependencyMap = dependencies, ///
             devDependencyMap = devDependencies, ///
-            propagated = false;
+            propagated = false,
+            bumped = false;
 
-      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath, propagated);
-   }
+      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath, propagated, bumped);
+    }
 
     return release;
   }

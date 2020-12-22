@@ -17,8 +17,8 @@ module.exports = createDiffsCallback;
 
 function createDiffs(releaseMap, releaseGraph) {
   const diffs = [],
-        topologicallyOrderedSubDirectoryNames = releaseGraph.getTopologicallyOrderedSubDirectoryNames(),
-        subDirectoryNames = topologicallyOrderedSubDirectoryNames;  ///
+        topologicallyOrderedDependencySubDirectoryNames = releaseGraph.getTopologicallyOrderedDependencySubDirectoryNames(),
+        subDirectoryNames = topologicallyOrderedDependencySubDirectoryNames;  ///
 
   subDirectoryNames.forEach((subDirectoryName) => {
     const release = releaseMap.retrieveRelease(subDirectoryName),

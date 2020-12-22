@@ -3,38 +3,66 @@
 function propagateReleaseCallback(proceed, abort, context) {
   const { release, releaseMap, releaseGraph } = context;
 
-  propagateRelease(release, releaseMap, releaseGraph);
+  propagateReleaseDependencies(release, releaseMap, releaseGraph);
+
+  propagateDevDependencies(releaseMap, releaseGraph);
 
   proceed();
 }
 
 module.exports = propagateReleaseCallback;
 
-function propagateRelease(release, releaseMap, releaseGraph) {
-  const propagated = true;
+function propagateDevDependencies(releaseMap, releaseGraph) {
+  const topologicallyOrderedDevDependencySubDirectoryNames = releaseGraph.getTopologicallyOrderedDevDependencySubDirectoryNames(),
+        subDirectoryNames = topologicallyOrderedDevDependencySubDirectoryNames; ///
 
-  release.setPropagated(propagated);
+  subDirectoryNames.forEach((subDirectoryName) => {
+    const release = releaseMap.retrieveRelease(subDirectoryName),
+          bumped = release.isBumped();
 
-  release.bumpPatchVersion();
+    if (bumped) {
+      const name = release.getName(),
+            version = release.getVersion(),
+            devDependentReleases = releaseGraph.retrieveDevDependentReleases(release, releaseMap);
 
+      devDependentReleases.forEach((devDependentRelease) => {
+        const publishable = devDependentRelease.isPublishable();
+
+        if (publishable) {
+          const bumped = devDependentRelease.isBumped();
+
+          devDependentRelease.updateDevDependencyVersion(name, version)
+
+          if (!bumped) {
+            devDependentRelease.bump();
+          }
+        }
+      });
+    }
+  });
+}
+
+function propagateReleaseDependencies(release, releaseMap, releaseGraph) {
   const name = release.getName(),
         version = release.getVersion(),
-        immediateSuccessorReleases = releaseGraph.retrieveImmediateSuccessorReleases(release, releaseMap);
+        dependentReleases = releaseGraph.retrieveDependentReleases(release, releaseMap);
 
-  immediateSuccessorReleases.forEach((immediateSuccessorRelease) => {
-    immediateSuccessorRelease.updateDependencyVersion(name, version);
+  release.bump();
 
-    immediateSuccessorRelease.updateDevDependencyVersion(name, version);
+  release.propagate();
 
-    const publishable = immediateSuccessorRelease.isPublishable();
+  dependentReleases.forEach((dependentRelease) => {
+    const publishable = dependentRelease.isPublishable();
+
+    dependentRelease.updateDependencyVersion(name, version);
 
     if (publishable) {
-      const propagated = immediateSuccessorRelease.isPropagated();
+      const propagated = dependentRelease.isPropagated();
 
       if (!propagated) {
-        const release = immediateSuccessorRelease; ///
+        const release = dependentRelease; ///
 
-        propagateRelease(release, releaseMap, releaseGraph);
+        propagateReleaseDependencies(release, releaseMap, releaseGraph);
       }
     }
   });
