@@ -15,24 +15,14 @@ const { miscellaneousUtilities } = necessary,
 function buildPromptCallback(proceed, abort, context) {
   const { diff, quietly, force } = context;
 
-  if (force) {
-    diff.build(quietly, (success) => {
-      if (!success) {
-        console.log(FAILED_BUILD_MESSAGE);
-
-        process.exit();
-      }
-
-      proceed();
-    });
-
-    return;
-  }
-
-  const description = "Build? (y)es (n)o: ",
+  const answer = force ?
+                   "yes" :
+                     undefined,
+        description = "Build? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
+          answer,
           description,
           errorMessage,
           validationFunction

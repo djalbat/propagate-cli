@@ -15,24 +15,14 @@ const { miscellaneousUtilities } = necessary,
 function gitPromptCallback(proceed, abort, context) {
   const { diff, quietly, force } = context;
 
-  if (force) {
-    diff.git(quietly, (success) => {
-      if (!success) {
-        console.log(FAILED_GIT_MESSAGE);
-
-        process.exit();
-      }
-
-      proceed();
-    });
-
-    return;
-  }
-
-  const description = "Add, commit and push with Git? (y)es (n)o: ",
+  const answer = force ?
+                   "yes" :
+                     undefined,
+        description = "Add, commit and push with Git? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
+          answer,
           description,
           errorMessage,
           validationFunction

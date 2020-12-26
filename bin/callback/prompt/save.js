@@ -20,18 +20,14 @@ function savePromptCallback(proceed, abort, context) {
 
   console.log(diffString);
 
-  if (force) {
-    diff.save();
-
-    proceed();
-
-    return;
-  }
-
-  const description = "Save updates? (y)es (n)o: ",
+  const answer = force ?
+                   "yes" :
+                     undefined,
+        description = "Save updates? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
+          answer,
           description,
           errorMessage,
           validationFunction

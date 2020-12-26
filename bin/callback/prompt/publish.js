@@ -24,24 +24,14 @@ function publishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  if (force) {
-    diff.publish(quietly, (success) => {
-      if (!success) {
-        console.log(FAILED_PUBLISH_MESSAGE);
-
-        process.exit();
-      }
-
-      proceed();
-    });
-
-    return;
-  }
-
-  const description = "Publish? (y)es (n)o: ",
+  const answer = force ?
+                   "yes" :
+                     undefined,
+        description = "Publish? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
+          answer,
           description,
           errorMessage,
           validationFunction
