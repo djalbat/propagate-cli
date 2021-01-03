@@ -38,9 +38,7 @@ class Diff {
 
   getSubDirectoryPath() { return this.release.getSubDirectoryPath(); }
 
-  isDependencyMapDiffEmpty() { return this.dependencyMapDiff.isEmpty(); }
-
-  isDevDependencyMapDiffEmpty() { return this.devDependencyMapDiff.isEmpty(); }
+  getDevDependencyNames() { return this.release.getDevDependencyNames(); }
 
   isEmpty() {
     const versionDiffEmpty = this.versionDiff.isEmpty(),
@@ -52,16 +50,22 @@ class Diff {
   }
 
   save() {
+    let success = false;
+
     const subDirectoryPath = this.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath);
 
-    this.versionDiff.save(packageJSON);
+    if (packageJSON !== null) {
+      this.versionDiff.save(packageJSON);
 
-    this.dependencyMapDiff.save(packageJSON, DEPENDENCIES_NAME);
+      this.dependencyMapDiff.save(packageJSON, DEPENDENCIES_NAME);
 
-    this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
+      this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
 
-    writePackageJSONFile(subDirectoryPath, packageJSON);
+      success = writePackageJSONFile(subDirectoryPath, packageJSON);
+    }
+
+    return success;
   }
 
   git(quietly, callback) { this.release.git(quietly, callback); }
@@ -113,8 +117,13 @@ class Diff {
 
   static fromRelease(release) {
     const subDirectoryPath = release.getSubDirectoryPath(),
-          packageJSON = readPackageJSONFile(subDirectoryPath),
-          { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
+          packageJSON = readPackageJSONFile(subDirectoryPath);
+
+    if (packageJSON === null) {
+      process.exit(1);
+    }
+
+    const { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
           dependencyMap = dependencies, ///
           devDependencyMap = devDependencies, ///
           releaseVersion = release.getVersion(),

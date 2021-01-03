@@ -67,8 +67,7 @@ class ReleaseMap {
 
   static fromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies) {
     const map = {},
-          ignoredSubDirectoryNames = ignoredDependencies, ///
-          subDirectoryPaths = subDirectoryPathsFromDirectoriesAndIgnoredSubDirectoryNames(directories, ignoredSubDirectoryNames);
+          subDirectoryPaths = subDirectoryPathsFromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = Release.fromSubDirectoryPath(subDirectoryPath);
@@ -86,7 +85,7 @@ class ReleaseMap {
 
 module.exports = ReleaseMap;
 
-function subDirectoryPathsFromDirectoriesAndIgnoredSubDirectoryNames(directories, ignoredSubDirectoryNames) {
+function subDirectoryPathsFromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies) {
   const subDirectoryPaths = [],
         directoryNames = [
           DEFAULT_DIRECTORY_NAME,
@@ -98,15 +97,15 @@ function subDirectoryPathsFromDirectoriesAndIgnoredSubDirectoryNames(directories
           entryNames = readDirectory(absoluteDirectoryPath);
 
     entryNames.forEach((entryName) => {
-      const entryRPath = `${directoryName}/${entryName}`,
-            entryDirectory = isEntryDirectory(entryRPath);
+      const entryPath = `${directoryName}/${entryName}`,
+            entryDirectory = isEntryDirectory(entryPath);
 
       if (entryDirectory) {
         const subDirectoryName = entryName, ///
-              ignoredSubDirectoryNamesIncludesSubDirectoryName = ignoredSubDirectoryNames.includes(subDirectoryName);
+              ignoredDependenciesIncludesSubDirectoryName = ignoredDependencies.includes(subDirectoryName);
 
-        if (!ignoredSubDirectoryNamesIncludesSubDirectoryName) {
-          const subDirectoryPath = entryRPath; ///
+        if (!ignoredDependenciesIncludesSubDirectoryName) {
+          const subDirectoryPath = entryPath; ///
 
           subDirectoryPaths.push(subDirectoryPath);
         }

@@ -32,20 +32,20 @@ class ReleaseGraph {
     return cyclicDevDependencyPresent;
   }
 
-  getCyclicDependencySubDirectoryNames() {
+  getCyclicDependencySubDirectoryPaths() {
     const firstCycle = this.dependencyDirectedGraph.getFirstCycle(),
           vertexNames = firstCycle.getVertexNames(),
-          cyclicDependencySubDirectoryNames = vertexNames;  ///
+          cyclicDependencySubDirectoryPaths = vertexNames;  ///
 
-    return cyclicDependencySubDirectoryNames;
+    return cyclicDependencySubDirectoryPaths;
   }
 
-  getCyclicDevDependencySubDirectoryNames() {
+  getCyclicDevDependencySubDirectoryPaths() {
     const firstCycle = this.devDependencyDirectedGraph.getFirstCycle(),
           vertexNames = firstCycle.getVertexNames(),
-          cyclicDevDependencySubDirectoryNames = vertexNames;  ///
+          cyclicDevDependencySubDirectoryPaths = vertexNames;  ///
 
-    return cyclicDevDependencySubDirectoryNames;
+    return cyclicDevDependencySubDirectoryPaths;
   }
 
   retrieveDependentReleases(release, releaseMap) {

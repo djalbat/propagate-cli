@@ -19,7 +19,7 @@ function addIgnoredDependency() {
     if (!completed) {
       console.log(FAILED_ADD_IGNORED_DEPENDENCY_MESSAGE);
 
-      process.exit();
+      return;
     }
 
     const ignoredDependencies = retrieveIgnoredDependencies(),

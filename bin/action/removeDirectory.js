@@ -29,7 +29,7 @@ function removeDirectory() {
     if (!completed) {
       console.log(FAILED_REMOVE_DIRECTORY_MESSAGE);
 
-      process.exit();
+      return;
     }
 
     const { directoryNumber } = context,

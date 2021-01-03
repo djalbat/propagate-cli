@@ -5,6 +5,7 @@ const necessary = require("necessary");
 const messages = require("../../messages"),
       constants = require("../../constants"),
       promptUtilities = require("../../utilities/prompt"),
+      consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
@@ -12,10 +13,11 @@ const { miscellaneousUtilities } = necessary,
       { YES } = constants,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
+      { consoleLogUnpublishedDiffs } = consoleUtilities,
       { FAILED_BUILD_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function buildPromptCallback(proceed, abort, context) {
-  const { yes, diff, quietly } = context;
+  const { yes, diff, diffs, quietly } = context;
 
   const answer = yes ?
                    YES :
@@ -31,6 +33,10 @@ function buildPromptCallback(proceed, abort, context) {
         };
 
   prompt(options, (answer) => {
+    if (diffs.indexOf(diff) === 1) {
+      answer = null;
+    }
+
     const valid = (answer !== null);
 
     if (valid) {
@@ -44,9 +50,11 @@ function buildPromptCallback(proceed, abort, context) {
 
       diff.build(quietly, (success) => {
         if (!success) {
+          consoleLogUnpublishedDiffs(diff, diffs);
+
           console.log(FAILED_BUILD_MESSAGE);
 
-          process.exit();
+          process.exit(1);
         }
 
         proceed();
@@ -54,8 +62,11 @@ function buildPromptCallback(proceed, abort, context) {
 
       return;
     }
+    consoleLogUnpublishedDiffs(diff, diffs);
 
-    process.exit();
+    console.log(FAILED_BUILD_MESSAGE);
+
+    process.exit(1);
   });
 }
 

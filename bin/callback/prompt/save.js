@@ -6,6 +6,7 @@ const messages = require("../../messages"),
       constants = require("../../constants"),
       diffUtilities = require("../../utilities/diff"),
       promptUtilities = require("../../utilities/prompt"),
+      consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
@@ -14,10 +15,11 @@ const { miscellaneousUtilities } = necessary,
       { eliminateDiff } = diffUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { INVALID_ANSWER_MESSAGE } = messages,
+      { consoleLogUnpublishedDiffs } = consoleUtilities;
 
 function savePromptCallback(proceed, abort, context) {
-  const { yes, diff } = context,
+  const { yes, diff, diffs } = context,
         diffString = diff.asString();
 
   console.log(diffString);
@@ -48,7 +50,7 @@ function savePromptCallback(proceed, abort, context) {
       } else {
         const { diffs } = context;
 
-        eliminateDiff(diff, diffs);
+        // eliminateDiff(diff, diffs);
 
         abort();
       }
@@ -56,7 +58,9 @@ function savePromptCallback(proceed, abort, context) {
       return;
     }
 
-    process.exit();
+    consoleLogUnpublishedDiffs(diff, diffs);
+
+    process.exit(1);
   });
 }
 

@@ -34,20 +34,21 @@ function execute(shellCommands, quietly, callback) {
         };
 
   prompt(options, (answer) => {
+    let success;
+
     const valid = (answer !== null);
 
     if (valid) {
-      const affirmative = isAnswerAffirmative(answer),
-            success = affirmative ?
-                        execSync(shellCommands, quietly) :
-                          true; ///
+      const affirmative = isAnswerAffirmative(answer);
 
-      callback(success);
-
-      return;
+      success = affirmative ?
+                  execSync(shellCommands, quietly) :
+                    true; ///
+    } else {
+      success = false;
     }
 
-    process.exit();
+    callback(success);
   });
 }
 

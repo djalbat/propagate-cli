@@ -39,26 +39,30 @@ function readPackageJSONFile(subDirectoryPath) {
     console.log(`There was an error when reading from the package.json file in the '${subDirectoryPath}' sub-directory:`);
 
     console.log(error);
-
-    process.exit();
   }
 
   return packageJSON;
 }
 
 function writePackageJSONFile(subDirectoryPath, packageJSON) {
+  let success;
+
   try {
     const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
           packageJSONContent = JSON.stringify(packageJSON, null, "  ") + "\n";  ///
 
     writeFile(packageJSONFilePath, packageJSONContent);
+
+    success = true;
   } catch (error) {
     console.log(`There was an error when writing to the package.json file in the "${subDirectoryPath}" sub-directory:`);
 
     console.log(error);
 
-    process.exit();
+    success = false;
   }
+
+  return success;
 }
 
 module.exports = {

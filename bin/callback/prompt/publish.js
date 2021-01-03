@@ -6,6 +6,7 @@ const messages = require("../../messages"),
       constants = require("../../constants"),
       diffUtilities = require("../../utilities/diff"),
       promptUtilities = require("../../utilities/prompt"),
+      consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
@@ -14,10 +15,11 @@ const { miscellaneousUtilities } = necessary,
       { eliminateDiff } = diffUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
+      { consoleLogUnpublishedDiffs } = consoleUtilities,
       { FAILED_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function publishPromptCallback(proceed, abort, context) {
-  const { yes, diff, quietly } = context,
+  const { yes, diff, diffs, quietly } = context,
         publishable = diff.isPublishable();
 
   if (!publishable) {
@@ -48,7 +50,7 @@ function publishPromptCallback(proceed, abort, context) {
       if (!affirmative) {
         const { diffs } = context;
 
-        eliminateDiff(diff, diffs);
+        // eliminateDiff(diff, diffs);
 
         proceed();
 
@@ -57,9 +59,11 @@ function publishPromptCallback(proceed, abort, context) {
 
       diff.publish(quietly, (success) => {
         if (!success) {
+          consoleLogUnpublishedDiffs(diff, diffs);
+
           console.log(FAILED_PUBLISH_MESSAGE);
 
-          process.exit();
+          process.exit(1);
         }
 
         proceed();
@@ -68,7 +72,11 @@ function publishPromptCallback(proceed, abort, context) {
       return;
     }
 
-    process.exit();
+    consoleLogUnpublishedDiffs(diff, diffs);
+
+    console.log(FAILED_PUBLISH_MESSAGE);
+
+    process.exit(1);
   });
 }
 

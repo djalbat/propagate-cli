@@ -1,12 +1,11 @@
 "use strict";
 
-const necessary = require("necessary");
-
 const messages = require("../messages"),
       ReleaseGraph = require("../releaseGraph");
 
-const { arrayUtilities } = necessary,
-      { first } = arrayUtilities,
+const consoleUtilities = require('../utilities/console');
+
+const { consoleLogSubDirectoryPathsCycle } = consoleUtilities,
       { AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE, AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE } = messages;
 
 function createReleaseGraphCallback(proceed, abort, context) {
@@ -16,11 +15,11 @@ function createReleaseGraphCallback(proceed, abort, context) {
         cyclicDevDependencyPresent = releaseGraph.isCyclicDevDependencyPresent();
 
   if (cyclicDependencyPresent) {
-    const cyclicDependencySubDirectoryNames = releaseGraph.getCyclicDependencySubDirectoryNames();
+    const cyclicDependencySubDirectoryPaths = releaseGraph.getCyclicDependencySubDirectoryPaths();
 
     console.log(AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE);
 
-    consoleLogSubDirectoryNamesCycle(cyclicDependencySubDirectoryNames);
+    consoleLogSubDirectoryPathsCycle(cyclicDependencySubDirectoryPaths);
 
     abort();
 
@@ -28,11 +27,11 @@ function createReleaseGraphCallback(proceed, abort, context) {
   }
 
   if (cyclicDevDependencyPresent) {
-    const cyclicDevDependencySubDirectoryNames = releaseGraph.getCyclicDevDependencySubDirectoryNames();
+    const cyclicDevDependencySubDirectoryPaths = releaseGraph.getCyclicDevDependencySubDirectoryPaths();
 
     console.log(AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE);
 
-    consoleLogSubDirectoryNamesCycle(cyclicDevDependencySubDirectoryNames);
+    consoleLogSubDirectoryPathsCycle(cyclicDevDependencySubDirectoryPaths);
 
     abort();
 
@@ -47,16 +46,3 @@ function createReleaseGraphCallback(proceed, abort, context) {
 }
 
 module.exports = createReleaseGraphCallback;
-
-function consoleLogSubDirectoryNamesCycle(subDirectoryNames) {
-  const firstSubDirectoryName = first(subDirectoryNames);
-
-  subDirectoryNames = [
-    ...subDirectoryNames,
-    firstSubDirectoryName
-  ];
-
-  subDirectoryNames.forEach((subDirectoryName) => {
-    console.log(` "${subDirectoryName}"`);
-  });
-}

@@ -26,7 +26,7 @@ function setShellCommands() {
     if (!completed) {
       console.log(FAILED_SET_SHELL_COMMANDS_MESSAGE);
 
-      process.exit();
+      return;
     }
 
     const { shellCommands } = context;

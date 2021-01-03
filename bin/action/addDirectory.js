@@ -19,7 +19,7 @@ function addDirectory() {
     if (!completed) {
       console.log(FAILED_ADD_DIRECTORY_MESSAGE);
 
-      process.exit();
+      return;
     }
 
     const directories = retrieveDirectories(),

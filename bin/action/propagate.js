@@ -31,13 +31,9 @@ function propagate(argument, quietly, dryRun, yes) {
         };
 
   executeCallbacks(callbacks, (completed) => {
-    if (!completed) {
-      console.log(FAILED_PROPAGATE_MESSAGE);
-
-      process.exit();
-    }
-
-    console.log(SUCCESSFUL_PROPAGATE_MESSAGE);
+    completed ?
+      console.log(SUCCESSFUL_PROPAGATE_MESSAGE) :
+        console.log(FAILED_PROPAGATE_MESSAGE);
   }, context);
 }
 

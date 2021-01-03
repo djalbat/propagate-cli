@@ -29,7 +29,7 @@ function removeIgnoredDependency() {
     if (!completed) {
       console.log(FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE);
 
-      process.exit();
+      return;
     }
 
     const { ignoredDependencyNumber } = context,
