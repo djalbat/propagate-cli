@@ -3,8 +3,7 @@
 const messages = require("../messages"),
       dryRunCallback = require("../callback/dryRun"),
       callbackUtilities = require("../utilities/callback"),
-      createDiffsCallback = require("../callback/createDiffs"),
-      createReleaseCallback = require("../callback/createRelease"),
+      retrieveReleaseCallback = require("../callback/retrieveRelease"),
       createReleaseMapCallback = require("../callback/createReleaseMap"),
       propagateReleaseCallback = require("../callback/propagateRelease"),
       saveAndApplyDiffsCallback = require("../callback/saveAndApplyDiffs"),
@@ -14,14 +13,13 @@ const messages = require("../messages"),
 const { executeCallbacks } = callbackUtilities,
       { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = messages;
 
-function propagate(argument, quietly, dryRun, force) {
+function propagate(argument, quietly, dryRun, yes) {
   const callbacks = [
           createSubDirectoryPathCallback,
           createReleaseMapCallback,
-          createReleaseCallback,
+          retrieveReleaseCallback,
           createReleaseGraphCallback,
           propagateReleaseCallback,
-          createDiffsCallback,
           dryRunCallback,
           saveAndApplyDiffsCallback
         ],
@@ -29,7 +27,7 @@ function propagate(argument, quietly, dryRun, force) {
           argument,
           quietly,
           dryRun,
-          force
+          yes
         };
 
   executeCallbacks(callbacks, (completed) => {

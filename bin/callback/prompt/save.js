@@ -3,26 +3,28 @@
 const necessary = require("necessary");
 
 const messages = require("../../messages"),
+      constants = require("../../constants"),
       diffUtilities = require("../../utilities/diff"),
       promptUtilities = require("../../utilities/prompt"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
+      { YES } = constants,
       { eliminateDiff } = diffUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages;
 
 function savePromptCallback(proceed, abort, context) {
-  const { diff, force } = context,
+  const { yes, diff } = context,
         diffString = diff.asString();
 
   console.log(diffString);
 
-  const answer = force ?
-                   "yes" :
-                     undefined,
+  const answer = yes ?
+                   YES :
+                     null,
         description = "Save updates? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///

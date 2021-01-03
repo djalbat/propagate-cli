@@ -1,6 +1,7 @@
 "use strict";
 
-const UTF8 = "utf-8",
+const YES = "yes",
+      UTF8 = "utf-8",
       PROPAGATE_CLI = "Propagate-CLI",
       RC_BASE_EXTENSION = "propagate",
       DEPENDENCIES_NAME = "dependencies",
@@ -12,6 +13,7 @@ const UTF8 = "utf-8",
       DEFAULT_PUBLISH_SHELL_COMMANDS = "npm publish";
 
 module.exports = {
+  YES,
   UTF8,
   PROPAGATE_CLI,
   RC_BASE_EXTENSION,

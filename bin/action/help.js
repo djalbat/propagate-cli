@@ -39,7 +39,7 @@ Options:
 
   --quietly|-q                 Execute shell commands without printing to the console
   
-  --force|-f                   Suppress prompts
+  --yes|-y                     Initially answer yes to prompts
 
   --help|-h                    Show this help
 

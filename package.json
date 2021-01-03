@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "argumentative": "^1.1.5",
-    "necessary": "^5.0.0",
+    "necessary": "^5.0.3",
     "occam-directed-graphs": "^2.0.10"
   },
   "devDependencies": {},

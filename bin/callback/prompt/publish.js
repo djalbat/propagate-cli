@@ -3,19 +3,21 @@
 const necessary = require("necessary");
 
 const messages = require("../../messages"),
+      constants = require("../../constants"),
       diffUtilities = require("../../utilities/diff"),
       promptUtilities = require("../../utilities/prompt"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
+      { YES } = constants,
       { eliminateDiff } = diffUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { FAILED_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function publishPromptCallback(proceed, abort, context) {
-  const { diff, quietly, force } = context,
+  const { yes, diff, quietly } = context,
         publishable = diff.isPublishable();
 
   if (!publishable) {
@@ -24,9 +26,9 @@ function publishPromptCallback(proceed, abort, context) {
     return;
   }
 
-  const answer = force ?
-                   "yes" :
-                     undefined,
+  const answer = yes ?
+                   YES :
+                     null,
         description = "Publish? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///

@@ -1,69 +1,87 @@
 "use strict";
 
+const Diff = require("../diff");
+
 function propagateReleaseCallback(proceed, abort, context) {
-  const { release, releaseMap, releaseGraph } = context;
+  const { release, releaseMap, releaseGraph } = context,
+        releases = [];
 
-  propagateReleaseDependencies(release, releaseMap, releaseGraph);
+  propagateReleaseDependencies(release, releases, releaseMap, releaseGraph);
 
-  propagateDevDependencies(releaseMap, releaseGraph);
+  propagateDevDependencies(releases, releaseMap, releaseGraph);
+
+  const diffs = releases.map((release) => {
+    const diff = Diff.fromRelease(release);
+
+    return diff;
+  })
+
+  Object.assign(context, {
+    diffs
+  });
 
   proceed();
 }
 
 module.exports = propagateReleaseCallback;
 
-function propagateDevDependencies(releaseMap, releaseGraph) {
-  const topologicallyOrderedDevDependencySubDirectoryNames = releaseGraph.getTopologicallyOrderedDevDependencySubDirectoryNames(),
-        subDirectoryNames = topologicallyOrderedDevDependencySubDirectoryNames; ///
+function propagateReleaseDependencies(release, releases, releaseMap, releaseGraph) {
+  const releasesIncludesRelease = releases.includes(release);
 
-  subDirectoryNames.forEach((subDirectoryName) => {
-    const release = releaseMap.retrieveRelease(subDirectoryName),
-          bumped = release.isBumped();
+  if (!releasesIncludesRelease) {
+    const version = release.getVersion();
 
-    if (bumped) {
-      const name = release.getName(),
-            version = release.getVersion(),
-            devDependentReleases = releaseGraph.retrieveDevDependentReleases(release, releaseMap);
-
-      devDependentReleases.forEach((devDependentRelease) => {
-        const publishable = devDependentRelease.isPublishable();
-
-        if (publishable) {
-          const bumped = devDependentRelease.isBumped();
-
-          devDependentRelease.updateDevDependencyVersion(name, version)
-
-          if (!bumped) {
-            devDependentRelease.bump();
-          }
-        }
-      });
+    if (version !== null) {
+      release.bumpPatchVersion();
     }
-  });
+
+    releases.push(release);
+  } else {
+    return;
+  }
+
+  const dependentReleases = releaseGraph.retrieveDependentReleases(release, releaseMap),
+        dependentReleasesLength = dependentReleases.length;
+
+  if (dependentReleasesLength > 0) {
+    const name = release.getName(),
+          version = release.getVersion();
+
+    dependentReleases.forEach((dependentRelease) => {
+      const release = dependentRelease; ///
+
+      release.updateDependencyVersion(name, version);
+
+      propagateReleaseDependencies(release, releases, releaseMap, releaseGraph);
+    });
+  }
 }
 
-function propagateReleaseDependencies(release, releaseMap, releaseGraph) {
-  const name = release.getName(),
-        version = release.getVersion(),
-        dependentReleases = releaseGraph.retrieveDependentReleases(release, releaseMap);
+function propagateDevDependencies(releases, releaseMap, releaseGraph) {
+  releases.forEach((release) => {
+    const devDependentReleases = releaseGraph.retrieveDevDependentReleases(release, releaseMap),
+          devDependentReleasesLength = devDependentReleases.length;
 
-  release.bump();
+    if (devDependentReleasesLength > 0) {
+      const name = release.getName(),
+            version = release.getVersion();
 
-  release.propagate();
+      devDependentReleases.forEach((devDependentRelease) => {
+        const release = devDependentRelease,  ///
+              releasesIncludesRelease = releases.includes(release);
 
-  dependentReleases.forEach((dependentRelease) => {
-    const publishable = dependentRelease.isPublishable();
+        if (!releasesIncludesRelease) {
+          const version = release.getVersion();
 
-    dependentRelease.updateDependencyVersion(name, version);
+          if (version !== null) {
+            release.bumpPatchVersion();
+          }
 
-    if (publishable) {
-      const propagated = dependentRelease.isPropagated();
+          releases.push(release);
+        }
 
-      if (!propagated) {
-        const release = dependentRelease; ///
-
-        propagateReleaseDependencies(release, releaseMap, releaseGraph);
-      }
+        release.updateDevDependencyVersion(name, version);
+      });
     }
   });
 }

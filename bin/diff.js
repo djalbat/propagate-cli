@@ -112,8 +112,6 @@ class Diff {
   }
 
   static fromRelease(release) {
-    let diff = null;
-
     const subDirectoryPath = release.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath),
           { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
@@ -125,13 +123,7 @@ class Diff {
           versionDiff = VersionDiff.fromVersionAndReleaseVersion(version, releaseVersion),
           dependencyMapDiff = MapDiff.fromMapAndReleaseMap(dependencyMap, releaseDependencyMap),
           devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap),
-          versionDiffEmpty = versionDiff.isEmpty(),
-          dependencyMapDiffEmpty = dependencyMapDiff.isEmpty(),
-          devDependencyMapDiffEmpty = devDependencyMapDiff.isEmpty();
-
-    if (!versionDiffEmpty || !dependencyMapDiffEmpty || !devDependencyMapDiffEmpty) {
-      diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);
-    }
+          diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);
 
     return diff;
   }

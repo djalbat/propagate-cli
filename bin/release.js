@@ -13,14 +13,12 @@ const { arrayUtilities } = necessary,
       { retrieveShellCommands } = configuration;
 
 class Release {
-  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath, propagated, bumped) {
+  constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath) {
     this.name = name;
     this.version = version;
     this.dependencyMap = dependencyMap;
     this.devDependencyMap = devDependencyMap;
     this.subDirectoryPath = subDirectoryPath;
-    this.propagated = propagated;
-    this.bumped = bumped;
   }
 
   getName() {
@@ -43,14 +41,6 @@ class Release {
     return this.subDirectoryPath;
   }
 
-  isPropagated() {
-    return this.propagated;
-  }
-
-  isBumped() {
-    return this.bumped;
-  }
-
   isPublishable() {
     const publishable = (this.name !== null) && (this.version !== null);
 
@@ -67,18 +57,6 @@ class Release {
     const devDependencyNames = Object.keys(this.devDependencyMap);
 
     return devDependencyNames;
-  }
-
-  propagate() {
-    const propagated = true;
-
-    this.setPropagated(propagated);
-  }
-
-  bump() {
-    this.bumpPatchVersion();
-
-    this.bumped = true;
   }
 
   git(quietly, callback) {
@@ -112,10 +90,6 @@ class Release {
     shellCommands = publishShellCommands; ///
 
     this.executeShellCommands(shellCommands, quietly, callback);
-  }
-
-  setPropagated(propagated) {
-    this.propagated = propagated;
   }
 
   bumpPatchVersion() {
@@ -157,11 +131,9 @@ class Release {
     if (packageJSON !== null) {
       const { name = null, version = null, dependencies = {}, devDependencies = {} } = packageJSON,
             dependencyMap = dependencies, ///
-            devDependencyMap = devDependencies, ///
-            propagated = false,
-            bumped = false;
+            devDependencyMap = devDependencies; ///
 
-      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath, propagated, bumped);
+      release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath);
     }
 
     return release;

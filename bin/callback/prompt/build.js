@@ -3,21 +3,23 @@
 const necessary = require("necessary");
 
 const messages = require("../../messages"),
+      constants = require("../../constants"),
       promptUtilities = require("../../utilities/prompt"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
+      { YES } = constants,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { FAILED_BUILD_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function buildPromptCallback(proceed, abort, context) {
-  const { diff, quietly, force } = context;
+  const { yes, diff, quietly } = context;
 
-  const answer = force ?
-                   "yes" :
-                     undefined,
+  const answer = yes ?
+                   YES :
+                     null,
         description = "Build? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///

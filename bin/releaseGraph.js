@@ -48,20 +48,6 @@ class ReleaseGraph {
     return cyclicDevDependencySubDirectoryNames;
   }
 
-  getTopologicallyOrderedDependencySubDirectoryNames() {
-    const topologicallyOrderedVertexNames = this.dependencyDirectedGraph.getTopologicallyOrderedVertexNames(),
-          topologicallyOrderedDependencySubDirectoryNames = topologicallyOrderedVertexNames;  ///
-
-    return topologicallyOrderedDependencySubDirectoryNames;
-  }
-
-  getTopologicallyOrderedDevDependencySubDirectoryNames() {
-    const topologicallyOrderedVertexNames = this.devDependencyDirectedGraph.getTopologicallyOrderedVertexNames(),
-          topologicallyOrderedDevDependencySubDirectoryNames = topologicallyOrderedVertexNames;  ///
-
-    return topologicallyOrderedDevDependencySubDirectoryNames;
-  }
-
   retrieveDependentReleases(release, releaseMap) {
     const subDirectoryPath = release.getSubDirectoryPath(),
           vertexName = subDirectoryPath,  ///
