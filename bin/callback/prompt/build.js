@@ -33,10 +33,6 @@ function buildPromptCallback(proceed, abort, context) {
         };
 
   prompt(options, (answer) => {
-    if (diffs.indexOf(diff) === 1) {
-      answer = null;
-    }
-
     const valid = (answer !== null);
 
     if (valid) {
@@ -62,6 +58,7 @@ function buildPromptCallback(proceed, abort, context) {
 
       return;
     }
+
     consoleLogUnpublishedDiffs(diff, diffs);
 
     console.log(FAILED_BUILD_MESSAGE);

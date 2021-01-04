@@ -40,14 +40,11 @@ class Diff {
 
   getDevDependencyNames() { return this.release.getDevDependencyNames(); }
 
-  isEmpty() {
-    const versionDiffEmpty = this.versionDiff.isEmpty(),
-          dependencyMapDiffEmpty = this.dependencyMapDiff.isEmpty(),
-          devDependencyMapDiffEmpty = this.devDependencyMapDiff.isEmpty(),
-          empty = (versionDiffEmpty && dependencyMapDiffEmpty && devDependencyMapDiffEmpty);
+  isVersionDiffEmpty() { return this.versionDiff.isEmpty(); }
 
-    return empty;
-  }
+  isDependencyMapDiffEmpty() { return this.dependencyMapDiff.isEmpty(); }
+
+  isDevDependencyMapDiffEmpty() { return this.devDependencyMapDiff.isEmpty(); }
 
   save() {
     let success = false;
@@ -62,7 +59,7 @@ class Diff {
 
       this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
 
-      success = writePackageJSONFile(subDirectoryPath, packageJSON);
+      success = true; /// writePackageJSONFile(subDirectoryPath, packageJSON);
     }
 
     return success;
@@ -88,9 +85,9 @@ class Diff {
             ` "${subDirectoryPath}":\n` :
               ` "${subDirectoryPath}" ("${name}"):\n`;
 
-    const versionDiffEmpty = this.versionDiff.isEmpty(),
-          dependencyMapDiffEmpty = this.dependencyMapDiff.isEmpty(),
-          devDependencyMapDiffEmpty = this.devDependencyMapDiff.isEmpty();
+    const versionDiffEmpty = this.isVersionDiffEmpty(),
+          dependencyMapDiffEmpty = this.isDependencyMapDiffEmpty(),
+          devDependencyMapDiffEmpty = this.isDevDependencyMapDiffEmpty();
 
     if (!versionDiffEmpty) {
       const versionDiffString = this.versionDiff.asString();

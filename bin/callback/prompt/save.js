@@ -4,19 +4,19 @@ const necessary = require("necessary");
 
 const messages = require("../../messages"),
       constants = require("../../constants"),
-      diffUtilities = require("../../utilities/diff"),
       promptUtilities = require("../../utilities/prompt"),
       consoleUtilities = require("../../utilities/console"),
-      validateUtilities = require("../../utilities/validate");
+      validateUtilities = require("../../utilities/validate"),
+      propagateUtilities = require("../../utilities/propagate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { YES } = constants,
-      { eliminateDiff } = diffUtilities,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages,
-      { consoleLogUnpublishedDiffs } = consoleUtilities;
+      { consoleLogUnpublishedDiffs } = consoleUtilities,
+      { removeDependencies, removeDevDependencies } = propagateUtilities;
 
 function savePromptCallback(proceed, abort, context) {
   const { yes, diff, diffs } = context,
@@ -25,7 +25,7 @@ function savePromptCallback(proceed, abort, context) {
   console.log(diffString);
 
   const answer = yes ?
-                   YES :
+                   ((diffs.indexOf(diff) === 1) ? "no" : YES) :// YES :
                      null,
         description = "Save updates? (y)es (n)o: ",
         errorMessage = INVALID_ANSWER_MESSAGE,
@@ -48,9 +48,11 @@ function savePromptCallback(proceed, abort, context) {
 
         proceed();
       } else {
-        const { diffs } = context;
+        const { releaseMap, releaseGraph } = context;
 
-        // eliminateDiff(diff, diffs);
+        removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
+
+        removeDependencies(diff, diffs, releaseMap, releaseGraph);
 
         abort();
       }
