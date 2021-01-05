@@ -27,7 +27,7 @@ Managing dependencies can be irksome if your project relies on more than a few f
 ---
  If we fix a bug in the `freddie` package and bump its patch number, we must update the package JSON files of both the `erica` and `chuck` packages in order to make sure that they both make use of the updated `freddie` package. However, that is not the end of the task. We must also bump their package numbers and update the package JSON files of packages or binaries that depend on them, too. And so on, ad nauseam. 
  
- Propagate automates the process, allowing you to update the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a package is updated, effectively propagating the original update through the dependency graph. It will also optionally build; add, commit and push with Git; and publish by way of sequences of configurable shell commands. 
+ Propagate automates the process, allowing you to update the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a package is updated, effectively propagating the original update through the dependency graph. It will also optionally save; build; add, commit and push with Git; and publish by way of configurable shell commands.
  
  Here are the actual updates that Propagate would make:
  
@@ -54,22 +54,12 @@ Managing dependencies can be irksome if your project relies on more than a few f
   }
 
 './alice':
-  "dependencies": {
-    "check": "^1.0.4" -> "^1.0.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "bernard": "^1.3.2" -> "^1.3.3",
   }
 ```
-The following points are worth noting:
-
-1. If Propagate cannot find both `name` and `version` fields in a package JSON file, it considers the contents of the subdirectory to be a binary, not a package. Nothing is expected to depend on binaries since, without a name, there is no way to reference them. The `alice` binary does not have a version number or a name associated with it, for example.
-
-2. Packages and binaries that are left unchanged after a package is propagated are unaffected. For example, the `dylan` package would be unaffected because it does not depend on the `freddie` package, directly or otherwise.
-
-3. Only core [semver](https://semver.org/) versions are supported, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. As yet Propagate does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore modifiers such as `^` and `~`. If you are not using either just these modifiers or no modifiers at all, Propagate is unlikely to work for you.
-
-4. If Propagate finds a cyclic dependency, it will tell you and exit whether any of the packages or binaries in the cycle would be affected by the propagation or not.
+Note that only core [semver](https://semver.org/) versions are supported, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. As yet Propagate does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore modifiers such as `^` and `~`. If you are not using either just these modifiers or no modifiers at all, Propagate is unlikely to work for you.
 
 ## Installation
 
