@@ -131,15 +131,17 @@ To propagate the `freddie` package, for example, run the following command:
 
     propagate freddie
     
-You can also execute a lone `propagate` command from within a package's subdirectory.
+You can also execute a lone `propagate` command from within a package's subdirectory and it will propagate that package.
 
-Provided there are no cyclic dependencies, the updates to the packages and binaries affected by the propagation will be presented in topological order, meaning that a dependency will always appear before any of its dependents. Unless you use the `yes` option, you will always be prompted before any changes are made to package JSON files or any shell commands are executed.
+Here are some things to bear in mind:
 
-Bear in mind that in choosing not to publish a package, you are also choosing not to propagate it. In which case its dependents will be adjusted accordingly and consequently may not need propagating themselves.
+1. It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. Also, you should always use the `yes` and `quietly` options with caution.
 
-It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. Also, you should always use the `yes` and `quietly` options with caution.
+2. Propagate creates separate directed graphs for the dependencies and the developer dependencies. If there are cycles present in either graph, it will terminate and appraise you of at least one of them. If there are cycles present in the combined graph, however, these are tolerated because they are justifiable in practice.
 
-Finally, if a script fails then you will be prompted to try again. Bear in mind that the script cannot be amended in a meantime, however, because it is loaded only once when the configuration file is initially read. Also bear in mind that if you choose not to execute it a second time, propagation will continue, the reasoning being that it should likely not have been executed in the first place.
+3. Updates are applied in a topological order of the dependencies with the initially propagated packages updated first. What this means in practice is that dependencies are guaranteed to be updated before their dependents. Therefore, if you chose not to update a particular dependency or chose to terminate the update process altogether, usually no problems will result. However, bear in mind the following point.
+
+4. It is possible, because of the aforementioned tolerance of cycles in the combined graph, that cases may arise where updates are applied that reference developer dependencies that have themselves yet to be updated. If the update process is allowed to continue right to the end then this presents no problems. However, if you choose not to apply a certain update or chose to terminate the updates entirely then this problem could arise. In these situations, Propagate will warn you of the specific problem. For this reason, if you chose to terminate the update process early, do so by answering 'no' at a prompt three times rather than a hard exit with 'ctrl-c' or the like. This will give propagate the chance to warn you of any problems.
 
 ## Contact
 
