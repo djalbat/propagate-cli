@@ -143,6 +143,18 @@ Here are some things to bear in mind:
 
 4. It is possible, because of the aforementioned tolerance of cycles in the combined graph, that cases may arise where updates are applied that reference developer dependencies that have themselves yet to be updated. If the update process is allowed to continue right to the end then this presents no problems. However, if you choose not to apply a certain update or chose to terminate the updates entirely then this problem could arise. In these situations, Propagate will warn you of the specific problem. For this reason, if you chose to terminate the update process early, do so by answering 'no' at a prompt three times rather than a hard exit with `ctrl-c` or the like. This will give propagate the chance to warn you of any problems.
 
+It is important to understand what might happen if you choose to answer 'no' to any of the prompts.
+
+1. If you chose to answer 'no' at a save prompt, Propagate will assume that you do not want to propagate the package and will adjust all the remaining updates accordingly.
+
+2. If you chose to answer 'no' at a build prompt, Propagate will continue with the update. The rationale behind this is that the update in question might not be to a package but instead to a large binary that may need its `package.json` file updated with the latest dependencies but may not need to be built at the present time.
+
+3. If you choose to answer 'no' at a Git prompt, much the same rationale as for building holds.
+
+4. If you choose to answer 'no' at a publish prompt, Propagate will again assume that you do not want to propagate the package and will again make the necessary adjustments.
+
+Again it is worth mentioning that if you decide to terminate the update process entirely, do so by answering 'no' three times at any prompt in order to give Propagate the chance to exit gracefully and appraise you of any problems with developer dependencies.
+
 ## Contact
 
 - james.smith@djalbat.com
