@@ -3,15 +3,17 @@
 const necessary = require("necessary");
 
 const messages = require("../../messages"),
+      descriptions = require("../../descriptions"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateDirectoryPath } = validateUtilities,
+      { DIRECTORY_PATH_DESCRIPTION } = descriptions,
       { INVALID_DIRECTORY_PATH_MESSAGE } = messages;
 
 function addDirectoryPromptCallback(proceed, abort, context) {
-  const description = "Directory path: ",
+  const description = DIRECTORY_PATH_DESCRIPTION,
         errorMessage = INVALID_DIRECTORY_PATH_MESSAGE,
         validationFunction = validateDirectoryPath,  ///
         options = {

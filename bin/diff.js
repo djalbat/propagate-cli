@@ -59,7 +59,7 @@ class Diff {
 
       this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
 
-      success = true; /// writePackageJSONFile(subDirectoryPath, packageJSON);
+      success = writePackageJSONFile(subDirectoryPath, packageJSON);
     }
 
     return success;

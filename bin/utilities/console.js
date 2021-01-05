@@ -5,6 +5,25 @@ const necessary = require("necessary");
 const { arrayUtilities } = necessary,
       { first } = arrayUtilities;
 
+function consoleLogUnpublishedDiff(unpublishedDiff, previousDiffs) {
+  const name = unpublishedDiff.getName();
+
+  previousDiffs.forEach((previousDiff) => {
+    const diff = previousDiff,  ///
+          subDirectoryPath = diff.getSubDirectoryPath(),
+          devDependencyNames = diff.getDevDependencyNames(),
+          devDependencyNamesIncludesName = devDependencyNames.includes(name);
+
+    if (devDependencyNamesIncludesName) {
+      console.log(`The '${subDirectoryPath}/package.json' file has already been saved but its updated '${name}' developer dependency will now not be published.`);
+    }
+  });
+}
+
+function consoleLogUnpublishedDiffs(unpublishedDiffs, previousDiffs) {
+  unpublishedDiffs.forEach((unpublishedDiff) => consoleLogUnpublishedDiff(unpublishedDiff, previousDiffs));
+}
+
 function consoleLogSubDirectoryPathsCycle(subDirectoryPaths) {
   const firstSubDirectoryPath = first(subDirectoryPaths);
 
@@ -18,28 +37,8 @@ function consoleLogSubDirectoryPathsCycle(subDirectoryPaths) {
   });
 }
 
-function consoleLogUnpublishedDiffs(diff, diffs) {
-  const names = diffs.map((diff) => diff.getName()),
-        currentDiff = diff, ///
-        currentIndex = diffs.indexOf(currentDiff),
-        previousDiffs = diffs.slice(0, currentIndex);
-
-  previousDiffs.forEach((previousDiff) => {
-    const diff = previousDiff,  ///
-          name = diff.getName(),
-          devDependencyNames = diff.getDevDependencyNames();
-
-    devDependencyNames.forEach((devDependencyName) => {
-      const index = names.indexOf(devDependencyName);
-
-      if (index >= currentIndex) {
-        console.log(`The '${name}' release has already passed but its '${devDependencyName}' developer dependency has yet to be published.`);
-      }
-    });
-  });
-}
-
 module.exports = {
+  consoleLogUnpublishedDiff,
   consoleLogUnpublishedDiffs,
   consoleLogSubDirectoryPathsCycle
 };

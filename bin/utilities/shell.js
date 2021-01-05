@@ -5,6 +5,7 @@ const necessary = require("necessary"),
 
 const messages = require("../messages"),
       constants = require("../constants"),
+      descriptions = require("../descriptions"),
       promptUtilities = require("../utilities/prompt"),
       validateUtilities = require("../utilities/validate");
 
@@ -13,7 +14,8 @@ const { miscellaneousUtilities } = necessary,
       { UTF8 } = constants,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages;
+      { INVALID_ANSWER_MESSAGE } = messages,
+      { FAILED_SCRIPT_DESCRIPTION } = descriptions;
 
 function execute(shellCommands, quietly, callback) {
   const success = execSync(shellCommands, quietly);
@@ -24,7 +26,7 @@ function execute(shellCommands, quietly, callback) {
     return;
   }
 
-  const description = "The script has failed. Would you like to try again? (y)es (n)o: ",
+  const description = FAILED_SCRIPT_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {

@@ -4,6 +4,7 @@ const necessary = require("necessary");
 
 const messages = require("../../messages"),
       constants = require("../../constants"),
+      descriptions = require("../../descriptions"),
       promptUtilities = require("../../utilities/prompt"),
       consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate"),
@@ -14,6 +15,7 @@ const { miscellaneousUtilities } = necessary,
       { YES } = constants,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
+      { PUBLISH_YES_NO_DESCRIPTION } = descriptions,
       { consoleLogUnpublishedDiffs } = consoleUtilities,
       { FAILED_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE } = messages,
       { removeDependencies, removeDevDependencies } = propagateUtilities;
@@ -31,7 +33,7 @@ function publishPromptCallback(proceed, abort, context) {
   const answer = yes ?
                    YES :
                      null,
-        description = "Publish? (y)es (n)o: ",
+        description = PUBLISH_YES_NO_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -48,9 +50,9 @@ function publishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (!affirmative) {
-        removeDevDependencies(diff, diffs);
-
         removeDependencies(diff, diffs);
+
+        removeDevDependencies(diff, diffs);
 
         proceed();
 

@@ -4,6 +4,8 @@ const necessary = require("necessary");
 
 const messages = require("../../messages"),
       constants = require("../../constants"),
+      descriptions = require("../../descriptions"),
+      diffsUtilities = require("../../utilities/diffs"),
       promptUtilities = require("../../utilities/prompt"),
       consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate");
@@ -13,7 +15,9 @@ const { miscellaneousUtilities } = necessary,
       { YES } = constants,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
+      { BUILD_YES_NO_DESCRIPTION } = descriptions,
       { consoleLogUnpublishedDiffs } = consoleUtilities,
+      { nextDiffsFromDiff, previousDiffsFromDiff } = diffsUtilities,
       { FAILED_BUILD_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function buildPromptCallback(proceed, abort, context) {
@@ -22,7 +26,7 @@ function buildPromptCallback(proceed, abort, context) {
   const answer = yes ?
                    YES :
                      null,
-        description = "Build? (y)es (n)o: ",
+        description = BUILD_YES_NO_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -59,7 +63,14 @@ function buildPromptCallback(proceed, abort, context) {
       return;
     }
 
-    consoleLogUnpublishedDiffs(diff, diffs);
+    const nextDiffs = nextDiffsFromDiff(diff, diffs),
+          previousDiffs = previousDiffsFromDiff(diff, diffs),
+          unpublishedDiffs = [
+            diff,
+            ...nextDiffs
+          ]
+
+    consoleLogUnpublishedDiffs(unpublishedDiffs, previousDiffs);
 
     console.log(FAILED_BUILD_MESSAGE);
 

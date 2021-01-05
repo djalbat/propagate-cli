@@ -4,6 +4,8 @@ const necessary = require("necessary");
 
 const messages = require("../../messages"),
       constants = require("../../constants"),
+      descriptions = require("../../descriptions"),
+      diffsUtilities = require("../../utilities/diffs"),
       promptUtilities = require("../../utilities/prompt"),
       consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate"),
@@ -16,6 +18,8 @@ const { miscellaneousUtilities } = necessary,
       { isAnswerAffirmative } = promptUtilities,
       { INVALID_ANSWER_MESSAGE } = messages,
       { consoleLogUnpublishedDiffs } = consoleUtilities,
+      { SAVE_UPDATES_YES_NO_DESCRIPTION } = descriptions,
+      { nextDiffsFromDiff, previousDiffsFromDiff } = diffsUtilities,
       { removeDependencies, removeDevDependencies } = propagateUtilities;
 
 function savePromptCallback(proceed, abort, context) {
@@ -25,9 +29,9 @@ function savePromptCallback(proceed, abort, context) {
   console.log(diffString);
 
   const answer = yes ?
-                   ((diffs.indexOf(diff) === 1) ? "no" : YES) :// YES :
+                   YES :
                      null,
-        description = "Save updates? (y)es (n)o: ",
+        description = SAVE_UPDATES_YES_NO_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -50,9 +54,9 @@ function savePromptCallback(proceed, abort, context) {
       } else {
         const { releaseMap, releaseGraph } = context;
 
-        removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
-
         removeDependencies(diff, diffs, releaseMap, releaseGraph);
+
+        removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
 
         abort();
       }
@@ -60,7 +64,14 @@ function savePromptCallback(proceed, abort, context) {
       return;
     }
 
-    consoleLogUnpublishedDiffs(diff, diffs);
+    const nextDiffs = nextDiffsFromDiff(diff, diffs),
+          previousDiffs = previousDiffsFromDiff(diff, diffs),
+          unpublishedDiffs = [
+            diff,
+            ...nextDiffs
+          ]
+
+    consoleLogUnpublishedDiffs(unpublishedDiffs, previousDiffs);
 
     process.exit(1);
   });

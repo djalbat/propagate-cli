@@ -4,6 +4,7 @@ const necessary = require("necessary");
 
 const messages = require("../../messages"),
       constants = require("../../constants"),
+      descriptions = require("../../descriptions"),
       promptUtilities = require("../../utilities/prompt"),
       consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate");
@@ -14,6 +15,7 @@ const { miscellaneousUtilities } = necessary,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
       { consoleLogUnpublishedDiffs } = consoleUtilities,
+      { ADD_COMMIT_PUSH_GIT_DESCRIPTION } = descriptions,
       { FAILED_GIT_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function gitPromptCallback(proceed, abort, context) {
@@ -22,7 +24,7 @@ function gitPromptCallback(proceed, abort, context) {
   const answer = yes ?
                    YES :
                      null,
-        description = "Add, commit and push with Git? (y)es (n)o: ",
+        description = ADD_COMMIT_PUSH_GIT_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {

@@ -3,15 +3,17 @@
 const necessary = require("necessary");
 
 const messages = require("../../messages"),
+      descriptions = require("../../descriptions"),
       validateUtilities = require("../../utilities/validate");
 
 const { miscellaneousUtilities } = necessary,
       { prompt } = miscellaneousUtilities,
       { validateIgnoredDependencyNumber } = validateUtilities,
-      { INVALID_IGNORED_DEPENDENCY_NUMBER_MESSAGE } = messages;
+      { INVALID_IGNORED_DEPENDENCY_NUMBER_MESSAGE } = messages,
+      { SPECIFY_IGNORED_DEPENDENCY_TO_REMOVE_DESCRIPTION } = descriptions;
 
 function removeIgnoredDependencyPromptCallback(proceed, abort, context) {
-  const description = "Specify an ignored dependency to remove: ",
+  const description = SPECIFY_IGNORED_DEPENDENCY_TO_REMOVE_DESCRIPTION,
         errorMessage = INVALID_IGNORED_DEPENDENCY_NUMBER_MESSAGE,
         { ignoredDependencyNumbers } = context,
         validationFunction = (ignoredDependencyNumber) => {
