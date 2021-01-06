@@ -9,13 +9,18 @@ const callbackUtilities = require("../utilities/callback"),
 const { executeCallbacks } = callbackUtilities;
 
 function saveAndApplyDiffCallback(diff, proceed, abort, context) {
-  const dependencyMapDiffEmpty = diff.isDependencyMapDiffEmpty(),
-        devDependencyMapDiffEmpty = diff.isDevDependencyMapDiffEmpty();
+  const { diffs } = context,
+        index = diffs.indexOf(diff);
 
-  if (dependencyMapDiffEmpty && devDependencyMapDiffEmpty) {
-    proceed();
+  if (index > 0) {
+    const dependencyMapDiffEmpty = diff.isDependencyMapDiffEmpty(),
+          devDependencyMapDiffEmpty = diff.isDevDependencyMapDiffEmpty();
 
-    return;
+    if (dependencyMapDiffEmpty && devDependencyMapDiffEmpty) {
+      proceed();
+
+      return;
+    }
   }
 
   Object.assign(context, {

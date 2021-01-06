@@ -32,7 +32,7 @@ function propagateReleaseDependencies(release, releases, releaseMap, releaseGrap
     const version = release.getVersion();
 
     if (version !== null) {
-      release.bumpPatchVersion();
+      release.bumpPatchNumber();
     }
 
     releases.push(release);
@@ -45,12 +45,12 @@ function propagateReleaseDependencies(release, releases, releaseMap, releaseGrap
 
   if (dependentReleasesLength > 0) {
     const name = release.getName(),
-          version = release.getVersion();
+          versionString = release.getVersionString();
 
     dependentReleases.forEach((dependentRelease) => {
       const release = dependentRelease; ///
 
-      release.updateDependencyVersion(name, version);
+      release.updateDependencyVersion(name, versionString);
 
       propagateReleaseDependencies(release, releases, releaseMap, releaseGraph);
     });
@@ -64,7 +64,7 @@ function propagateDevDependencies(releases, releaseMap, releaseGraph) {
 
     if (devDependentReleasesLength > 0) {
       const name = release.getName(),
-            version = release.getVersion();
+            versionString = release.getVersionString();
 
       devDependentReleases.forEach((devDependentRelease) => {
         const release = devDependentRelease,  ///
@@ -74,13 +74,13 @@ function propagateDevDependencies(releases, releaseMap, releaseGraph) {
           const version = release.getVersion();
 
           if (version !== null) {
-            release.bumpPatchVersion();
+            release.bumpPatchNumber();
           }
 
           releases.push(release);
         }
 
-        release.updateDevDependencyVersion(name, version);
+        release.updateDevDependencyVersion(name, versionString);
       });
     }
   });

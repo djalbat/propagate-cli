@@ -2,26 +2,28 @@
 
 const necessary = require("necessary");
 
+const diffsUtilities = require("../utilities/diffs");
+
 const { arrayUtilities } = necessary,
-      { first } = arrayUtilities;
+      { first } = arrayUtilities,
+      { nextDiffsFromDiff, previousDiffsFromDiff } = diffsUtilities;
 
-function consoleLogUnpublishedDiff(unpublishedDiff, previousDiffs) {
-  const name = unpublishedDiff.getName();
+function consoleLogUnpublishedDiff(diff, diffs) {
+  const previousDiffs = previousDiffsFromDiff(diff, diffs),
+        unpublishedDiff = diff; ///
 
-  previousDiffs.forEach((previousDiff) => {
-    const diff = previousDiff,  ///
-          subDirectoryPath = diff.getSubDirectoryPath(),
-          devDependencyNames = diff.getDevDependencyNames(),
-          devDependencyNamesIncludesName = devDependencyNames.includes(name);
-
-    if (devDependencyNamesIncludesName) {
-      console.log(`The '${subDirectoryPath}/package.json' file has already been saved but its updated '${name}' developer dependency will now not be published.`);
-    }
-  });
+  consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs);
 }
 
-function consoleLogUnpublishedDiffs(unpublishedDiffs, previousDiffs) {
-  unpublishedDiffs.forEach((unpublishedDiff) => consoleLogUnpublishedDiff(unpublishedDiff, previousDiffs));
+function consoleLogUnpublishedDiffs(diff, diffs) {
+  const nextDiffs = nextDiffsFromDiff(diff, diffs),
+        previousDiffs = previousDiffsFromDiff(diff, diffs),
+        unpublishedDiffs = [
+          diff,
+          ...nextDiffs
+        ]
+
+  unpublishedDiffs.forEach((unpublishedDiff) => consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs));
 }
 
 function consoleLogSubDirectoryPathsCycle(subDirectoryPaths) {
@@ -42,3 +44,18 @@ module.exports = {
   consoleLogUnpublishedDiffs,
   consoleLogSubDirectoryPathsCycle
 };
+
+function consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs) {
+  const name = unpublishedDiff.getName();
+
+  previousDiffs.forEach((previousDiff) => {
+    const diff = previousDiff,  ///
+          subDirectoryPath = diff.getSubDirectoryPath(),
+          devDependencyNames = diff.getDevDependencyNames(),
+          devDependencyNamesIncludesName = devDependencyNames.includes(name);
+
+    if (devDependencyNamesIncludesName) {
+      console.log(`The '${subDirectoryPath}/package.json' file has already been saved but its updated '${name}' developer dependency will now not be published.`);
+    }
+  });
+}

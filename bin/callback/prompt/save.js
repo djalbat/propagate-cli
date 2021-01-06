@@ -5,7 +5,6 @@ const necessary = require("necessary");
 const messages = require("../../messages"),
       constants = require("../../constants"),
       descriptions = require("../../descriptions"),
-      diffsUtilities = require("../../utilities/diffs"),
       promptUtilities = require("../../utilities/prompt"),
       consoleUtilities = require("../../utilities/console"),
       validateUtilities = require("../../utilities/validate"),
@@ -16,11 +15,10 @@ const { miscellaneousUtilities } = necessary,
       { YES } = constants,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages,
       { consoleLogUnpublishedDiffs } = consoleUtilities,
       { SAVE_UPDATES_YES_NO_DESCRIPTION } = descriptions,
-      { nextDiffsFromDiff, previousDiffsFromDiff } = diffsUtilities,
-      { removeDependencies, removeDevDependencies } = propagateUtilities;
+      { removeDependencies, removeDevDependencies } = propagateUtilities,
+      { FAILED_SAVE_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
 
 function savePromptCallback(proceed, abort, context) {
   const { yes, diff, diffs } = context,
@@ -48,7 +46,15 @@ function savePromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (affirmative) {
-        diff.save();
+        const success = diff.save();
+
+        if (!success) {
+          consoleLogUnpublishedDiffs(diff, diffs);
+
+          console.log(FAILED_SAVE_MESSAGE);
+
+          process.exit(1);
+        }
 
         proceed();
       } else {
@@ -64,14 +70,9 @@ function savePromptCallback(proceed, abort, context) {
       return;
     }
 
-    const nextDiffs = nextDiffsFromDiff(diff, diffs),
-          previousDiffs = previousDiffsFromDiff(diff, diffs),
-          unpublishedDiffs = [
-            diff,
-            ...nextDiffs
-          ]
+    consoleLogUnpublishedDiffs(diff, diffs);
 
-    consoleLogUnpublishedDiffs(unpublishedDiffs, previousDiffs);
+    console.log(FAILED_SAVE_MESSAGE);
 
     process.exit(1);
   });

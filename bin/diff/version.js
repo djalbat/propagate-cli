@@ -1,5 +1,7 @@
 "use strict";
 
+const Version = require("../version");
+
 class VersionDiff {
   constructor(version, releaseVersion) {
     this.version = version;
@@ -7,7 +9,13 @@ class VersionDiff {
   }
 
   isEmpty() {
-    const empty = (this.version === this.releaseVersion); ///
+    let empty = true;
+
+    if (this.version !== null) {
+      const versionEqualToReleaseVersion = this.version.isEqualTo(this.releaseVersion);
+
+      empty = versionEqualToReleaseVersion; ///
+    }
 
     return empty;
   }
@@ -21,7 +29,8 @@ class VersionDiff {
   }
 
   save(packageJSON) {
-    const version = this.releaseVersion;  ///
+    const releaseVersionString = this.releaseVersion.asString(),
+          version = releaseVersionString; ///
 
     Object.assign(packageJSON, {
       version
@@ -29,13 +38,16 @@ class VersionDiff {
   }
 
   asString() {
-    const string = `"${this.version}" -> "${this.releaseVersion}"`;
+    const versionString = this.version.asString(),
+          releaseVersionString = this.releaseVersion.asString(),
+          string = `"${versionString}" -> "${releaseVersionString}"`;
 
     return string;
   }
 
-  static fromVersionAndReleaseVersion(version, releaseVersion) {
-    const versionDiff = new VersionDiff(version, releaseVersion);
+  static fromVersionStringAndReleaseVersion(versionString, releaseVersion) {
+    const version = Version.fromVersionString(versionString),
+          versionDiff = new VersionDiff(version, releaseVersion);
 
     return versionDiff;
   }

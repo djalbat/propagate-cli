@@ -1,19 +1,15 @@
 "use strict";
 
-const diffsUtilities = require('../utilities/diffs'),
-      consoleUtilities = require('../utilities/console');
+const consoleUtilities = require('../utilities/console');
 
-const { previousDiffsFromDiff } = diffsUtilities,
-      { consoleLogUnpublishedDiff } = consoleUtilities;
+const { consoleLogUnpublishedDiff } = consoleUtilities;
 
 function removeDependencies(diff, diffs, releaseMap, releaseGraph) {
   const release = diff.getRelease(),
-        previousDiffs = previousDiffsFromDiff(diff, diffs),
-        unpublishedDiff = diff, ///
         dependentReleases = releaseGraph.retrieveDependentReleases(release, releaseMap),
         dependentReleasesLength = dependentReleases.length;
 
-  consoleLogUnpublishedDiff(unpublishedDiff, previousDiffs);
+  consoleLogUnpublishedDiff(diff, diffs);
 
   if (dependentReleasesLength > 0) {
     const name = release.getName();

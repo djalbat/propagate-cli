@@ -1,14 +1,11 @@
 "use strict";
 
-const necessary = require("necessary");
-
-const configuration = require("./configuration"),
+const Version = require("./version"),
+      configuration = require("./configuration"),
       shellUtilities = require("./utilities/shell"),
       packageJSONUtilities = require("./utilities/packageJSON");
 
-const { arrayUtilities } = necessary,
-      { second } = arrayUtilities,
-      { execute } = shellUtilities,
+const { execute } = shellUtilities,
       { readPackageJSONFile } = packageJSONUtilities,
       { retrieveShellCommands } = configuration;
 
@@ -45,6 +42,12 @@ class Release {
     const publishable = (this.name !== null) && (this.version !== null);
 
     return publishable;
+  }
+
+  getVersionString() {
+    const versionString = this.version.asString();
+
+    return versionString; ///
   }
 
   getDependencyNames() {
@@ -92,16 +95,7 @@ class Release {
     this.executeShellCommands(shellCommands, quietly, callback);
   }
 
-  bumpPatchVersion() {
-    const matches = this.version.match(/(\d+)$/),
-          secondMatch = second(matches);
-
-    let patchNumber = Number(secondMatch);
-
-    patchNumber++;
-
-    this.version = this.version.replace(/(\d+)$/, patchNumber)
-  }
+  bumpPatchNumber() { this.version.bumpPatchNumber(); }
 
   executeShellCommands(shellCommands, quietly, callback) {
     const currentWorkingDirectoryPath = process.cwd();
@@ -115,12 +109,24 @@ class Release {
     });
   }
 
-  updateDependencyVersion(name, version) {
-    updateSemver(name, version, this.dependencyMap);
+  updateDependencyVersion(name, versionString) {
+    const success = updateSemver(name, versionString, this.dependencyMap);
+
+    if (!success) {
+      console.log(`The '${name}' dependency version of the '${this.name}' release is greater than or equal to the propagated '${versionString}' version.`);
+
+      process.exit(1);
+    }
   }
 
-  updateDevDependencyVersion(name, version) {
-    updateSemver(name, version, this.devDependencyMap);
+  updateDevDependencyVersion(name, versionString) {
+    const success = updateSemver(name, versionString, this.devDependencyMap);
+
+    if (!success) {
+      console.log(`The '${name}' developer dependency version of the '${this.name}' release is greater than or equal to the propagated '${versionString}' version.`);
+
+      process.exit(1);
+    }
   }
 
   static fromSubDirectoryPath(subDirectoryPath) {
@@ -129,9 +135,14 @@ class Release {
     const packageJSON = readPackageJSONFile(subDirectoryPath);
 
     if (packageJSON !== null) {
-      const { name = null, version = null, dependencies = {}, devDependencies = {} } = packageJSON,
+      let { version = null } = packageJSON;
+
+      const { name = null, dependencies = {}, devDependencies = {} } = packageJSON,
+            versionString = version,  ///
             dependencyMap = dependencies, ///
             devDependencyMap = devDependencies; ///
+
+      version = Version.fromVersionString(versionString);
 
       release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath);
     }
@@ -142,12 +153,23 @@ class Release {
 
 module.exports = Release;
 
-function updateSemver(name, version, map) {
-  let semver = map[name] || null;
+function updateSemver(name, versionString, map) {
+  let success,
+      semver = map[name];
 
-  if (semver !== null) {
-    semver = semver.replace(/\d+\.\d+\.\d+/, version);
+  const version = Version.fromVersionString(versionString),
+        existingSemver = semver, ///
+        existingVersion = Version.fromString(existingSemver),
+        versionGreaterThanExistingVersion = version.isGreaterThan(existingVersion);
+
+  success = versionGreaterThanExistingVersion;  ///
+
+  if (success) {
+    semver = version.updateSemver(semver);
+
+    map[name] = semver;
   }
 
-  map[name] = semver;
+  return success;
 }
+

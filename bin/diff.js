@@ -121,12 +121,13 @@ class Diff {
     }
 
     const { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
+          versionString = version,  ///
           dependencyMap = dependencies, ///
           devDependencyMap = devDependencies, ///
           releaseVersion = release.getVersion(),
           releaseDependencyMap = release.getDependencyMap(),
           releaseDevDependencyMap = release.getDevDependencyMap(),
-          versionDiff = VersionDiff.fromVersionAndReleaseVersion(version, releaseVersion),
+          versionDiff = VersionDiff.fromVersionStringAndReleaseVersion(versionString, releaseVersion),
           dependencyMapDiff = MapDiff.fromMapAndReleaseMap(dependencyMap, releaseDependencyMap),
           devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap),
           diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);

@@ -50,9 +50,11 @@ function publishPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (!affirmative) {
-        removeDependencies(diff, diffs);
+        const { releaseMap, releaseGraph } = context;
 
-        removeDevDependencies(diff, diffs);
+        removeDependencies(diff, diffs, releaseMap, releaseGraph);
+
+        removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
 
         proceed();
 
