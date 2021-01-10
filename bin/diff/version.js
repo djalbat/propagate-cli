@@ -29,6 +29,10 @@ class VersionDiff {
   }
 
   save(packageJSON) {
+    if (this.version === null) {
+      return;
+    }
+
     const releaseVersionString = this.releaseVersion.asString(),
           version = releaseVersionString; ///
 

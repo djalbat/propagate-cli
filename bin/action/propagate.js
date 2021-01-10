@@ -3,6 +3,7 @@
 const messages = require("../messages"),
       dryRunCallback = require("../callback/dryRun"),
       callbackUtilities = require("../utilities/callback"),
+      createDiffsCallback = require("../callback/createDiffs"),
       retrieveReleaseCallback = require("../callback/retrieveRelease"),
       createReleaseMapCallback = require("../callback/createReleaseMap"),
       propagateReleaseCallback = require("../callback/propagateRelease"),
@@ -20,6 +21,7 @@ function propagate(argument, quietly, dryRun, yes) {
           retrieveReleaseCallback,
           createReleaseGraphCallback,
           propagateReleaseCallback,
+          createDiffsCallback,
           dryRunCallback,
           saveAndApplyDiffsCallback
         ],

@@ -1,7 +1,5 @@
 "use strict";
 
-const Diff = require("../diff");
-
 function propagateReleaseCallback(proceed, abort, context) {
   const { release, releaseMap, releaseGraph } = context,
         releases = [];
@@ -10,14 +8,8 @@ function propagateReleaseCallback(proceed, abort, context) {
 
   propagateDevDependencies(releases, releaseMap, releaseGraph);
 
-  const diffs = releases.map((release) => {
-    const diff = Diff.fromRelease(release);
-
-    return diff;
-  })
-
   Object.assign(context, {
-    diffs
+    releases
   });
 
   proceed();

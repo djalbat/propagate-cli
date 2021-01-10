@@ -113,7 +113,7 @@ class Release {
     const success = updateSemver(name, versionString, this.dependencyMap);
 
     if (!success) {
-      console.log(`The '${name}' dependency version of the '${this.name}' release is greater than or equal to the propagated '${versionString}' version.`);
+      console.log(`The '${name}' dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version.`);
 
       process.exit(1);
     }
@@ -123,7 +123,7 @@ class Release {
     const success = updateSemver(name, versionString, this.devDependencyMap);
 
     if (!success) {
-      console.log(`The '${name}' developer dependency version of the '${this.name}' release is greater than or equal to the propagated '${versionString}' version.`);
+      console.log(`The '${name}' developer dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version.`);
 
       process.exit(1);
     }
