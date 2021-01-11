@@ -1,44 +1,34 @@
 "use strict";
 
-const necessary = require("necessary");
-
 const Diff = require("../diff");
 
-const { arrayUtilities } = necessary,
-      { first } = arrayUtilities;
-
 function createDiffsCallback(proceed, abort, context) {
-  const { releases, releaseGraph } = context,
-        release = releases.shift(),
-        diffs = [],
-        diff = Diff.fromRelease(release);
+  let { releases } = context;
 
-  diffs.push(diff);
+  const { release, releaseGraph, dependentReleasesLength } = context,
+        start = 1,
+        deleteCount = dependentReleasesLength,  ///
+        dependentReleases = releases.splice(start, deleteCount),
+        devDependentReleases = releases.splice(start),
+        topologicallyOrderedDependencySubDirectoryPaths = releaseGraph.getTopologicallyOrderedDependencySubDirectoryPaths(),
+        topologicallyOrderedDevDependencySubDirectoryPaths = releaseGraph.getTopologicallyOrderedDevDependencySubDirectoryPaths(),
+        dependencySubDirectoryPaths = topologicallyOrderedDependencySubDirectoryPaths,  ///
+        devDependencySubDirectoryPaths = topologicallyOrderedDevDependencySubDirectoryPaths;  ///
 
-  const topologicallyOrderedSubDirectoryPaths = releaseGraph.getTopologicallyOrderedSubDirectoryPaths(),
-        releaseSubDirectoryPath = release.getSubDirectoryPath(),
-        subDirectoryPaths = topologicallyOrderedSubDirectoryPaths;  ///
+  sortReleases(dependentReleases, dependencySubDirectoryPaths);
 
-  prune(subDirectoryPaths, (subDirectoryPath) => {
-    if (subDirectoryPath !== releaseSubDirectoryPath) {
-      return true;
-    }
-  });
+  sortReleases(devDependentReleases, devDependencySubDirectoryPaths);
 
-  subDirectoryPaths.forEach((subDirectoryPath) => {
-    prune(releases, (release) => {
-      const releaseSubDirectoryPath = release.getSubDirectoryPath();
+  releases = [
+    release,
+    ...dependentReleases,
+    ...devDependentReleases
+  ];
 
-      if (releaseSubDirectoryPath === subDirectoryPath) {
-        const diff = Diff.fromRelease(release);
+  const diffs = releases.map((release) => {
+    const diff = Diff.fromRelease(release);
 
-        diffs.push(diff);
-
-        return;
-      }
-
-      return true;
-    });
+    return diff;
   });
 
   Object.assign(context, {
@@ -50,23 +40,19 @@ function createDiffsCallback(proceed, abort, context) {
 
 module.exports = createDiffsCallback;
 
-function prune(array, test) {
-  let prunedElement = undefined;
+function sortReleases(releases, subDirectoryPaths) {
+  releases.sort((releaseA, releaseB) => {
+    const releaseASubDirectoryPath = releaseA.getSubDirectoryPath(),
+          releaseBSubDirectoryPath = releaseB.getSubDirectoryPath(),
+          releaseASubDirectoryPathIndex = subDirectoryPaths.indexOf(releaseASubDirectoryPath),
+          releaseBSubDirectoryPathIndex = subDirectoryPaths.indexOf(releaseBSubDirectoryPath);
 
-  array.some((element, index) => {
-    const passed = test(element, index);
-
-    if (!passed) {
-      const start = index,  ///
-            deleteCount = 1,
-            deletedElements = array.splice(start, deleteCount),
-            firstDeletedElement = first(deletedElements);
-
-      prunedElement = firstDeletedElement;  ///
-
-      return true;
+    if (false) {
+      ///
+    } else if (releaseASubDirectoryPathIndex > releaseBSubDirectoryPathIndex) {
+      return +1;
+    } else if (releaseASubDirectoryPathIndex < releaseBSubDirectoryPathIndex) {
+      return -1;
     }
   });
-
-  return prunedElement;
 }

@@ -4,12 +4,16 @@ function propagateReleaseCallback(proceed, abort, context) {
   const { release, releaseMap, releaseGraph } = context,
         releases = [];
 
-  propagateReleaseDependencies(release, releases, releaseMap, releaseGraph);
+  propagateDependencies(release, releases, releaseMap, releaseGraph);
+
+  const releasesLength = releases.length,
+        dependentReleasesLength = releasesLength - 1;
 
   propagateDevDependencies(releases, releaseMap, releaseGraph);
 
   Object.assign(context, {
-    releases
+    releases,
+    dependentReleasesLength
   });
 
   proceed();
@@ -17,7 +21,7 @@ function propagateReleaseCallback(proceed, abort, context) {
 
 module.exports = propagateReleaseCallback;
 
-function propagateReleaseDependencies(release, releases, releaseMap, releaseGraph) {
+function propagateDependencies(release, releases, releaseMap, releaseGraph) {
   const releasesIncludesRelease = releases.includes(release);
 
   if (!releasesIncludesRelease) {
@@ -44,7 +48,7 @@ function propagateReleaseDependencies(release, releases, releaseMap, releaseGrap
 
       release.updateDependencyVersion(name, versionString);
 
-      propagateReleaseDependencies(release, releases, releaseMap, releaseGraph);
+      propagateDependencies(release, releases, releaseMap, releaseGraph);
     });
   }
 }

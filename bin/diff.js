@@ -47,8 +47,6 @@ class Diff {
   isDevDependencyMapDiffEmpty() { return this.devDependencyMapDiff.isEmpty(); }
 
   save() {
-    return true;  ///
-
     let success = false;
 
     const subDirectoryPath = this.getSubDirectoryPath(),
