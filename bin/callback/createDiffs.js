@@ -7,7 +7,7 @@ const Diff = require("../diff");
 const { arrayUtilities } = necessary,
       { first } = arrayUtilities;
 
-function createDiffs(proceed, abort, context) {
+function createDiffsCallback(proceed, abort, context) {
   const { releases, releaseGraph } = context,
         release = releases.shift(),
         diffs = [],
@@ -48,7 +48,7 @@ function createDiffs(proceed, abort, context) {
   proceed();
 }
 
-module.exports = createDiffs;
+module.exports = createDiffsCallback;
 
 function prune(array, test) {
   let prunedElement = undefined;

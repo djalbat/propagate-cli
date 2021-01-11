@@ -18,14 +18,16 @@ function removeDependencies(diff, diffs, releaseMap, releaseGraph) {
       const release = dependentRelease, ///
             diff = findDiff(release, diffs);
 
-      diff.removeDependency(name);
+      if (diff !== null) {
+        const dependencyMapEmpty = diff.isDependencyMapDiffEmpty();
 
-      const dependencyMapEmpty = diff.isDependencyMapDiffEmpty();
+        diff.removeDependency(name);
 
-      if (dependencyMapEmpty) {
-        removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
+        if (dependencyMapEmpty) {
+          removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
 
-        removeDependencies(diff, diffs, releaseMap, releaseGraph);
+          removeDependencies(diff, diffs, releaseMap, releaseGraph);
+        }
       }
     });
   }
@@ -43,7 +45,9 @@ function removeDevDependencies(diff, diffs, releaseMap, releaseGraph) {
       const release = devDependentRelease, ///
             diff = findDiff(release, diffs);
 
-      diff.removeDevDependency(name);
+      if (diff !== null) {
+        diff.removeDevDependency(name);
+      }
     });
   }
 }
@@ -60,7 +64,7 @@ function findDiff(release, diffs) {
     if (diffRelease === release) {
       return true;
     }
-  });
+  }) || null; ///
 
   return diff;
 }
