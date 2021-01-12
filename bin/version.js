@@ -3,7 +3,7 @@
 const necessary = require("necessary");
 
 const { arrayUtilities } = necessary,
-      { second } = arrayUtilities;
+      { first, second } = arrayUtilities;
 
 class Version {
   constructor(majorNumber, minorNumber, patchNumber) {
@@ -53,7 +53,12 @@ class Version {
   }
 
   updateSemver(semver) {
-    semver = semver.replace(/(\d+$)/, this.patchNumber);  ///
+    const matches = semver.match(/(^[^\d]*)/),
+          firstMatch = first(matches),
+          modifier = firstMatch,  ///
+          string = this.asString();
+
+    semver = `${modifier}${string}`;
 
     return semver;
   }
