@@ -10,14 +10,12 @@ function createDiffsCallback(proceed, abort, context) {
         deleteCount = dependentReleasesLength,  ///
         dependentReleases = releases.splice(start, deleteCount),
         devDependentReleases = releases.splice(start),
-        topologicallyOrderedDependencySubDirectoryPaths = releaseGraph.getTopologicallyOrderedDependencySubDirectoryPaths(),
-        topologicallyOrderedDevDependencySubDirectoryPaths = releaseGraph.getTopologicallyOrderedDevDependencySubDirectoryPaths(),
-        dependencySubDirectoryPaths = topologicallyOrderedDependencySubDirectoryPaths,  ///
-        devDependencySubDirectoryPaths = topologicallyOrderedDevDependencySubDirectoryPaths;  ///
+        orderedDependencySubDirectoryPaths = releaseGraph.getOrderedDependencySubDirectoryPaths(),
+        orderedDevDependencySubDirectoryPaths = releaseGraph.getOrderedDevDependencySubDirectoryPaths();
 
-  sortReleases(dependentReleases, dependencySubDirectoryPaths);
+  sortReleases(dependentReleases, orderedDependencySubDirectoryPaths);
 
-  sortReleases(devDependentReleases, devDependencySubDirectoryPaths);
+  sortReleases(devDependentReleases, orderedDevDependencySubDirectoryPaths);
 
   releases = [
     release,
@@ -40,12 +38,12 @@ function createDiffsCallback(proceed, abort, context) {
 
 module.exports = createDiffsCallback;
 
-function sortReleases(releases, subDirectoryPaths) {
+function sortReleases(releases, orderedSubDirectoryPaths) {
   releases.sort((releaseA, releaseB) => {
     const releaseASubDirectoryPath = releaseA.getSubDirectoryPath(),
           releaseBSubDirectoryPath = releaseB.getSubDirectoryPath(),
-          releaseASubDirectoryPathIndex = subDirectoryPaths.indexOf(releaseASubDirectoryPath),
-          releaseBSubDirectoryPathIndex = subDirectoryPaths.indexOf(releaseBSubDirectoryPath);
+          releaseASubDirectoryPathIndex = orderedSubDirectoryPaths.indexOf(releaseASubDirectoryPath),
+          releaseBSubDirectoryPathIndex = orderedSubDirectoryPaths.indexOf(releaseBSubDirectoryPath);
 
     if (false) {
       ///
