@@ -113,7 +113,7 @@ class Release {
     const success = updateSemver(name, versionString, this.dependencyMap);
 
     if (!success) {
-      console.log(`The '${name}' dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version.`);
+      console.log(`Either the '${name}' dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
 
       process.exit(1);
     }
@@ -123,7 +123,7 @@ class Release {
     const success = updateSemver(name, versionString, this.devDependencyMap);
 
     if (!success) {
-      console.log(`The '${name}' developer dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version.`);
+      console.log(`Either the '${name}' developer dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
 
       process.exit(1);
     }
@@ -154,22 +154,25 @@ class Release {
 module.exports = Release;
 
 function updateSemver(name, versionString, map) {
-  let success,
-      semver = map[name];
+  let success = false;
+
+  let semver = map[name];
 
   const version = Version.fromVersionString(versionString),
         existingSemver = semver, ///
-        existingVersion = Version.fromString(existingSemver),
-        versionGreaterThanExistingVersion = version.isGreaterThan(existingVersion);
+        existingVersion = Version.fromString(existingSemver);
 
-  success = versionGreaterThanExistingVersion;  ///
+  if (existingVersion !== null) {
+    const versionGreaterThanExistingVersion = version.isGreaterThan(existingVersion);
 
-  if (success) {
-    semver = version.updateSemver(semver);
+    success = versionGreaterThanExistingVersion;  ///
 
-    map[name] = semver;
+    if (success) {
+      semver = version.updateSemver(semver);
+
+      map[name] = semver;
+    }
   }
 
   return success;
 }
-

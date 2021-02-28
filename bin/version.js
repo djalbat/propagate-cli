@@ -68,17 +68,17 @@ class Version {
   }
 
   static fromString(string) {
-    const majorNumber = majorNumberFromString(string),
-          minorNumber = minorNumberFromString(string),
-          patchNumber = patchNumberFromString(string),
-          version = new Version(majorNumber, minorNumber, patchNumber);
+    let version = null;
 
-    return version;
-  }
+    const match = /\d+\.\d+\.\d+$/.test(string);
 
-  static fromSemver(semver) {
-    const string = semver,  ///
-          version = Version.fromString(string);
+    if (match) {
+      const majorNumber = majorNumberFromString(string),
+            minorNumber = minorNumberFromString(string),
+            patchNumber = patchNumberFromString(string);
+
+      version = new Version(majorNumber, minorNumber, patchNumber);
+    }
 
     return version;
   }
