@@ -10,8 +10,8 @@ const messages = require("../../messages"),
       validateUtilities = require("../../utilities/validate"),
       propagateUtilities = require("../../utilities/propagate");
 
-const { miscellaneousUtilities } = necessary,
-      { prompt } = miscellaneousUtilities,
+const { shellUtilities } = necessary,
+      { prompt } = shellUtilities,
       { YES } = constants,
       { validateAnswer } = validateUtilities,
       { isAnswerAffirmative } = promptUtilities,

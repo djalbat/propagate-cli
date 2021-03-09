@@ -6,8 +6,8 @@ const messages = require("../../messages"),
       descriptions = require("../../descriptions"),
       validateUtilities = require("../../utilities/validate");
 
-const { miscellaneousUtilities } = necessary,
-      { prompt } = miscellaneousUtilities,
+const { shellUtilities } = necessary,
+      { prompt } = shellUtilities,
       { validateDirectoryPath } = validateUtilities,
       { DIRECTORY_PATH_DESCRIPTION } = descriptions,
       { INVALID_DIRECTORY_PATH_MESSAGE } = messages;

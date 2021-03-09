@@ -10,8 +10,8 @@ const { validateShellCommands } = validateUtilities,
       { DEFAULT_GIT_SHELL_COMMANDS } = constants,
       { GIT_SHELL_COMMANDS_DESCRIPTION } = descriptions;
 
-const { miscellaneousUtilities } = necessary,
-      { prompt } = miscellaneousUtilities;
+const { shellUtilities } = necessary,
+      { prompt } = shellUtilities;
 
 function setGitShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,

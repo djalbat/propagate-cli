@@ -6,8 +6,8 @@ const messages = require("../../messages"),
       descriptions = require("../../descriptions"),
       validateUtilities = require("../../utilities/validate");
 
-const { miscellaneousUtilities } = necessary,
-      { prompt } = miscellaneousUtilities,
+const { shellUtilities } = necessary,
+      { prompt } = shellUtilities,
       { validateIgnoredDependencyNumber } = validateUtilities,
       { INVALID_IGNORED_DEPENDENCY_NUMBER_MESSAGE } = messages,
       { SPECIFY_IGNORED_DEPENDENCY_TO_REMOVE_DESCRIPTION } = descriptions;

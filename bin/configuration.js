@@ -7,8 +7,8 @@ const versions = require("./versions"),
       constants = require("./constants"),
       configurationVersion_1_3 = require("./configuration/version_1_3");
 
-const { miscellaneousUtilities } = necessary,
-      { rc } = miscellaneousUtilities,
+const { configurationUtilities } = necessary,
+      { rc } = configurationUtilities,
       { CURRENT_VERSION } = versions,
       { RC_BASE_EXTENSION } = constants,
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,

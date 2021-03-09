@@ -10,8 +10,8 @@ const { validateShellCommands } = validateUtilities,
       { DEFAULT_BUILD_SHELL_COMMANDS } = constants,
       { BUILD_SHELL_COMMANDS_DESCRIPTION } = descriptions;
 
-const { miscellaneousUtilities } = necessary,
-      { prompt } = miscellaneousUtilities;
+const { shellUtilities } = necessary,
+      { prompt } = shellUtilities;
 
 function setBuildShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,

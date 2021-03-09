@@ -6,8 +6,8 @@ const messages = require("../../messages"),
       descriptions = require("../../descriptions"),
       validateUtilities = require("../../utilities/validate");
 
-const { miscellaneousUtilities } = necessary,
-      { prompt } = miscellaneousUtilities,
+const { shellUtilities } = necessary,
+      { prompt } = shellUtilities,
       { validateDirectoryNumber } = validateUtilities,
       { INVALID_DIRECTORY_NUMBER_MESSAGE } = messages,
       { SPECIFY_DIRECTORY_TO_REMOVE_DESCRIPTION } = descriptions;

@@ -10,8 +10,8 @@ const { validateShellCommands } = validateUtilities,
       { DEFAULT_PUBLISH_SHELL_COMMANDS } = constants,
       { PUBLISH_SHELL_COMMANDS_DESCRIPTION } = descriptions;
 
-const { miscellaneousUtilities } = necessary,
-      { prompt } = miscellaneousUtilities;
+const { shellUtilities } = necessary,
+      { prompt } = shellUtilities;
 
 function setPublishShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,
