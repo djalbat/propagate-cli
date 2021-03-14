@@ -1,9 +1,8 @@
 "use strict";
 
-const callbackUtilities = require("../utilities/callback"),
-      saveAndApplyDiffCallback = require("../callback/saveAndApplyDiff");
+const saveAndApplyDiffCallback = require("../callback/saveAndApplyDiff");
 
-const { executeCallback } = callbackUtilities;
+const { executeCallback } = require("../utilities/callback");
 
 function saveAndApplyDiffsCallback(proceed, abort, context) {
   const { diffs } = context;

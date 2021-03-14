@@ -1,14 +1,11 @@
 "use strict";
 
-const messages = require("../messages"),
-      configuration = require("../configuration"),
-      callbackUtilities = require("../utilities/callback"),
-      listIgnoredDependencies = require("../action/listIgnoredDependencies"),
+const listIgnoredDependencies = require("../action/listIgnoredDependencies"),
       removeIgnoredDependencyPromptCallback = require("../callback/prompt/removeIgnoredDependency");
 
-const { executeCallbacks } = callbackUtilities,
-      { updateIgnoredDependencies, retrieveIgnoredDependencies } = configuration,
-      { FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE } = messages;
+const { executeCallbacks } = require("../utilities/callback"),
+      { updateIgnoredDependencies, retrieveIgnoredDependencies } = require("../configuration"),
+      { FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE } = require("../messages");
 
 function removeIgnoredDependency() {
   const callbacks = [

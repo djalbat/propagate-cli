@@ -1,8 +1,6 @@
 "use strict";
 
-const consoleUtilities = require('../utilities/console');
-
-const { consoleLogUnpublishedDiff } = consoleUtilities;
+const { consoleLogUnpublishedDiff } = require('../utilities/console');
 
 function removeDependencies(diff, diffs, releaseMap, releaseGraph) {
   const release = diff.getRelease(),

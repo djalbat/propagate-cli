@@ -1,10 +1,7 @@
 "use strict";
 
-const messages = require("../messages"),
-      configuration = require("../configuration");
-
-const { checkConfigurationFileExists, createConfigurationFile } = configuration,
-      { FAILED_INITIALISE_MESSAGE, SUCCESSFUL_INITIALISE_MESSAGE } = messages;
+const { checkConfigurationFileExists, createConfigurationFile } = require("../configuration"),
+      { FAILED_INITIALISE_MESSAGE, SUCCESSFUL_INITIALISE_MESSAGE } = require("../messages");
 
 function initialise() {
   const configurationFileExists = checkConfigurationFileExists();

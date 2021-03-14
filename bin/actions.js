@@ -2,12 +2,9 @@
 
 const help = require("./action/help"),
       version = require("./action/version"),
-      options = require("./options"),
-      commands = require("./commands"),
       propagate = require("./action/propagate"),
       initialise = require("./action/initialise"),
       addDirectory = require("./action/addDirectory"),
-      optionUtilities = require("./utilities/option"),
       removeDirectory = require("./action/removeDirectory"),
       listDirectories = require("./action/listDirectories"),
       setShellCommands = require("./action/setShellCommands"),
@@ -15,8 +12,8 @@ const help = require("./action/help"),
       removeIgnoredDependency = require("./action/removeIgnoredDependency"),
       listIgnoredDependencies = require("./action/listIgnoredDependencies");
 
-const { isOptionPresent } = optionUtilities,
-      { YES_OPTION, HELP_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION  } = options,
+const { isOptionPresent } = require("./utilities/option"),
+      { YES_OPTION, HELP_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION  } = require("./options"),
       { HELP_COMMAND,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
@@ -27,7 +24,7 @@ const { isOptionPresent } = optionUtilities,
         SET_SHELL_COMMANDS_COMMAND,
         ADD_IGNORED_DEPENDENCY_COMMAND,
         REMOVE_IGNORED_DEPENDENCY_COMMAND,
-        LIST_IGNORED_DEPENDENCIES_COMMAND } = commands;
+        LIST_IGNORED_DEPENDENCIES_COMMAND } = require("./commands");
 
 function actions(command, argument, options) {
   const commandMissing = (command === null),

@@ -1,11 +1,10 @@
 "use strict";
 
-const necessary = require("necessary");
+const { arrayUtilities } = require("necessary");
 
 const SemverDiff = require("../diff/semver");
 
-const { arrayUtilities } = necessary,
-      { filter } = arrayUtilities;
+const { filter } = arrayUtilities;
 
 class MapDiff {
   constructor(semverDiffs) {

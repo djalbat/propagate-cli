@@ -1,9 +1,8 @@
 "use strict";
 
-const necessary = require("necessary");
+const { asynchronousUtilities } = require("necessary");
 
-const { asynchronousUtilities } = necessary,
-      { forEach, whilst } = asynchronousUtilities;
+const { forEach, whilst } = asynchronousUtilities;
 
 function executeCallback(array, callback, proceed, abort, context) {
   let completed = true;

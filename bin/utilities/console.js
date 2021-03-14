@@ -1,12 +1,10 @@
 "use strict";
 
-const necessary = require("necessary");
+const { arrayUtilities } = require("necessary");
 
-const diffsUtilities = require("../utilities/diffs");
+const { nextDiffsFromDiff, previousDiffsFromDiff } = require("../utilities/diffs");
 
-const { arrayUtilities } = necessary,
-      { first } = arrayUtilities,
-      { nextDiffsFromDiff, previousDiffsFromDiff } = diffsUtilities;
+const { first } = arrayUtilities;
 
 function consoleLogUnpublishedDiff(diff, diffs) {
   const previousDiffs = previousDiffsFromDiff(diff, diffs),

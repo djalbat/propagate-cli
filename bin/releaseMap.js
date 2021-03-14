@@ -1,15 +1,13 @@
 "use strict";
 
-const necessary = require("necessary");
+const { fileSystemUtilities } = require("necessary");
 
-const Release = require("./release"),
-      constants = require("./constants"),
-      pathUtilities = require("./utilities/path");
+const Release = require("./release");
 
-const { fileSystemUtilities } = necessary,
-      { absolutePathFromName } = pathUtilities,
-      { DEFAULT_DIRECTORY_NAME } = constants,
-      { readDirectory, isEntryDirectory } = fileSystemUtilities;
+const { absolutePathFromName } = require("./utilities/path"),
+      { DEFAULT_DIRECTORY_NAME } = require("./constants");
+
+const { readDirectory, isEntryDirectory } = fileSystemUtilities;
 
 class ReleaseMap {
   constructor(map) {

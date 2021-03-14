@@ -1,8 +1,6 @@
 "use strict";
 
-const directedGraphs = require("occam-directed-graphs");
-
-const { DirectedGraph } = directedGraphs;
+const { DirectedGraph } = require("occam-directed-graphs");
 
 class ReleaseGraph {
   constructor(dependencyDirectedGraph, devDependencyDirectedGraph) {

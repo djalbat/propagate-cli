@@ -1,15 +1,12 @@
 "use strict";
 
-const messages = require("../messages"),
-      configuration = require("../configuration"),
-      callbackUtilities = require("../utilities/callback"),
-      setGitShellCommandsPromptCallback = require("../callback/prompt/setGitShellCommands"),
+const setGitShellCommandsPromptCallback = require("../callback/prompt/setGitShellCommands"),
       setBuildShellCommandsPromptCallback = require("../callback/prompt/setBuildShellCommands"),
       setPublishShellCommandsPromptCallback = require("../callback/prompt/setPublishShellCommands");
 
-const { executeCallbacks } = callbackUtilities,
-      { retrieveShellCommands, updateShellCommands } = configuration,
-      { FAILED_SET_SHELL_COMMANDS_MESSAGE, SUCCESSFUL_SET_SHELL_COMMANDS_MESSAGE } = messages;
+const { executeCallbacks } = require("../utilities/callback"),
+      { retrieveShellCommands, updateShellCommands } = require("../configuration"),
+      { FAILED_SET_SHELL_COMMANDS_MESSAGE, SUCCESSFUL_SET_SHELL_COMMANDS_MESSAGE } = require("../messages");
 
 function setShellCommands() {
   const callbacks = [

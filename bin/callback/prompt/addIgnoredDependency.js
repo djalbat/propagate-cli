@@ -1,16 +1,12 @@
 "use strict";
 
-const necessary = require("necessary");
+const { shellUtilities } = require("necessary");
 
-const messages = require("../../messages"),
-      descriptions = require("../../descriptions"),
-      validateUtilities = require("../../utilities/validate");
+const { validateIgnoredDependencyName } = require("../../utilities/validate"),
+      { IGNORED_DEPENDENCY_DESCRIPTION } = require("../../descriptions"),
+      { INVALID_IGNORED_DEPENDENCY_NAME_MESSAGE } = require("../../messages");
 
-const { shellUtilities } = necessary,
-      { prompt } = shellUtilities,
-      { validateIgnoredDependencyName } = validateUtilities,
-      { IGNORED_DEPENDENCY_DESCRIPTION } = descriptions,
-      { INVALID_IGNORED_DEPENDENCY_NAME_MESSAGE } = messages;
+const { prompt } = shellUtilities;
 
 function addIgnoredDependencyPromptCallback(proceed, abort, context) {
   const description = IGNORED_DEPENDENCY_DESCRIPTION,

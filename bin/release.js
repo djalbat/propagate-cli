@@ -1,13 +1,10 @@
 "use strict";
 
-const Version = require("./version"),
-      configuration = require("./configuration"),
-      shellUtilities = require("./utilities/shell"),
-      packageJSONUtilities = require("./utilities/packageJSON");
+const Version = require("./version");
 
-const { execute } = shellUtilities,
-      { readPackageJSONFile } = packageJSONUtilities,
-      { retrieveShellCommands } = configuration;
+const { execute } = require("./utilities/shell"),
+      { readPackageJSONFile } = require("./utilities/packageJSON"),
+      { retrieveShellCommands } = require("./configuration");
 
 class Release {
   constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath) {

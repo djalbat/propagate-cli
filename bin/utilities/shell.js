@@ -1,21 +1,16 @@
 "use strict";
 
-const necessary = require("necessary"),
-      childProcess = require("child_process");
+const childProcess = require("child_process");
 
-const messages = require("../messages"),
-      constants = require("../constants"),
-      descriptions = require("../descriptions"),
-      promptUtilities = require("../utilities/prompt"),
-      validateUtilities = require("../utilities/validate");
+const { shellUtilities } = require("necessary");
 
-const { shellUtilities } = necessary,
-      { prompt } = shellUtilities,
-      { UTF8 } = constants,
-      { validateAnswer } = validateUtilities,
-      { isAnswerAffirmative } = promptUtilities,
-      { INVALID_ANSWER_MESSAGE } = messages,
-      { FAILED_SCRIPT_DESCRIPTION } = descriptions;
+const { UTF8 } = require("../constants"),
+      { validateAnswer } = require("../utilities/validate"),
+      { isAnswerAffirmative } = require("../utilities/prompt"),
+      { INVALID_ANSWER_MESSAGE } = require("../messages"),
+      { FAILED_SCRIPT_DESCRIPTION } = require("../descriptions");
+
+const { prompt } = shellUtilities;
 
 function execute(shellCommands, quietly, callback) {
   const success = execSync(shellCommands, quietly);

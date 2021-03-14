@@ -1,18 +1,13 @@
 "use strict";
 
-const necessary = require("necessary");
+const { configurationUtilities } = require("necessary");
 
-const versions = require("./versions"),
-      messages = require("./messages"),
-      constants = require("./constants"),
-      configurationVersion_1_3 = require("./configuration/version_1_3");
+const { CURRENT_VERSION } = require("./versions"),
+      { RC_BASE_EXTENSION } = require("./constants"),
+      { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = require("./messages"),
+      { createConfiguration, migrateConfigurationToVersion_1_3 } = require("./configuration/version_1_3");
 
-const { configurationUtilities } = necessary,
-      { rc } = configurationUtilities,
-      { CURRENT_VERSION } = versions,
-      { RC_BASE_EXTENSION } = constants,
-      { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = messages,
-      { createConfiguration, migrateConfigurationToVersion_1_3 } = configurationVersion_1_3,
+const { rc } = configurationUtilities,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
 setRCBaseExtension(RC_BASE_EXTENSION);

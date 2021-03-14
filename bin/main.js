@@ -1,15 +1,13 @@
 "use strict";
 
-const necessary = require("necessary");
+const { pathUtilities } = require("necessary");
 
-const actions = require("./actions"),
-      commands = require("./commands"),
-      configuration = require("./configuration");
+const actions = require("./actions");
 
-const { pathUtilities } = necessary,
-      { PROPAGATE_COMMAND } = commands,
-      { bottommostNameFromPath } = pathUtilities,
-      { checkConfigurationFileExists, migrateConfigurationFile } = configuration;
+const { PROPAGATE_COMMAND } = require("./commands"),
+      { checkConfigurationFileExists, migrateConfigurationFile } = require("./configuration");
+
+const { bottommostNameFromPath } = pathUtilities;
 
 function main(command, argument, options) {
   let configurationFileExists = checkConfigurationFileExists();

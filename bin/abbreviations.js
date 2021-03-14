@@ -1,8 +1,6 @@
 "use strict";
 
-const options = require("./options");
-
-const { YES_OPTION, HELP_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION } = options;
+const { YES_OPTION, HELP_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION } = require("./options");
 
 module.exports = {
   "y": YES_OPTION,

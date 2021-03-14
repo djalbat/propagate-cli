@@ -1,8 +1,6 @@
 "use strict";
 
-const messages = require("../messages"),
-      dryRunCallback = require("../callback/dryRun"),
-      callbackUtilities = require("../utilities/callback"),
+const dryRunCallback = require("../callback/dryRun"),
       createDiffsCallback = require("../callback/createDiffs"),
       retrieveReleaseCallback = require("../callback/retrieveRelease"),
       createReleaseMapCallback = require("../callback/createReleaseMap"),
@@ -11,8 +9,8 @@ const messages = require("../messages"),
       createReleaseGraphCallback = require("../callback/createReleaseGraph"),
       createSubDirectoryPathCallback = require("../callback/createSubDirectoryPath");
 
-const { executeCallbacks } = callbackUtilities,
-      { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = messages;
+const { executeCallbacks } = require("../utilities/callback"),
+      { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = require("../messages");
 
 function propagate(argument, quietly, dryRun, yes) {
   const callbacks = [

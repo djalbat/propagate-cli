@@ -1,12 +1,8 @@
 "use strict";
 
-const messages = require("../messages"),
-      constants = require("../constants"),
-      configuration = require("../configuration");
-
-const { DEFAULT_DIRECTORY_NAME } = constants,
-      { retrieveIgnoredDependencies } = configuration,
-      { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE, IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE } = messages;
+const { DEFAULT_DIRECTORY_NAME } = require("../constants"),
+      { retrieveIgnoredDependencies } = require("../configuration"),
+      { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE, IGNORED_DEPENDENCIES_INCLUDES_SUB_DIRECTORY_MESSAGE } = require("../messages");
 
 function createSubDirectoryPathCallback(proceed, abort, context) {
   const { argument } = context;

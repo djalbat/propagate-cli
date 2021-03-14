@@ -1,16 +1,12 @@
 "use strict";
 
-const necessary = require("necessary");
+const { shellUtilities } = require("necessary");
 
-const messages = require("../../messages"),
-      descriptions = require("../../descriptions"),
-      validateUtilities = require("../../utilities/validate");
+const { validateDirectoryNumber } = require("../../utilities/validate"),
+      { INVALID_DIRECTORY_NUMBER_MESSAGE } = require("../../messages"),
+      { SPECIFY_DIRECTORY_TO_REMOVE_DESCRIPTION } = require("../../descriptions");
 
-const { shellUtilities } = necessary,
-      { prompt } = shellUtilities,
-      { validateDirectoryNumber } = validateUtilities,
-      { INVALID_DIRECTORY_NUMBER_MESSAGE } = messages,
-      { SPECIFY_DIRECTORY_TO_REMOVE_DESCRIPTION } = descriptions;
+const { prompt } = shellUtilities;
 
 function removeDirectoryPromptCallback(proceed, abort, context) {
   const description = SPECIFY_DIRECTORY_TO_REMOVE_DESCRIPTION,

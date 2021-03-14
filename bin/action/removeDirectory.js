@@ -1,14 +1,11 @@
 "use strict";
 
-const messages = require("../messages"),
-      configuration = require("../configuration"),
-      listDirectories = require("../action/listDirectories"),
-      callbackUtilities = require("../utilities/callback"),
+const listDirectories = require("../action/listDirectories"),
       removeDirectoryPromptCallback = require("../callback/prompt/removeDirectory");
 
-const { executeCallbacks } = callbackUtilities,
-      { updateDirectories, retrieveDirectories } = configuration,
-      { FAILED_REMOVE_DIRECTORY_MESSAGE, SUCCESSFUL_REMOVE_DIRECTORY_MESSAGE } = messages;
+const { executeCallbacks } = require("../utilities/callback"),
+      { updateDirectories, retrieveDirectories } = require("../configuration"),
+      { FAILED_REMOVE_DIRECTORY_MESSAGE, SUCCESSFUL_REMOVE_DIRECTORY_MESSAGE } = require("../messages");
 
 function removeDirectory() {
   const callbacks = [

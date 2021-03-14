@@ -3,10 +3,9 @@
 const messages = require("../messages"),
       ReleaseGraph = require("../releaseGraph");
 
-const consoleUtilities = require('../utilities/console');
+const { consoleLogSubDirectoryPathsCycle } = require('../utilities/console');
 
-const { consoleLogSubDirectoryPathsCycle } = consoleUtilities,
-      { AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE, AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE } = messages;
+const { AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE, AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE } = messages;
 
 function createReleaseGraphCallback(proceed, abort, context) {
   const { releaseMap } = context,

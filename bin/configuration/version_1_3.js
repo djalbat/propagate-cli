@@ -1,10 +1,7 @@
 "use strict";
 
-const versions = require("../versions"),
-      constants = require("../constants");
-
-const { VERSION_1_3 } = versions,
-      { DEFAULT_GIT_SHELL_COMMANDS, DEFAULT_BUILD_SHELL_COMMANDS, DEFAULT_PUBLISH_SHELL_COMMANDS } = constants,
+const { VERSION_1_3 } = require("../versions"),
+      { DEFAULT_GIT_SHELL_COMMANDS, DEFAULT_BUILD_SHELL_COMMANDS, DEFAULT_PUBLISH_SHELL_COMMANDS } = require("../constants"),
       git = DEFAULT_GIT_SHELL_COMMANDS,  ///
       build = DEFAULT_BUILD_SHELL_COMMANDS,  ///
       publish = DEFAULT_PUBLISH_SHELL_COMMANDS,  ///

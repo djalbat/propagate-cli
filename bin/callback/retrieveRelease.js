@@ -1,8 +1,6 @@
 "use strict";
 
-const messages = require("../messages");
-
-const { NO_RELEASE_MESSAGE, RELEASE_NOT_PUBLISHABLE_MESSAGE } = messages;
+const { NO_RELEASE_MESSAGE, RELEASE_NOT_PUBLISHABLE_MESSAGE } = require("../messages");
 
 function retrieveReleaseCallback(proceed, abort, context) {
   const { subDirectoryPath, releaseMap } = context,

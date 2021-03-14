@@ -1,8 +1,6 @@
 "use strict";
 
-const configuration = require("../configuration");
-
-const { retrieveIgnoredDependencies } = configuration;
+const { retrieveIgnoredDependencies } = require("../configuration");
 
 function listIgnoredDependencies() {
   const ignoredDependencyNumbers = [],

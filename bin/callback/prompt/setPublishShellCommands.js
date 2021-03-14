@@ -1,17 +1,12 @@
 "use strict";
 
-const necessary = require("necessary");
+const { shellUtilities } = require("necessary");
 
-const constants = require("../../constants"),
-      descriptions = require("../../descriptions"),
-      validateUtilities = require("../../utilities/validate");
+const { validateShellCommands } = require("../../utilities/validate"),
+      { DEFAULT_PUBLISH_SHELL_COMMANDS } = require("../../constants"),
+      { PUBLISH_SHELL_COMMANDS_DESCRIPTION } = require("../../descriptions");
 
-const { validateShellCommands } = validateUtilities,
-      { DEFAULT_PUBLISH_SHELL_COMMANDS } = constants,
-      { PUBLISH_SHELL_COMMANDS_DESCRIPTION } = descriptions;
-
-const { shellUtilities } = necessary,
-      { prompt } = shellUtilities;
+const { prompt } = shellUtilities;
 
 function setPublishShellCommandsPromptCallback(proceed, abort, context) {
   const { shellCommands } = context,

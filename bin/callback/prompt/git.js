@@ -1,22 +1,15 @@
 "use strict";
 
-const necessary = require("necessary");
+const { shellUtilities } = require("necessary");
 
-const messages = require("../../messages"),
-      constants = require("../../constants"),
-      descriptions = require("../../descriptions"),
-      promptUtilities = require("../../utilities/prompt"),
-      consoleUtilities = require("../../utilities/console"),
-      validateUtilities = require("../../utilities/validate");
+const { YES } = require("../../constants"),
+      { validateAnswer } = require("../../utilities/validate"),
+      { isAnswerAffirmative } = require("../../utilities/prompt"),
+      { consoleLogUnpublishedDiffs } = require("../../utilities/console"),
+      { ADD_COMMIT_PUSH_GIT_DESCRIPTION } = require("../../descriptions"),
+      { FAILED_GIT_MESSAGE, INVALID_ANSWER_MESSAGE } = require("../../messages");
 
-const { shellUtilities } = necessary,
-      { prompt } = shellUtilities,
-      { YES } = constants,
-      { validateAnswer } = validateUtilities,
-      { isAnswerAffirmative } = promptUtilities,
-      { consoleLogUnpublishedDiffs } = consoleUtilities,
-      { ADD_COMMIT_PUSH_GIT_DESCRIPTION } = descriptions,
-      { FAILED_GIT_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
+const { prompt } = shellUtilities;
 
 function gitPromptCallback(proceed, abort, context) {
   const { yes, diff, diffs, quietly } = context;

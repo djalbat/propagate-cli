@@ -1,22 +1,15 @@
 "use strict";
 
-const necessary = require("necessary");
+const { shellUtilities } = require("necessary");
 
-const messages = require("../../messages"),
-      constants = require("../../constants"),
-      descriptions = require("../../descriptions"),
-      promptUtilities = require("../../utilities/prompt"),
-      consoleUtilities = require("../../utilities/console"),
-      validateUtilities = require("../../utilities/validate");
+const { YES } = require("../../constants"),
+      { validateAnswer } = require("../../utilities/validate"),
+      { isAnswerAffirmative } = require("../../utilities/prompt"),
+      { BUILD_YES_NO_DESCRIPTION } = require("../../descriptions"),
+      { consoleLogUnpublishedDiffs } = require("../../utilities/console"),
+      { FAILED_BUILD_MESSAGE, INVALID_ANSWER_MESSAGE } = require("../../messages");
 
-const { shellUtilities } = necessary,
-      { prompt } = shellUtilities,
-      { YES } = constants,
-      { validateAnswer } = validateUtilities,
-      { isAnswerAffirmative } = promptUtilities,
-      { BUILD_YES_NO_DESCRIPTION } = descriptions,
-      { consoleLogUnpublishedDiffs } = consoleUtilities,
-      { FAILED_BUILD_MESSAGE, INVALID_ANSWER_MESSAGE } = messages;
+const { prompt } = shellUtilities;
 
 function buildPromptCallback(proceed, abort, context) {
   const { yes, diff, diffs, quietly } = context;

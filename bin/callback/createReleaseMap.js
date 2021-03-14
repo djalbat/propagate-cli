@@ -1,9 +1,8 @@
 "use strict";
 
-const ReleaseMap = require("../releaseMap"),
-      configuration = require("../configuration");
+const ReleaseMap = require("../releaseMap");
 
-const { retrieveDirectories, retrieveIgnoredDependencies } = configuration;
+const { retrieveDirectories, retrieveIgnoredDependencies } = require("../configuration");
 
 function createReleaseMapCallback(proceed, abort, context) {
   const directories = retrieveDirectories(),

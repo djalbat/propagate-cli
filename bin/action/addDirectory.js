@@ -1,13 +1,10 @@
 "use strict";
 
-const messages = require("../messages"),
-      configuration = require("../configuration"),
-      callbackUtilities = require("../utilities/callback"),
-      addDirectoryPromptCallback = require("../callback/prompt/addDirectory");
+const addDirectoryPromptCallback = require("../callback/prompt/addDirectory");
 
-const { executeCallbacks } = callbackUtilities,
-      { retrieveDirectories, updateDirectories } = configuration,
-      { FAILED_ADD_DIRECTORY_MESSAGE, SUCCESSFUL_ADD_DIRECTORY_MESSAGE, DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE } = messages;
+const { executeCallbacks } = require("../utilities/callback"),
+      { retrieveDirectories, updateDirectories } = require("../configuration"),
+      { FAILED_ADD_DIRECTORY_MESSAGE, SUCCESSFUL_ADD_DIRECTORY_MESSAGE, DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE } = require("../messages");
 
 function addDirectory() {
   const callbacks = [

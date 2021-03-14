@@ -1,16 +1,12 @@
 "use strict";
 
-const necessary = require("necessary");
+const { shellUtilities } = require("necessary");
 
-const messages = require("../../messages"),
-      descriptions = require("../../descriptions"),
-      validateUtilities = require("../../utilities/validate");
+const { validateDirectoryPath } = require("../../utilities/validate"),
+      { DIRECTORY_PATH_DESCRIPTION } = require("../../descriptions"),
+      { INVALID_DIRECTORY_PATH_MESSAGE } = require("../../messages");
 
-const { shellUtilities } = necessary,
-      { prompt } = shellUtilities,
-      { validateDirectoryPath } = validateUtilities,
-      { DIRECTORY_PATH_DESCRIPTION } = descriptions,
-      { INVALID_DIRECTORY_PATH_MESSAGE } = messages;
+const { prompt } = shellUtilities;
 
 function addDirectoryPromptCallback(proceed, abort, context) {
   const description = DIRECTORY_PATH_DESCRIPTION,

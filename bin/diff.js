@@ -1,12 +1,10 @@
 "use strict";
 
 const MapDiff = require("./diff/map"),
-      constants = require("./constants"),
-      VersionDiff = require("./diff/version"),
-      packageJSONUtilities = require("./utilities/packageJSON");
+      VersionDiff = require("./diff/version");
 
-const { DEPENDENCIES_NAME, DEV_DEPENDENCIES_NAME } = constants,
-      { readPackageJSONFile, writePackageJSONFile } = packageJSONUtilities;
+const { DEPENDENCIES_NAME, DEV_DEPENDENCIES_NAME } = require("./constants"),
+      { readPackageJSONFile, writePackageJSONFile } = require("./utilities/packageJSON");
 
 class Diff {
   constructor(release, versionDiff, dependencyMapDiff, devDependencyMapDiff) {
