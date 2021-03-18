@@ -158,4 +158,3 @@ It is worth repeating that if you decide to terminate the update process entirel
 ## Contact
 
 - james.smith@djalbat.com
-- http://djalbat.com
