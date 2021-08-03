@@ -1,37 +1,39 @@
 "use strict";
 
-const addIgnoredDependencyPromptCallback = require("../callback/prompt/addForcedDependencyRelation");
+const addForcedDependencyRelationPromptCallback = require("../callback/prompt/addForcedDependencyRelation");
 
 const { executeCallbacks } = require("../utilities/callback"),
-      { retrieveIgnoredDependencies, updateIgnoredDependencies } = require("../configuration"),
-      { FAILED_ADD_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_ADD_IGNORED_DEPENDENCY_MESSAGE, IGNORED_DEPENDENCIES_INCLUDES_IGNORED_DEPENDENCY_MESSAGE } = require("../messages");
+      { retrieveForcedDependencyRelations, updateForcedDependencyRelations } = require("../configuration"),
+      { FAILED_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE,
+        SUCCESSFUL_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE,
+        FORCED_DEPENDENCY_RELATIONS_INCLUDE_FORCED_DEPENDENCY_RELATION_MESSAGE } = require("../messages");
 
 function addForcedDependencyRelation() {
   const callbacks = [
-          addIgnoredDependencyPromptCallback
+          addForcedDependencyRelationPromptCallback
         ],
         context = {};
 
   executeCallbacks(callbacks, (completed) => {
     if (!completed) {
-      console.log(FAILED_ADD_IGNORED_DEPENDENCY_MESSAGE);
+      console.log(FAILED_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE);
 
       return;
     }
 
-    const ignoredDependencies = retrieveIgnoredDependencies(),
-          { ignoredDependency } = context;
+    const forcedDependencyRelations = retrieveForcedDependencyRelations(),
+          { forcedDependency } = context;
 
-    const ignoredDependenciesIncludesIgnoredDependency = ignoredDependencies.includes(ignoredDependency);
+    const forcedDependencyRelationsIncludesForcedDependencyRelation = forcedDependencyRelations.includes(forcedDependency);
 
-    if (ignoredDependenciesIncludesIgnoredDependency) {
-      console.log(IGNORED_DEPENDENCIES_INCLUDES_IGNORED_DEPENDENCY_MESSAGE);
+    if (forcedDependencyRelationsIncludesForcedDependencyRelation) {
+      console.log(FORCED_DEPENDENCY_RELATIONS_INCLUDE_FORCED_DEPENDENCY_RELATION_MESSAGE);
     } else {
-      ignoredDependencies.push(ignoredDependency);
+      forcedDependencyRelations.push(forcedDependency);
 
-      updateIgnoredDependencies(ignoredDependencies);
+      updateForcedDependencyRelations(forcedDependencyRelations);
 
-      console.log(SUCCESSFUL_ADD_IGNORED_DEPENDENCY_MESSAGE);
+      console.log(SUCCESSFUL_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE);
     }
   }, context);
 }

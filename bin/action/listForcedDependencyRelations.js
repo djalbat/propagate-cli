@@ -1,27 +1,35 @@
 "use strict";
 
-const { retrieveIgnoredDependencies } = require("../configuration");
+const { retrieveForcedDependencyRelations } = require("../configuration");
 
-function listIgnoredDependencies() {
-  const ignoredDependencyNumbers = [],
-        ignoredDependencies = retrieveIgnoredDependencies(),
-        ignoredDependencyNames = [
-          ...ignoredDependencies
-        ];
+const { NO_FORCED_DEPENDENCY_RELATIONS_MESSAGE } = require("../messages");
 
-  console.log("");
+function listForcedDependencyRelations() {
+  const forcedDependencyRelationsNumbers = [],
+        forcedDependencyRelations = retrieveForcedDependencyRelations(),
+        forcedDependencyRelationsLength = forcedDependencyRelations.length;
 
-  ignoredDependencyNames.forEach((ignoredDependencyName, index) => {
-    const ignoredDependencyNumber = index + 1;  ///
+  if (forcedDependencyRelationsLength === 0) {
+    console.log(NO_FORCED_DEPENDENCY_RELATIONS_MESSAGE);
+  } else {
+    const forcedDependencyRelationsNames = [
+      ...forcedDependencyRelations
+    ];
 
-    console.log(` ${ignoredDependencyNumber}: "${ignoredDependencyName}"`);
+    console.log("");
 
-    ignoredDependencyNumbers.push(ignoredDependencyNumber);
-  });
+    forcedDependencyRelationsNames.forEach((forcedDependencyRelationsName, index) => {
+      const forcedDependencyRelationsNumber = index + 1;  ///
 
-  console.log("");
+      console.log(` ${forcedDependencyRelationsNumber}: "${forcedDependencyRelationsName}"`);
 
-  return ignoredDependencyNumbers;
+      forcedDependencyRelationsNumbers.push(forcedDependencyRelationsNumber);
+    });
+
+    console.log("");
+  }
+
+  return forcedDependencyRelationsNumbers;
 }
 
-module.exports = listIgnoredDependencies;
+module.exports = listForcedDependencyRelations;

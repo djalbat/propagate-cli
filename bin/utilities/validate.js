@@ -12,11 +12,17 @@ function validateIgnoredDependencyName(ignoredDependencyName) { return  /^.+$/.t
 
 function validateIgnoredDependencyNumber(ignoredDependencyNumber, ignoredDependencyNumbers) { return ignoredDependencyNumbers.includes(ignoredDependencyNumber); }
 
+function validateForcedDependencyRelationName(forcedDependencyRelationName) { return  /^.+$/.test(forcedDependencyRelationName); }
+
+function validateForcedDependencyRelationNumber(forcedDependencyRelationNumber, forcedDependencyRelationNumbers) { return forcedDependencyRelationNumbers.includes(forcedDependencyRelationNumber); }
+
 module.exports = {
   validateAnswer,
   validateDirectoryPath,
   validateShellCommands,
   validateDirectoryNumber,
   validateIgnoredDependencyName,
-  validateIgnoredDependencyNumber
+  validateIgnoredDependencyNumber,
+  validateForcedDependencyRelationName,
+  validateForcedDependencyRelationNumber
 };

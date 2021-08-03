@@ -1,44 +1,44 @@
 "use strict";
 
-const listIgnoredDependencies = require("../action/listIgnoredDependencies"),
-      removeIgnoredDependencyPromptCallback = require("../callback/prompt/removeForcedDependencyRelation");
+const listForcedDependencyRelations = require("../action/listForcedDependencyRelations"),
+      removeForcedDependencyRelationPromptCallback = require("../callback/prompt/removeForcedDependencyRelation");
 
 const { executeCallbacks } = require("../utilities/callback"),
-      { updateIgnoredDependencies, retrieveIgnoredDependencies } = require("../configuration"),
-      { FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE } = require("../messages");
+      { updateForcedDependencyRelations, retrieveForcedDependencyRelations } = require("../configuration"),
+      { FAILED_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE, SUCCESSFUL_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE } = require("../messages");
 
 function removeForcedDependencyRelation() {
   const callbacks = [
-          removeIgnoredDependencyPromptCallback
+          removeForcedDependencyRelationPromptCallback
         ],
-        ignoredDependencyNumbers = listIgnoredDependencies(),
-        ignoredDependencyNumbersLength = ignoredDependencyNumbers.length;
+        forcedDependencyRelationNumbers = listForcedDependencyRelations(),
+        forcedDependencyRelationNumbersLength = forcedDependencyRelationNumbers.length;
 
-  if (ignoredDependencyNumbersLength === 0) {
+  if (forcedDependencyRelationNumbersLength === 0) {
     return;
   }
 
   const context = {
-          ignoredDependencyNumbers
+          forcedDependencyRelationNumbers
         };
 
   executeCallbacks(callbacks, (completed) => {
     if (!completed) {
-      console.log(FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE);
+      console.log(FAILED_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE);
 
       return;
     }
 
-    const { ignoredDependencyNumber } = context,
-          start = ignoredDependencyNumber - 1,
+    const { forcedDependencyRelationNumber } = context,
+          start = forcedDependencyRelationNumber - 1,
           deleteCount = 1,
-          ignoredDependencies = retrieveIgnoredDependencies();
+          ignoredDependencies = retrieveForcedDependencyRelations();
 
     ignoredDependencies.splice(start, deleteCount);
 
-    updateIgnoredDependencies(ignoredDependencies);
+    updateForcedDependencyRelations(ignoredDependencies);
 
-    console.log(SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE);
+    console.log(SUCCESSFUL_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE);
   }, context);
 }
 

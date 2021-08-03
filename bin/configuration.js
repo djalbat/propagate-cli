@@ -33,6 +33,13 @@ function retrieveIgnoredDependencies() {
   return ignoredDependencies;
 }
 
+function retrieveForcedDependencyRelations() {
+  const configuration = readConfigurationFile(),
+        { forcedDependencyRelations } = configuration;
+
+  return forcedDependencyRelations;
+}
+
 function updateDirectories(directories) {
   updateConfigurationFile({
     directories
@@ -48,6 +55,12 @@ function updateShellCommands(shellCommands) {
 function updateIgnoredDependencies(ignoredDependencies) {
   updateConfigurationFile({
     ignoredDependencies
+  });
+}
+
+function updateForcedDependencyRelations(forcedDependencyRelations) {
+  updateConfigurationFile({
+    forcedDependencyRelations
   });
 }
 
@@ -94,9 +107,11 @@ module.exports = {
   retrieveDirectories,
   retrieveShellCommands,
   retrieveIgnoredDependencies,
+  retrieveForcedDependencyRelations,
   updateDirectories,
   updateShellCommands,
   updateIgnoredDependencies,
+  updateForcedDependencyRelations,
   createConfigurationFile,
   migrateConfigurationFile,
   checkConfigurationFileExists

@@ -2,24 +2,32 @@
 
 const { retrieveIgnoredDependencies } = require("../configuration");
 
+const { NO_IGNORED_DEPENDENCIES_MESSAGE } = require("../messages");
+
 function listForcedDependencyRelations() {
   const ignoredDependencyNumbers = [],
         ignoredDependencies = retrieveIgnoredDependencies(),
-        ignoredDependencyNames = [
-          ...ignoredDependencies
-        ];
+        ignoredDependenciesLength = ignoredDependencies.length;
 
-  console.log("");
+  if (ignoredDependenciesLength === 0) {
+    console.log(NO_IGNORED_DEPENDENCIES_MESSAGE);
+  } else {
+    const ignoredDependencyNames = [
+      ...ignoredDependencies
+    ];
 
-  ignoredDependencyNames.forEach((ignoredDependencyName, index) => {
-    const ignoredDependencyNumber = index + 1;  ///
+    console.log("");
 
-    console.log(` ${ignoredDependencyNumber}: "${ignoredDependencyName}"`);
+    ignoredDependencyNames.forEach((ignoredDependencyName, index) => {
+      const ignoredDependencyNumber = index + 1;  ///
 
-    ignoredDependencyNumbers.push(ignoredDependencyNumber);
-  });
+      console.log(` ${ignoredDependencyNumber}: "${ignoredDependencyName}"`);
 
-  console.log("");
+      ignoredDependencyNumbers.push(ignoredDependencyNumber);
+    });
+
+    console.log("");
+  }
 
   return ignoredDependencyNumbers;
 }
