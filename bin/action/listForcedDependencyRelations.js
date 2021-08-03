@@ -2,7 +2,7 @@
 
 const { retrieveIgnoredDependencies } = require("../configuration");
 
-function listForcedDependencyRelations() {
+function listIgnoredDependencies() {
   const ignoredDependencyNumbers = [],
         ignoredDependencies = retrieveIgnoredDependencies(),
         ignoredDependencyNames = [
@@ -24,4 +24,4 @@ function listForcedDependencyRelations() {
   return ignoredDependencyNumbers;
 }
 
-module.exports = listForcedDependencyRelations;
+module.exports = listIgnoredDependencies;

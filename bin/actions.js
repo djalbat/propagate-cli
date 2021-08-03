@@ -9,8 +9,11 @@ const help = require("./action/help"),
       listDirectories = require("./action/listDirectories"),
       setShellCommands = require("./action/setShellCommands"),
       addIgnoredDependency = require("./action/addIgnoredDependency"),
+      listIgnoredDependencies = require("./action/listIgnoredDependencies"),
       removeIgnoredDependency = require("./action/removeIgnoredDependency"),
-      listIgnoredDependencies = require("./action/listIgnoredDependencies");
+      addForcedDependencyRelation = require("./action/addForcedDependencyRelation"),
+      listForcedDependencyRelations = require("./action/listForcedDependencyRelations"),
+      removeForcedDependencyRelation = require("./action/removeForcedDependencyRelation");
 
 const { isOptionPresent } = require("./utilities/option"),
       { YES_OPTION, HELP_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION  } = require("./options"),
@@ -23,8 +26,11 @@ const { isOptionPresent } = require("./utilities/option"),
         LIST_DIRECTORIES_COMMAND,
         SET_SHELL_COMMANDS_COMMAND,
         ADD_IGNORED_DEPENDENCY_COMMAND,
+        LIST_IGNORED_DEPENDENCIES_COMMAND,
         REMOVE_IGNORED_DEPENDENCY_COMMAND,
-        LIST_IGNORED_DEPENDENCIES_COMMAND } = require("./commands");
+        ADD_FORCED_DEPENDENCY_RELATION_COMMAND,
+        LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND,
+        REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND } = require("./commands");
 
 function actions(command, argument, options) {
   const commandMissing = (command === null),
@@ -56,8 +62,11 @@ function actions(command, argument, options) {
      && (command !== LIST_DIRECTORIES_COMMAND)
      && (command !== SET_SHELL_COMMANDS_COMMAND)
      && (command !== ADD_IGNORED_DEPENDENCY_COMMAND)
+     && (command !== LIST_IGNORED_DEPENDENCIES_COMMAND)
      && (command !== REMOVE_IGNORED_DEPENDENCY_COMMAND)
-     && (command !== LIST_IGNORED_DEPENDENCIES_COMMAND) ) {
+     && (command !== ADD_FORCED_DEPENDENCY_RELATION_COMMAND)
+     && (command !== LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND)
+     && (command !== REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND) ) {
 
     argument = command; ///
 
@@ -74,8 +83,11 @@ function actions(command, argument, options) {
     case LIST_DIRECTORIES_COMMAND : listDirectories(); break;
     case SET_SHELL_COMMANDS_COMMAND : setShellCommands(); break;
     case ADD_IGNORED_DEPENDENCY_COMMAND : addIgnoredDependency(); break;
-    case REMOVE_IGNORED_DEPENDENCY_COMMAND : removeIgnoredDependency(); break;
     case LIST_IGNORED_DEPENDENCIES_COMMAND : listIgnoredDependencies(); break;
+    case REMOVE_IGNORED_DEPENDENCY_COMMAND : removeIgnoredDependency(); break;
+    case ADD_FORCED_DEPENDENCY_RELATION_COMMAND : addForcedDependencyRelation(); break;
+    case LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND : listForcedDependencyRelations(); break;
+    case REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND : removeForcedDependencyRelation(); break;
   }
 }
 
