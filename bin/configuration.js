@@ -5,7 +5,7 @@ const { configurationUtilities } = require("necessary");
 const { CURRENT_VERSION } = require("./versions"),
       { RC_BASE_EXTENSION } = require("./constants"),
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = require("./messages"),
-      { createConfiguration, migrateConfigurationToVersion_1_3 } = require("./configuration/version_1_3");
+      { createConfiguration, migrateConfigurationToVersion_1_7 } = require("./configuration/version_1_7");
 
 const { rc } = configurationUtilities,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
@@ -70,7 +70,8 @@ function migrateConfigurationFile() {
   while (version !== CURRENT_VERSION) {
     switch (version) {
       default :
-        configuration = migrateConfigurationToVersion_1_3(configuration);
+        configuration = migrateConfigurationToVersion_1_7(configuration);
+
         break;
     }
 
