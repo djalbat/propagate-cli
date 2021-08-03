@@ -24,7 +24,9 @@ function removeIgnoredDependencyPromptCallback(proceed, abort, context) {
         };
 
   prompt(options, (answer) => {
-    const ignoredDependencyNumber = Number(answer),
+    const ignoredDependencyNumber = (answer !== null) ?
+                                      Number(answer) :
+                                        null,
           valid = (ignoredDependencyNumber !== null);
 
     if (valid) {

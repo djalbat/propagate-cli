@@ -24,7 +24,9 @@ function removeDirectoryPromptCallback(proceed, abort, context) {
         };
 
   prompt(options, (answer) => {
-    const directoryNumber = Number(answer),
+    const directoryNumber = (answer !== null) ?
+                              Number(answer) :
+                                null,
           valid = (directoryNumber !== null);
 
     if (valid) {

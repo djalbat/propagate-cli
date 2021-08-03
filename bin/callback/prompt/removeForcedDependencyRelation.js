@@ -24,7 +24,9 @@ function removeForcedDependencyRelationPromptCallback(proceed, abort, context) {
         };
 
   prompt(options, (answer) => {
-    const forcedDependencyRelationNumber = Number(answer),
+    const forcedDependencyRelationNumber = (answer !== null) ?
+                                             Number(answer) :
+                                               null,
           valid = (forcedDependencyRelationNumber !== null);
 
     if (valid) {

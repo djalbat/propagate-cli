@@ -22,14 +22,14 @@ function addForcedDependencyRelation() {
     }
 
     const forcedDependencyRelations = retrieveForcedDependencyRelations(),
-          { forcedDependency } = context;
+          { forcedDependencyRelation } = context;
 
-    const forcedDependencyRelationsIncludesForcedDependencyRelation = forcedDependencyRelations.includes(forcedDependency);
+    const forcedDependencyRelationsIncludesForcedDependencyRelation = forcedDependencyRelations.includes(forcedDependencyRelation);
 
     if (forcedDependencyRelationsIncludesForcedDependencyRelation) {
       console.log(FORCED_DEPENDENCY_RELATIONS_INCLUDE_FORCED_DEPENDENCY_RELATION_MESSAGE);
     } else {
-      forcedDependencyRelations.push(forcedDependency);
+      forcedDependencyRelations.push(forcedDependencyRelation);
 
       updateForcedDependencyRelations(forcedDependencyRelations);
 
