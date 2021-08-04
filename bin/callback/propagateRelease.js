@@ -1,6 +1,7 @@
 "use strict";
 
-const { retrieveForcedDependencyRelations } = require("../configuration");
+const { isDependencyRelationForced } = require("../utilities/dependency"),
+      { retrieveForcedDependencyRelations } = require("../configuration");
 
 function propagateReleaseCallback(proceed, abort, context) {
   const { release, releaseMap, releaseGraph, subDirectoryMap } = context,
@@ -88,29 +89,4 @@ function propagateDevDependencies(releases, releaseMap, releaseGraph) {
       });
     }
   });
-}
-
-function isDependencyRelationForced(dependencyRelease, dependentRelease, subDirectoryMap, forcedDependencyRelations) {
-  const dependentReleaseSubDirectoryPath = dependentRelease.getSubDirectoryPath(),
-        dependencyReleaseSubDirectoryPath = dependencyRelease.getSubDirectoryPath(),
-        dependentReleaseSubDirectoryName = subDirectoryNameFromSubDirectoryPath(dependentReleaseSubDirectoryPath, subDirectoryMap),
-        dependencyReleaseSubDirectoryName = subDirectoryNameFromSubDirectoryPath(dependencyReleaseSubDirectoryPath, subDirectoryMap),
-        dependencyRelationForced = forcedDependencyRelations.some((forcedDependencyRelation) => {
-          const { dependent, dependency } = forcedDependencyRelation;
-
-          if ((dependent === dependentReleaseSubDirectoryName) && (dependency === dependencyReleaseSubDirectoryName)) {
-            return true;
-          }
-        });
-
-  return dependencyRelationForced;
-}
-
-function subDirectoryNameFromSubDirectoryPath(subDirectoryPath, subDirectoryMap) {
-  const subDirectoryNames = Object.keys(subDirectoryMap), ///
-        subDirectoryPaths = Object.values(subDirectoryMap), ///
-        index = subDirectoryPaths.indexOf(subDirectoryPath),
-        subDirectoryName = subDirectoryNames[index];
-
-  return subDirectoryName;
 }
