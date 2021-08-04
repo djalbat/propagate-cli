@@ -110,7 +110,7 @@ class Release {
     const success = updateSemver(name, versionString, this.dependencyMap);
 
     if (!success) {
-      console.log(`Either the '${name}' dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
+      console.log(`Either the version of the '${this.subDirectoryPath}' release's '${name}' dependency is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
 
       process.exit(1);
     }
@@ -120,7 +120,7 @@ class Release {
     const success = updateSemver(name, versionString, this.devDependencyMap);
 
     if (!success) {
-      console.log(`Either the '${name}' developer dependency version of the '${this.subDirectoryPath}' release is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
+      console.log(`Either the version of the '${this.subDirectoryPath}' release's '${name}' developer dependency is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
 
       process.exit(1);
     }
@@ -153,7 +153,7 @@ module.exports = Release;
 function updateSemver(name, versionString, map) {
   let success = false;
 
-  let semver = map[name];
+  let semver = map[name] || null;
 
   const version = Version.fromVersionString(versionString),
         existingSemver = semver, ///

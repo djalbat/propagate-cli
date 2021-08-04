@@ -1,10 +1,13 @@
 "use strict";
 
+const { retrieveForcedDependencyRelations } = require("../configuration");
+
 function propagateReleaseCallback(proceed, abort, context) {
-  const { release, releaseMap, releaseGraph } = context,
+  const { release, releaseMap, releaseGraph, subDirectoryMap } = context,
+        forcedDependencyRelations = retrieveForcedDependencyRelations(),
         releases = [];
 
-  propagateDependencies(release, releases, releaseMap, releaseGraph);
+  propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations);
 
   const releasesLength = releases.length,
         dependentReleasesLength = releasesLength - 1;
@@ -21,7 +24,7 @@ function propagateReleaseCallback(proceed, abort, context) {
 
 module.exports = propagateReleaseCallback;
 
-function propagateDependencies(release, releases, releaseMap, releaseGraph) {
+function propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations) {
   const releasesIncludesRelease = releases.includes(release);
 
   if (!releasesIncludesRelease) {
@@ -41,14 +44,19 @@ function propagateDependencies(release, releases, releaseMap, releaseGraph) {
 
   if (dependentReleasesLength > 0) {
     const name = release.getName(),
-          versionString = release.getVersionString();
+          versionString = release.getVersionString(),
+          dependencyRelease = release;  ///
 
     dependentReleases.forEach((dependentRelease) => {
+      const dependencyRelationForced = isDependencyRelationForced(dependencyRelease, dependentRelease, subDirectoryMap, forcedDependencyRelations);
+
+      if (!dependencyRelationForced) {
+        dependentRelease.updateDependencyVersion(name, versionString);
+      }
+
       const release = dependentRelease; ///
 
-      release.updateDependencyVersion(name, versionString);
-
-      propagateDependencies(release, releases, releaseMap, releaseGraph);
+      propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations);
     });
   }
 }
@@ -80,4 +88,29 @@ function propagateDevDependencies(releases, releaseMap, releaseGraph) {
       });
     }
   });
+}
+
+function isDependencyRelationForced(dependencyRelease, dependentRelease, subDirectoryMap, forcedDependencyRelations) {
+  const dependentReleaseSubDirectoryPath = dependentRelease.getSubDirectoryPath(),
+        dependencyReleaseSubDirectoryPath = dependencyRelease.getSubDirectoryPath(),
+        dependentReleaseSubDirectoryName = subDirectoryNameFromSubDirectoryPath(dependentReleaseSubDirectoryPath, subDirectoryMap),
+        dependencyReleaseSubDirectoryName = subDirectoryNameFromSubDirectoryPath(dependencyReleaseSubDirectoryPath, subDirectoryMap),
+        dependencyRelationForced = forcedDependencyRelations.some((forcedDependencyRelation) => {
+          const { dependent, dependency } = forcedDependencyRelation;
+
+          if ((dependent === dependentReleaseSubDirectoryName) && (dependency === dependencyReleaseSubDirectoryName)) {
+            return true;
+          }
+        });
+
+  return dependencyRelationForced;
+}
+
+function subDirectoryNameFromSubDirectoryPath(subDirectoryPath, subDirectoryMap) {
+  const subDirectoryNames = Object.keys(subDirectoryMap), ///
+        subDirectoryPaths = Object.values(subDirectoryMap), ///
+        index = subDirectoryPaths.indexOf(subDirectoryPath),
+        subDirectoryName = subDirectoryNames[index];
+
+  return subDirectoryName;
 }
