@@ -7,6 +7,7 @@ const dryRunCallback = require("../callback/dryRun"),
       propagateReleaseCallback = require("../callback/propagateRelease"),
       saveAndApplyDiffsCallback = require("../callback/saveAndApplyDiffs"),
       createReleaseGraphCallback = require("../callback/createReleaseGraph"),
+      createSubDirectoryMapCallback = require("../callback/createSubDirectoryMap"),
       createSubDirectoryPathCallback = require("../callback/createSubDirectoryPath");
 
 const { executeCallbacks } = require("../utilities/callback"),
@@ -15,6 +16,7 @@ const { executeCallbacks } = require("../utilities/callback"),
 function propagate(argument, quietly, dryRun, yes) {
   const callbacks = [
           createSubDirectoryPathCallback,
+          createSubDirectoryMapCallback,
           createReleaseMapCallback,
           retrieveReleaseCallback,
           createReleaseGraphCallback,

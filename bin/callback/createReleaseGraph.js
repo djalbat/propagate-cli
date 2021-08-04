@@ -3,13 +3,15 @@
 const messages = require("../messages"),
       ReleaseGraph = require("../releaseGraph");
 
-const { consoleLogSubDirectoryPathsCycle } = require('../utilities/console');
+const { consoleLogSubDirectoryPathsCycle } = require('../utilities/console'),
+      { retrieveForcedDependencyRelations } = require("../configuration");
 
 const { AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE, AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE } = messages;
 
 function createReleaseGraphCallback(proceed, abort, context) {
-  const { releaseMap } = context,
-        releaseGraph = ReleaseGraph.fromReleaseMap(releaseMap),
+  const { releaseMap, subDirectoryMap } = context,
+        forcedDependencyRelations = retrieveForcedDependencyRelations(),
+        releaseGraph = ReleaseGraph.fromReleaseMapSubDirectoryMapAndForcedDependencyRelations(releaseMap, subDirectoryMap, forcedDependencyRelations),
         cyclicDependencyPresent = releaseGraph.isCyclicDependencyPresent(),
         cyclicDevDependencyPresent = releaseGraph.isCyclicDevDependencyPresent();
 

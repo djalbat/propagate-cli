@@ -88,7 +88,7 @@ class ReleaseGraph {
     return devDependentReleases;
   }
 
-  static fromReleaseMap(releaseMap) {
+  static fromReleaseMapSubDirectoryMapAndForcedDependencyRelations(releaseMap, subDirectoryMap, forcedDependencyRelations) {
     const dependencyDirectedGraph = DirectedGraph.fromNothing(),
           devDependencyDirectedGraph = DirectedGraph.fromNothing(),
           releaseNames = releaseMap.getNames(),
@@ -113,6 +113,27 @@ class ReleaseGraph {
           dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
         }
       });
+    });
+
+    forcedDependencyRelations.forEach((forcedDependencyRelation) => {
+      const { dependent } = forcedDependencyRelation,
+            subDirectoryName = dependent, //
+            subDirectoryPath = subDirectoryMap[subDirectoryName], ///
+            release = releaseMap.retrieveRelease(subDirectoryPath);
+
+      if (release !== null) {
+        const { dependency } = forcedDependencyRelation,
+              dependencySubDirectoryName = dependency,  ///
+              dependencySubDirectoryPath = subDirectoryMap[dependencySubDirectoryName],  ///
+              dependencyRelease = releaseMap.retrieveRelease(dependencySubDirectoryPath);
+
+        if (dependencyRelease) {
+          const sourceVertexName = dependencySubDirectoryPath,  ///
+                targetVertexName = subDirectoryPath;  ///
+
+          dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+        }
+      }
     });
 
     devDependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
@@ -141,4 +162,3 @@ class ReleaseGraph {
 }
 
 module.exports = ReleaseGraph;
-

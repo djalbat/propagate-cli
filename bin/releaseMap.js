@@ -1,13 +1,6 @@
 "use strict";
 
-const { fileSystemUtilities } = require("necessary");
-
 const Release = require("./release");
-
-const { absolutePathFromName } = require("./utilities/path"),
-      { DEFAULT_DIRECTORY_NAME } = require("./constants");
-
-const { readDirectory, isEntryDirectory } = fileSystemUtilities;
 
 class ReleaseMap {
   constructor(map) {
@@ -63,9 +56,9 @@ class ReleaseMap {
     return release;
   }
 
-  static fromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies) {
+  static fromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies) {
     const map = {},
-          subDirectoryPaths = subDirectoryPathsFromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies);
+          subDirectoryPaths = subDirectoryPathsFromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = Release.fromSubDirectoryPath(subDirectoryPath);
@@ -83,32 +76,19 @@ class ReleaseMap {
 
 module.exports = ReleaseMap;
 
-function subDirectoryPathsFromDirectoriesAndIgnoredDependencies(directories, ignoredDependencies) {
+function subDirectoryPathsFromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies) {
   const subDirectoryPaths = [],
-        directoryNames = [
-          DEFAULT_DIRECTORY_NAME,
-          ...directories
-        ];
+        subDirectoryNames = Object.keys(subDirectoryMap), ///
+        ignoredDependencySubDirectoryNames = ignoredDependencies; ///
 
-  directoryNames.forEach((directoryName) => {
-    const absoluteDirectoryPath = absolutePathFromName(directoryName),
-          entryNames = readDirectory(absoluteDirectoryPath);
+  subDirectoryNames.forEach((subDirectoryName) => {
+    const ignoredDependencySubDirectoryNamesIncludesSubDirectoryName = ignoredDependencySubDirectoryNames.includes(subDirectoryName);
 
-    entryNames.forEach((entryName) => {
-      const entryPath = `${directoryName}/${entryName}`,
-            entryDirectory = isEntryDirectory(entryPath);
+    if (!ignoredDependencySubDirectoryNamesIncludesSubDirectoryName) {
+      const subDirectoryPath = subDirectoryMap[subDirectoryName]; ///
 
-      if (entryDirectory) {
-        const subDirectoryName = entryName, ///
-              ignoredDependenciesIncludesSubDirectoryName = ignoredDependencies.includes(subDirectoryName);
-
-        if (!ignoredDependenciesIncludesSubDirectoryName) {
-          const subDirectoryPath = entryPath; ///
-
-          subDirectoryPaths.push(subDirectoryPath);
-        }
-      }
-    });
+      subDirectoryPaths.push(subDirectoryPath);
+    }
   });
 
   return subDirectoryPaths;
