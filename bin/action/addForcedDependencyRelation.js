@@ -1,6 +1,7 @@
 "use strict";
 
-const addForcedDependencyRelationPromptCallback = require("../callback/prompt/addForcedDependencyRelation");
+const addForcedDependentPromptCallback = require("../callback/prompt/addForcedDependent"),
+      addForcedDependencyPromptCallback = require("../callback/prompt/addForcedDependency");
 
 const { executeCallbacks } = require("../utilities/callback"),
       { retrieveForcedDependencyRelations, updateForcedDependencyRelations } = require("../configuration"),
@@ -10,7 +11,8 @@ const { executeCallbacks } = require("../utilities/callback"),
 
 function addForcedDependencyRelation() {
   const callbacks = [
-          addForcedDependencyRelationPromptCallback
+          addForcedDependencyPromptCallback,
+          addForcedDependentPromptCallback
         ],
         context = {};
 
@@ -21,14 +23,26 @@ function addForcedDependencyRelation() {
       return;
     }
 
-    const forcedDependencyRelations = retrieveForcedDependencyRelations(),
-          { forcedDependencyRelation } = context;
+    const { forcedDependent, forcedDependency } = context,
+          forcedDependencyRelations = retrieveForcedDependencyRelations(),
+          forcedDependencyRelationsIncludesForcedDependencyRelation = forcedDependencyRelations.some((forcedDependencyRelation) => {  ///
+            const { dependent, dependency } = forcedDependencyRelation;
 
-    const forcedDependencyRelationsIncludesForcedDependencyRelation = forcedDependencyRelations.includes(forcedDependencyRelation);
+            if ((dependent === forcedDependent) && (dependency === forcedDependency)) {
+              return true;
+            }
+          });
 
     if (forcedDependencyRelationsIncludesForcedDependencyRelation) {
       console.log(FORCED_DEPENDENCY_RELATIONS_INCLUDE_FORCED_DEPENDENCY_RELATION_MESSAGE);
     } else {
+      const dependent = forcedDependent,  ///
+            dependency = forcedDependency,  ///
+            forcedDependencyRelation = {
+              dependent,
+              dependency
+            };
+
       forcedDependencyRelations.push(forcedDependencyRelation);
 
       updateForcedDependencyRelations(forcedDependencyRelations);

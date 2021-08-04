@@ -21,10 +21,9 @@ function addIgnoredDependency() {
       return;
     }
 
-    const ignoredDependencies = retrieveIgnoredDependencies(),
-          { ignoredDependency } = context;
-
-    const ignoredDependenciesIncludesIgnoredDependency = ignoredDependencies.includes(ignoredDependency);
+    const { ignoredDependency } = context,
+          ignoredDependencies = retrieveIgnoredDependencies(),
+          ignoredDependenciesIncludesIgnoredDependency = ignoredDependencies.includes(ignoredDependency);
 
     if (ignoredDependenciesIncludesIgnoredDependency) {
       console.log(IGNORED_DEPENDENCIES_INCLUDE_IGNORED_DEPENDENCY_MESSAGE);

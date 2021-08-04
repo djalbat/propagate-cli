@@ -8,11 +8,13 @@ function validateShellCommands(shellCommands) { return  /^.*$/.test(shellCommand
 
 function validateDirectoryNumber(directoryNumber, directoryNumbers) { return directoryNumbers.includes(directoryNumber); }
 
+function validateForcedDependentName(forcedDependentName) { return  /^.+$/.test(forcedDependentName); }
+
+function validateForcedDependencyName(forcedDependencyName) { return  /^.+$/.test(forcedDependencyName); }
+
 function validateIgnoredDependencyName(ignoredDependencyName) { return  /^.+$/.test(ignoredDependencyName); }
 
 function validateIgnoredDependencyNumber(ignoredDependencyNumber, ignoredDependencyNumbers) { return ignoredDependencyNumbers.includes(ignoredDependencyNumber); }
-
-function validateForcedDependencyRelationName(forcedDependencyRelationName) { return  /^.+$/.test(forcedDependencyRelationName); }
 
 function validateForcedDependencyRelationNumber(forcedDependencyRelationNumber, forcedDependencyRelationNumbers) { return forcedDependencyRelationNumbers.includes(forcedDependencyRelationNumber); }
 
@@ -21,8 +23,9 @@ module.exports = {
   validateDirectoryPath,
   validateShellCommands,
   validateDirectoryNumber,
+  validateForcedDependentName,
+  validateForcedDependencyName,
   validateIgnoredDependencyName,
   validateIgnoredDependencyNumber,
-  validateForcedDependencyRelationName,
   validateForcedDependencyRelationNumber
 };
