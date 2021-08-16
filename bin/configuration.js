@@ -2,15 +2,15 @@
 
 const { configurationUtilities } = require("necessary");
 
-const { CURRENT_VERSION } = require("./versions"),
-      { RC_BASE_EXTENSION } = require("./constants"),
+const { PROPAGATE } = require("./constants"),
+      { CURRENT_VERSION } = require("./versions"),
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = require("./messages"),
       { createConfiguration, migrateConfigurationToVersion_1_7 } = require("./configuration/version_1_7");
 
 const { rc } = configurationUtilities,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
 
-setRCBaseExtension(RC_BASE_EXTENSION);
+setRCBaseExtension(PROPAGATE);
 
 function retrieveDirectories() {
   const configuration = readConfigurationFile(),

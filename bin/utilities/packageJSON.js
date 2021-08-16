@@ -2,7 +2,7 @@
 
 const { arrayUtilities, fileSystemUtilities } = require("necessary");
 
-const { PACKAGE_JSON_FILE_NAME } = require("../constants");
+const { PACKAGE_JSON } = require("../constants");
 
 const { second } = arrayUtilities,
       { readFile, writeFile, checkFileExists } = fileSystemUtilities;
@@ -11,7 +11,7 @@ const utilitiesDirectoryName = __dirname, ///
       matches = utilitiesDirectoryName.match(/^(.+)\/bin\/utilities$/),
       secondMatch = second(matches),
 			applicationDirectoryName = secondMatch, ///
-			packageJSONFilePath = `${applicationDirectoryName}/${PACKAGE_JSON_FILE_NAME}`,
+			packageJSONFilePath = `${applicationDirectoryName}/${PACKAGE_JSON}`,
 			packageJSONFile = readFile(packageJSONFilePath),
 			packageJSON = JSON.parse(packageJSONFile),
 			{ version } = packageJSON,
@@ -70,7 +70,7 @@ module.exports = {
 };
 
 function packageJSONFilePathFromSubDirectoryPath(subDirectoryPath) {
-  const packageJSONFilePath = `${subDirectoryPath}/${PACKAGE_JSON_FILE_NAME}`;
+  const packageJSONFilePath = `${subDirectoryPath}/${PACKAGE_JSON}`;
 
   return packageJSONFilePath;
 }

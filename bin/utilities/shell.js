@@ -4,7 +4,7 @@ const childProcess = require("child_process");
 
 const { shellUtilities } = require("necessary");
 
-const { UTF8 } = require("../constants"),
+const { UTF_8 } = require("../constants"),
       { validateAnswer } = require("../utilities/validate"),
       { isAnswerAffirmative } = require("../utilities/prompt"),
       { INVALID_ANSWER_MESSAGE } = require("../messages"),
@@ -57,7 +57,7 @@ function execSync(shellCommands, quietly) {
   let success;
 
   try {
-    const encoding = UTF8,  ///
+    const encoding = UTF_8,  ///
           options = {
             encoding
           },

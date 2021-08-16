@@ -1,7 +1,7 @@
 "use strict";
 
 const { retrieveDirectories } = require("../configuration"),
-      { DEFAULT_DIRECTORY_NAME } = require("../constants");
+      { DEFAULT_DIRECTORY_NAME } = require("../defaults");
 
 function listDirectories() {
   const directoryNumbers = [],

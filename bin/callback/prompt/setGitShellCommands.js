@@ -3,7 +3,7 @@
 const { shellUtilities } = require("necessary");
 
 const { validateShellCommands } = require("../../utilities/validate"),
-      { DEFAULT_GIT_SHELL_COMMANDS } = require("../../constants"),
+      { DEFAULT_GIT_SHELL_COMMANDS } = require("../../defaults"),
       { GIT_SHELL_COMMANDS_DESCRIPTION } = require("../../descriptions");
 
 const { prompt } = shellUtilities;

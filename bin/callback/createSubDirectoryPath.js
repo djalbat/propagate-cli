@@ -1,6 +1,6 @@
 "use strict";
 
-const { DEFAULT_DIRECTORY_NAME } = require("../constants"),
+const { DEFAULT_DIRECTORY_NAME } = require("../defaults"),
       { retrieveIgnoredDependencies } = require("../configuration"),
       { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE, IGNORED_DEPENDENCIES_INCLUDE_SUB_DIRECTORY_MESSAGE } = require("../messages");
 

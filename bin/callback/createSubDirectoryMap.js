@@ -4,7 +4,7 @@ const { fileSystemUtilities } = require("necessary");
 
 const { retrieveDirectories } = require("../configuration"),
       { absolutePathFromName } = require("../utilities/path"),
-      { DEFAULT_DIRECTORY_NAME } = require("../constants");
+      { DEFAULT_DIRECTORY_NAME } = require("../defaults");
 
 const { readDirectory, isEntryDirectory } = fileSystemUtilities;
 

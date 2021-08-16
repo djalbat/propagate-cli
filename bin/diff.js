@@ -3,7 +3,7 @@
 const MapDiff = require("./diff/map"),
       VersionDiff = require("./diff/version");
 
-const { DEPENDENCIES_NAME, DEV_DEPENDENCIES_NAME } = require("./constants"),
+const { DEPENDENCIES, DEV_DEPENDENCIES } = require("./constants"),
       { readPackageJSONFile, writePackageJSONFile } = require("./utilities/packageJSON");
 
 class Diff {
@@ -53,9 +53,9 @@ class Diff {
     if (packageJSON !== null) {
       this.versionDiff.save(packageJSON);
 
-      this.dependencyMapDiff.save(packageJSON, DEPENDENCIES_NAME);
+      this.dependencyMapDiff.save(packageJSON, DEPENDENCIES);
 
-      this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES_NAME);
+      this.devDependencyMapDiff.save(packageJSON, DEV_DEPENDENCIES);
 
       success = writePackageJSONFile(subDirectoryPath, packageJSON);
     }

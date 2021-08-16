@@ -3,7 +3,7 @@
 const { shellUtilities } = require("necessary");
 
 const { validateShellCommands } = require("../../utilities/validate"),
-      { DEFAULT_BUILD_SHELL_COMMANDS } = require("../../constants"),
+      { DEFAULT_BUILD_SHELL_COMMANDS } = require("../../defaults"),
       { BUILD_SHELL_COMMANDS_DESCRIPTION } = require("../../descriptions");
 
 const { prompt } = shellUtilities;
