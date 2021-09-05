@@ -33,9 +33,15 @@ function propagate(argument, quietly, dryRun, yes) {
         };
 
   executeCallbacks(callbacks, (completed) => {
-    completed ?
-      console.log(SUCCESSFUL_PROPAGATE_MESSAGE) :
-        console.log(FAILED_PROPAGATE_MESSAGE);
+    if (!completed) {
+      console.log(FAILED_PROPAGATE_MESSAGE);
+
+      return;
+    }
+
+    if (!dryRun) {
+      console.log(SUCCESSFUL_PROPAGATE_MESSAGE);
+    }
   }, context);
 }
 

@@ -9,10 +9,6 @@ function dryRunCallback(proceed, abort, context) {
 
       console.log(diffString);
     });
-
-    abort();
-
-    return;
   }
 
   proceed();
