@@ -29,6 +29,10 @@ class MapDiff {
     this.semverDiffs.forEach((semverDiff) => semverDiff.save(packageJSON))
   }
 
+  someSemverDiff(callback) {
+    return this.semverDiffs.some(callback);
+  }
+
   removeSemverDiff(name) {
     filter(this.semverDiffs, (semverDiff) => {
       const semverDiffName = semverDiff.getName();

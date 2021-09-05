@@ -44,6 +44,8 @@ class Diff {
 
   isDevDependencyMapDiffEmpty() { return this.devDependencyMapDiff.isEmpty(); }
 
+  someDevDependencySemverDiff(callback) { return this.devDependencyMapDiff.someSemverDiff(callback); } ///
+
   save() {
     let success = false;
 
