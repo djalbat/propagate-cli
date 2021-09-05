@@ -37,8 +37,6 @@ function checkDevDependenciesCallback(proceed, abort, context) {
   devDependencyMissing ?
     abort() :
       proceed();
-
-  proceed();
 }
 
 module.exports = checkDevDependenciesCallback;
