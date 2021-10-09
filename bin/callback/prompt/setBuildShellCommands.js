@@ -2,7 +2,8 @@
 
 const { shellUtilities } = require("necessary");
 
-const { validateShellCommands } = require("../../utilities/validate"),
+const { EMPTY_STRING } = require("../../constants"),
+      { validateShellCommands } = require("../../utilities/validate"),
       { DEFAULT_BUILD_SHELL_COMMANDS } = require("../../defaults"),
       { BUILD_SHELL_COMMANDS_DESCRIPTION } = require("../../descriptions");
 
@@ -23,7 +24,7 @@ function setBuildShellCommandsPromptCallback(proceed, abort, context) {
 
   prompt(options, (answer) => {
     const buildShellCommands = answer,  ///
-          build = (buildShellCommands !== "") ?
+          build = (buildShellCommands !== EMPTY_STRING) ?
                     buildShellCommands :
                       DEFAULT_BUILD_SHELL_COMMANDS;
 

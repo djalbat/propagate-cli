@@ -67,6 +67,8 @@ class Diff {
 
   git(quietly, callback) { this.release.git(quietly, callback); }
 
+  install(quietly, callback) { this.release.install(quietly, callback); }
+
   build(quietly, callback) { this.release.build(quietly, callback); }
 
   publish(quietly, callback) { this.release.publish(quietly, callback); }

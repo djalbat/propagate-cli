@@ -2,6 +2,7 @@
 
 const setGitShellCommandsPromptCallback = require("../callback/prompt/setGitShellCommands"),
       setBuildShellCommandsPromptCallback = require("../callback/prompt/setBuildShellCommands"),
+      setInstallShellCommandsPromptCallback = require("../callback/prompt/setInstallShellCommands"),
       setPublishShellCommandsPromptCallback = require("../callback/prompt/setPublishShellCommands");
 
 const { executeCallbacks } = require("../utilities/callback"),
@@ -10,9 +11,10 @@ const { executeCallbacks } = require("../utilities/callback"),
 
 function setShellCommands() {
   const callbacks = [
-          setPublishShellCommandsPromptCallback,
+          setGitShellCommandsPromptCallback,
+          setInstallShellCommandsPromptCallback,
           setBuildShellCommandsPromptCallback,
-          setGitShellCommandsPromptCallback
+          setPublishShellCommandsPromptCallback,
         ],
         shellCommands = retrieveShellCommands(),
         context = {

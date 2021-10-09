@@ -3,9 +3,12 @@
 const { configurationUtilities } = require("necessary");
 
 const { PROPAGATE } = require("./constants"),
-      { CURRENT_VERSION } = require("./versions"),
+      { migrateConfigurationToVersion_1_0 } = require("./configuration/version_1_0"),
+      { migrateConfigurationToVersion_1_3 } = require("./configuration/version_1_3"),
+      { migrateConfigurationToVersion_1_7 } = require("./configuration/version_1_7"),
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = require("./messages"),
-      { createConfiguration, migrateConfigurationToVersion_1_7 } = require("./configuration/version_1_7");
+      { createConfiguration, migrateConfigurationToVersion_1_9 } = require("./configuration/version_1_9"),
+      { VERSION_1_0, VERSION_1_3, VERSION_1_7, CURRENT_VERSION, UNDEFINED_VERSION } = require("./versions");
 
 const { rc } = configurationUtilities,
       { setRCBaseExtension, checkRCFileExists, updateRCFile, writeRCFile, readRCFile } = rc;
@@ -72,23 +75,36 @@ function createConfigurationFile() {
 }
 
 function migrateConfigurationFile() {
-  let version;
-
   let json = readRCFile();
 
   let configuration = json; ///
 
-  version = configuration.version || VERSION_0_0; ///
+  let { version = UNDEFINED_VERSION } = configuration;
 
   while (version !== CURRENT_VERSION) {
     switch (version) {
-      default :
+      case UNDEFINED_VERSION :
+        configuration = migrateConfigurationToVersion_1_0(configuration);
+
+        break;
+
+      case VERSION_1_0 :
+        configuration = migrateConfigurationToVersion_1_3(configuration);
+
+        break;
+
+      case VERSION_1_3 :
         configuration = migrateConfigurationToVersion_1_7(configuration);
+
+        break;
+
+      case VERSION_1_7 :
+        configuration = migrateConfigurationToVersion_1_9(configuration);
 
         break;
     }
 
-    version = configuration.version || VERSION_0_0; ///
+    ({ version } = configuration);
   }
 
   json = configuration; ///

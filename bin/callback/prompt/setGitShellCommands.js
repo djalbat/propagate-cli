@@ -2,7 +2,8 @@
 
 const { shellUtilities } = require("necessary");
 
-const { validateShellCommands } = require("../../utilities/validate"),
+const { EMPTY_STRING } = require("../../constants"),
+      { validateShellCommands } = require("../../utilities/validate"),
       { DEFAULT_GIT_SHELL_COMMANDS } = require("../../defaults"),
       { GIT_SHELL_COMMANDS_DESCRIPTION } = require("../../descriptions");
 
@@ -23,7 +24,7 @@ function setGitShellCommandsPromptCallback(proceed, abort, context) {
 
   prompt(options, (answer) => {
     const gitShellCommands = answer,  ///
-          git = (gitShellCommands !== "") ?
+          git = (gitShellCommands !== EMPTY_STRING) ?
                   gitShellCommands :
                     DEFAULT_GIT_SHELL_COMMANDS;
 

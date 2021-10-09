@@ -5,7 +5,8 @@ const gitPromptCallback = require("../callback/prompt/git"),
       buildPromptCallback = require("../callback/prompt/build"),
       publishPromptCallback = require("../callback/prompt/publish");
 
-const { executeCallbacks } = require("../utilities/callback");
+const { EMPTY_STRING } = require("../constants"),
+      { executeCallbacks } = require("../utilities/callback");
 
 function saveAndApplyDiffCallback(diff, proceed, abort, context) {
   const { diffs } = context,
@@ -33,7 +34,7 @@ function saveAndApplyDiffCallback(diff, proceed, abort, context) {
           publishPromptCallback
         ];
 
-  console.log("");
+  console.log(EMPTY_STRING);
 
   executeCallbacks(callbacks, (completed) => {
     delete context.diff;

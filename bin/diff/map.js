@@ -4,6 +4,8 @@ const { arrayUtilities } = require("necessary");
 
 const SemverDiff = require("../diff/semver");
 
+const { EMPTY_STRING } = require("../constants");
+
 const { filter } = arrayUtilities;
 
 class MapDiff {
@@ -53,7 +55,7 @@ class MapDiff {
             semverDiffsString = `${semverDiffsString}${semverDiffString}`;
 
             return semverDiffsString;
-          }, ""),
+          }, EMPTY_STRING),
           string = `{\n${semverDiffsString}\n   }`;
 
     return string;

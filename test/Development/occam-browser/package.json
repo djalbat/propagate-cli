@@ -1,0 +1,13 @@
+{
+  "version": "2.4.3",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "necessary": "^3.4.0",
+    "occam-file-system": "^2.0.58"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node ./bin/main.js"
+  }
+}

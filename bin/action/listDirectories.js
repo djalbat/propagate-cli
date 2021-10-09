@@ -1,6 +1,7 @@
 "use strict";
 
-const { retrieveDirectories } = require("../configuration"),
+const { EMPTY_STRING } =  require("../constants"),
+      { retrieveDirectories } = require("../configuration"),
       { DEFAULT_DIRECTORY_NAME } = require("../defaults");
 
 function listDirectories() {
@@ -12,7 +13,7 @@ function listDirectories() {
           ...directories
         ];
 
-  console.log("");
+  console.log(EMPTY_STRING);
 
   directoryNames.forEach((directoryName, index) => {
     if (index === 0) {
@@ -26,7 +27,7 @@ function listDirectories() {
     }
   });
 
-  console.log("");
+  console.log(EMPTY_STRING);
 
   return directoryNumbers;
 }

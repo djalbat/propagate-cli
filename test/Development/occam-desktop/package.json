@@ -1,0 +1,21 @@
+{
+  "version": "2.4.2",
+  "license": "Apache-2.0",
+  "main": "./bin/main.js",
+  "productName": "Occam",
+  "dependencies": {
+    "electron-window-state": "^5.0.3",
+    "necessary": "^3.4.0",
+    "occam-file-system": "^2.0.58",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "electron": "^4.1.4",
+    "electron-packager": "^13.1.1"
+  },
+  "scripts": {
+    "pre-pack": "node ./pre-pack.js",
+    "package": "electron-packager . --overwrite --icon=./icon/logo_simple.icns",
+    "make": "npm run pre-pack && npm run package"
+  }
+}

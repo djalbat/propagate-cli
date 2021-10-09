@@ -1,0 +1,31 @@
+{
+  "name": "fragmented",
+  "author": "James Smith",
+  "version": "2.0.11",
+  "license": "MIT, Anti-996",
+  "homepage": "https://github.com/djalbat/fragmented",
+  "description": "Relates to URL hash fragments.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/djalbat/fragmented"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.7.5",
+    "babel-preset-es2015": "^6.6.0",
+    "browserify": "^13.0.0",
+    "chokidar-cli": "^1.2.0"
+  },
+  "scripts": {
+    "clean": "rm -rf ./lib",
+    "babel": "babel ./es6 --presets=es2015 --out-dir=./lib",
+    "babel-debug": "babel ./es6 --presets=es2015 --source-maps inline --out-dir=./lib",
+    "browserify:example": "browserify ./es6/example.js --standalone example > ./example.js",
+    "browserify:example-debug": "browserify ./es6/example.js --standalone example --debug > ./example.js",
+    "build": "npm run clean && npm run babel && npm run browserify:example",
+    "build-debug": "npm run clean && npm run babel-debug && npm run browserify:example-debug",
+    "watch": "npm run build && chokidar './index.js' './es6/**/*.js' -c 'npm run build'",
+    "watch-debug": "npm run build-debug && chokidar './index.js' './es6/**/*.js' -c 'npm run build-debug'"
+  }
+}
