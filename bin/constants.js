@@ -2,6 +2,7 @@
 
 const YES = "yes",
       UTF_8 = "utf-8",
+      TWO_DOTS = "..",
       PROPAGATE = "propagate",
       PACKAGE_JSON = "package.json",
       DEPENDENCIES = "dependencies",
@@ -11,6 +12,7 @@ const YES = "yes",
 module.exports = {
   YES,
   UTF_8,
+  TWO_DOTS,
   PROPAGATE,
   PACKAGE_JSON,
   DEPENDENCIES,

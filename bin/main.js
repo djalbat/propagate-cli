@@ -4,7 +4,8 @@ const { pathUtilities } = require("necessary");
 
 const actions = require("./actions");
 
-const { PROPAGATE_COMMAND } = require("./commands"),
+const { TWO_DOTS } = require("./constants"),
+      { PROPAGATE_COMMAND } = require("./commands"),
       { checkConfigurationFileExists, migrateConfigurationFile } = require("./configuration");
 
 const { bottommostNameFromPath } = pathUtilities;
@@ -16,7 +17,7 @@ function main(command, argument, options) {
     if (!configurationFileExists) {
       const currentWorkingDirectoryPath = process.cwd(); ///
 
-      process.chdir("..");
+      process.chdir(TWO_DOTS);
 
       const oldCurrentWorkingDirectoryPath = currentWorkingDirectoryPath; ///
 

@@ -3,6 +3,7 @@
 const gitPromptCallback = require("../callback/prompt/git"),
       savePromptCallback = require("../callback/prompt/save"),
       buildPromptCallback = require("../callback/prompt/build"),
+      installPromptCallback = require("../callback/prompt/install"),
       publishPromptCallback = require("../callback/prompt/publish");
 
 const { executeCallbacks } = require("../utilities/callback");
@@ -28,6 +29,7 @@ function saveAndApplyDiffCallback(diff, proceed, abort, context) {
 
   const callbacks = [
           savePromptCallback,
+          installPromptCallback,
           buildPromptCallback,
           gitPromptCallback,
           publishPromptCallback
