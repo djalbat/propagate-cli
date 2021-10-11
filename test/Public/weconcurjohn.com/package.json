@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@jecs-imperial/concurrent-layer-protocol": "0.0.114",
+    "body-parser": "^1.18.3",
+    "express": "^4.11.2",
+    "necessary": "^3.3.1"
+  }
+}

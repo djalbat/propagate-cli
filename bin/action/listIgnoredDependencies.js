@@ -1,6 +1,7 @@
 "use strict";
 
-const { retrieveIgnoredDependencies } = require("../configuration");
+const { EMPTY_STRING } = require("../constants"),
+      { retrieveIgnoredDependencies } = require("../configuration");
 
 const { NO_IGNORED_DEPENDENCIES_MESSAGE } = require("../messages");
 
@@ -16,7 +17,7 @@ function listForcedDependencyRelations() {
       ...ignoredDependencies
     ];
 
-    console.log("");
+    console.log(EMPTY_STRING);
 
     ignoredDependencyNames.forEach((ignoredDependencyName, index) => {
       const ignoredDependencyNumber = index + 1;  ///
@@ -26,7 +27,7 @@ function listForcedDependencyRelations() {
       ignoredDependencyNumbers.push(ignoredDependencyNumber);
     });
 
-    console.log("");
+    console.log(EMPTY_STRING);
   }
 
   return ignoredDependencyNumbers;

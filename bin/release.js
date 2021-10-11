@@ -70,6 +70,17 @@ class Release {
     this.executeShellCommands(shellCommands, quietly, callback);
   }
 
+  install(quietly, callback) {
+    let shellCommands = retrieveShellCommands();
+
+    const { install } = shellCommands,
+          installShellCommands = install;
+
+    shellCommands = installShellCommands; ///
+
+    this.executeShellCommands(shellCommands, quietly, callback);
+  }
+
   build(quietly, callback) {
     let shellCommands = retrieveShellCommands();
 

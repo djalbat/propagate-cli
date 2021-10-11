@@ -102,7 +102,7 @@ Commands:
   
   list-directories                     List directories, including the default directory
   
-  set-shell-commands                   Set the Git, build and publish shell commands
+  set-shell-commands                   Set the Git, install, build and publish shell commands
   
   add-ignored-dependency               Add an ignored dependency
   
@@ -153,9 +153,9 @@ It is important to understand what happens when you choose to answer 'no' to any
 
 1. If you chose to answer 'no' at a save prompt, Propagate will assume that you do not want to propagate the package and will adjust all the remaining updates accordingly.
 
-2. If you chose to answer 'no' at a build prompt, Propagate will continue with the update. The rationale behind this is that the update in question might not be to a package but instead to a large binary that may need its `package.json` file updated with the latest dependencies but may not need to be built right away. Also bear in mind that you do not need to rebuild a package before publishing if all you are doing is updating its dependencies. Therefore you can safely answer 'no' at the build prompt even for propagated packages.
+2. If you chose to answer 'no' at either a build prompt or an install prompt, Propagate will continue with the update. The rationale behind this is that the update in question might not be to a package but instead to a project that may need its `package.json` file updated with the latest dependencies but may not need to be built right away. Also bear in mind that you do not need to rebuild a package before publishing if all you are doing is updating its dependencies. Therefore you can safely answer 'no' at either of these prompts even for propagated packages.
 
-3. If you choose to answer 'no' at a Git prompt, much the same rationale as for building holds.
+3. If you choose to answer 'no' at a Git prompt, much the same rationale as for installing and building holds.
 
 4. If you choose to answer 'no' at a publish prompt, Propagate will again assume that you do not want to propagate the package and will make the necessary adjustments as before.
 

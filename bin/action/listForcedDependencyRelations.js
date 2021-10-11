@@ -1,6 +1,7 @@
 "use strict";
 
-const { retrieveForcedDependencyRelations } = require("../configuration");
+const { EMPTY_STRING } = require("../constants"),
+      { retrieveForcedDependencyRelations } = require("../configuration");
 
 const { NO_FORCED_DEPENDENCY_RELATIONS_MESSAGE } = require("../messages");
 
@@ -16,7 +17,7 @@ function listForcedDependencyRelations() {
       ...forcedDependencyRelations
     ];
 
-    console.log("");
+    console.log(EMPTY_STRING);
 
     forcedDependencyRelationsNames.forEach((forcedDependencyRelationsName, index) => {
       const forcedDependencyRelationsNumber = index + 1;  ///
@@ -26,7 +27,7 @@ function listForcedDependencyRelations() {
       forcedDependencyRelationsNumbers.push(forcedDependencyRelationsNumber);
     });
 
-    console.log("");
+    console.log(EMPTY_STRING);
   }
 
   return forcedDependencyRelationsNumbers;

@@ -2,7 +2,8 @@
 
 const { shellUtilities } = require("necessary");
 
-const { validateShellCommands } = require("../../utilities/validate"),
+const { EMPTY_STRING } = require("../../constants"),
+      { validateShellCommands } = require("../../utilities/validate"),
       { DEFAULT_PUBLISH_SHELL_COMMANDS } = require("../../defaults"),
       { PUBLISH_SHELL_COMMANDS_DESCRIPTION } = require("../../descriptions");
 
@@ -23,7 +24,7 @@ function setPublishShellCommandsPromptCallback(proceed, abort, context) {
 
   prompt(options, (answer) => {
     const publishShellCommands = answer,  ///
-          publish = (publishShellCommands !== "") ?
+          publish = (publishShellCommands !== EMPTY_STRING) ?
                       publishShellCommands :
                         DEFAULT_PUBLISH_SHELL_COMMANDS;
 

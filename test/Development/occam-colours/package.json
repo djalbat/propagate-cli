@@ -1,0 +1,11 @@
+{
+  "author": "James Smith",
+  "version": "1.0.25",
+  "license": "MIT, Anti-996",
+  "homepage": "https://github.com/jecs-imperial/occam-colours",
+  "description": "Occam's colour definitions and schemes.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jecs-imperial/occam-colours"
+  }
+}
