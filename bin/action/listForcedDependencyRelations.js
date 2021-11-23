@@ -13,16 +13,13 @@ function listForcedDependencyRelations() {
   if (forcedDependencyRelationsLength === 0) {
     console.log(NO_FORCED_DEPENDENCY_RELATIONS_MESSAGE);
   } else {
-    const forcedDependencyRelationsNames = [
-      ...forcedDependencyRelations
-    ];
-
     console.log(EMPTY_STRING);
 
-    forcedDependencyRelationsNames.forEach((forcedDependencyRelationsName, index) => {
-      const forcedDependencyRelationsNumber = index + 1;  ///
+    forcedDependencyRelations.forEach((forcedDependencyRelations, index) => {
+      const { dependent, dependency } = forcedDependencyRelations,
+            forcedDependencyRelationsNumber = index + 1;  ///
 
-      console.log(` ${forcedDependencyRelationsNumber}: "${forcedDependencyRelationsName}"`);
+      console.log(` ${forcedDependencyRelationsNumber}: "${dependent}" -> "${dependency}"`);
 
       forcedDependencyRelationsNumbers.push(forcedDependencyRelationsNumber);
     });
