@@ -8,7 +8,7 @@ const { validateIgnoredDependencyNumber } = require("../../utilities/validate"),
 
 const { prompt } = shellUtilities;
 
-function removeIgnoredDependencyPromptCallback(proceed, abort, context) {
+function removeIgnoredDependencyPromptOperation(proceed, abort, context) {
   const description = SPECIFY_IGNORED_DEPENDENCY_TO_REMOVE_DESCRIPTION,
         errorMessage = INVALID_IGNORED_DEPENDENCY_NUMBER_MESSAGE,
         { ignoredDependencyNumbers } = context,
@@ -43,4 +43,4 @@ function removeIgnoredDependencyPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = removeIgnoredDependencyPromptCallback;
+module.exports = removeIgnoredDependencyPromptOperation;

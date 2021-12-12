@@ -8,7 +8,7 @@ const { consoleLogSubDirectoryPathsCycle } = require('../utilities/console'),
 
 const { AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE, AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE } = messages;
 
-function createReleaseGraphCallback(proceed, abort, context) {
+function createReleaseGraphOperation(proceed, abort, context) {
   const { releaseMap, subDirectoryMap } = context,
         forcedDependencyRelations = retrieveForcedDependencyRelations(),
         releaseGraph = ReleaseGraph.fromReleaseMapSubDirectoryMapAndForcedDependencyRelations(releaseMap, subDirectoryMap, forcedDependencyRelations),
@@ -46,4 +46,4 @@ function createReleaseGraphCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = createReleaseGraphCallback;
+module.exports = createReleaseGraphOperation;

@@ -1,15 +1,15 @@
 "use strict";
 
 const listIgnoredDependencies = require("../action/listIgnoredDependencies"),
-      removeIgnoredDependencyPromptCallback = require("../callback/prompt/removeIgnoredDependency");
+      removeIgnoredDependencyPromptOperation = require("../operation/prompt/removeIgnoredDependency");
 
-const { executeCallbacks } = require("../utilities/callback"),
+const { executeOperations } = require("../utilities/operation"),
       { updateIgnoredDependencies, retrieveIgnoredDependencies } = require("../configuration"),
       { FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE } = require("../messages");
 
 function removeIgnoredDependency() {
-  const callbacks = [
-          removeIgnoredDependencyPromptCallback
+  const operations = [
+          removeIgnoredDependencyPromptOperation
         ],
         ignoredDependencyNumbers = listIgnoredDependencies(),
         ignoredDependencyNumbersLength = ignoredDependencyNumbers.length;
@@ -22,7 +22,7 @@ function removeIgnoredDependency() {
           ignoredDependencyNumbers
         };
 
-  executeCallbacks(callbacks, (completed) => {
+  executeOperations(operations, (completed) => {
     if (!completed) {
       console.log(FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE);
 

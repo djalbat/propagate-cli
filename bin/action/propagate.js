@@ -1,31 +1,31 @@
 "use strict";
 
-const dryRunCallback = require("../callback/dryRun"),
-      createDiffsCallback = require("../callback/createDiffs"),
-      retrieveReleaseCallback = require("../callback/retrieveRelease"),
-      createReleaseMapCallback = require("../callback/createReleaseMap"),
-      propagateReleaseCallback = require("../callback/propagateRelease"),
-      saveAndApplyDiffsCallback = require("../callback/saveAndApplyDiffs"),
-      createReleaseGraphCallback = require("../callback/createReleaseGraph"),
-      checkDevDependenciesCallback = require("../callback/checkDevDependencies"),
-      createSubDirectoryMapCallback = require("../callback/createSubDirectoryMap"),
-      createSubDirectoryPathCallback = require("../callback/createSubDirectoryPath");
+const dryRunOperation = require("../operation/dryRun"),
+      createDiffsOperation = require("../operation/createDiffs"),
+      retrieveReleaseOperation = require("../operation/retrieveRelease"),
+      createReleaseMapOperation = require("../operation/createReleaseMap"),
+      propagateReleaseOperation = require("../operation/propagateRelease"),
+      saveAndApplyDiffsOperation = require("../operation/saveAndApplyDiffs"),
+      createReleaseGraphOperation = require("../operation/createReleaseGraph"),
+      checkDevDependenciesOperation = require("../operation/checkDevDependencies"),
+      createSubDirectoryMapOperation = require("../operation/createSubDirectoryMap"),
+      createSubDirectoryPathOperation = require("../operation/createSubDirectoryPath");
 
-const { executeCallbacks } = require("../utilities/callback"),
+const { executeOperations } = require("../utilities/operation"),
       { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = require("../messages");
 
 function propagate(argument, quietly, dryRun, yes) {
-  const callbacks = [
-          createSubDirectoryPathCallback,
-          createSubDirectoryMapCallback,
-          createReleaseMapCallback,
-          retrieveReleaseCallback,
-          createReleaseGraphCallback,
-          propagateReleaseCallback,
-          createDiffsCallback,
-          dryRunCallback,
-          checkDevDependenciesCallback,
-          saveAndApplyDiffsCallback
+  const operations = [
+          createSubDirectoryPathOperation,
+          createSubDirectoryMapOperation,
+          createReleaseMapOperation,
+          retrieveReleaseOperation,
+          createReleaseGraphOperation,
+          propagateReleaseOperation,
+          createDiffsOperation,
+          dryRunOperation,
+          checkDevDependenciesOperation,
+          saveAndApplyDiffsOperation
         ],
         context = {
           argument,
@@ -34,7 +34,7 @@ function propagate(argument, quietly, dryRun, yes) {
           yes
         };
 
-  executeCallbacks(callbacks, (completed) => {
+  executeOperations(operations, (completed) => {
     if (!completed) {
       console.log(FAILED_PROPAGATE_MESSAGE);
 

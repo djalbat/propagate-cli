@@ -2,7 +2,7 @@
 
 const Diff = require("../diff");
 
-function createDiffsCallback(proceed, abort, context) {
+function createDiffsOperation(proceed, abort, context) {
   let { releases } = context;
 
   const { release, releaseGraph, dependentReleasesLength } = context,
@@ -36,7 +36,7 @@ function createDiffsCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = createDiffsCallback;
+module.exports = createDiffsOperation;
 
 function sortReleases(releases, orderedSubDirectoryPaths) {
   releases.sort((releaseA, releaseB) => {

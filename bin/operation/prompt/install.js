@@ -5,19 +5,19 @@ const { shellUtilities } = require("necessary");
 const { YES } = require("../../constants"),
       { validateAnswer } = require("../../utilities/validate"),
       { isAnswerAffirmative } = require("../../utilities/prompt"),
-      { BUILD_YES_NO_DESCRIPTION } = require("../../descriptions"),
+      { INSTALL_YES_NO_DESCRIPTION } = require("../../descriptions"),
       { consoleLogUnpublishedDiffs } = require("../../utilities/console"),
-      { FAILED_BUILD_MESSAGE, INVALID_ANSWER_MESSAGE } = require("../../messages");
+      { FAILED_INSTALL_MESSAGE, INVALID_ANSWER_MESSAGE } = require("../../messages");
 
 const { prompt } = shellUtilities;
 
-function buildPromptCallback(proceed, abort, context) {
+function installPromptOperation(proceed, abort, context) {
   const { yes, diff, diffs, quietly } = context;
 
   const answer = yes ?
                    YES :
                      null,
-        description = BUILD_YES_NO_DESCRIPTION,
+        description = INSTALL_YES_NO_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -39,11 +39,11 @@ function buildPromptCallback(proceed, abort, context) {
         return;
       }
 
-      diff.build(quietly, (success) => {
+      diff.install(quietly, (success) => {
         if (!success) {
           consoleLogUnpublishedDiffs(diff, diffs);
 
-          console.log(FAILED_BUILD_MESSAGE);
+          console.log(FAILED_INSTALL_MESSAGE);
 
           process.exit(1);
         }
@@ -56,10 +56,10 @@ function buildPromptCallback(proceed, abort, context) {
 
     consoleLogUnpublishedDiffs(diff, diffs);
 
-    console.log(FAILED_BUILD_MESSAGE);
+    console.log(FAILED_INSTALL_MESSAGE);
 
     process.exit(1);
   });
 }
 
-module.exports = buildPromptCallback;
+module.exports = installPromptOperation;

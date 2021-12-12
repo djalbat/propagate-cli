@@ -5,19 +5,27 @@ const { shellUtilities } = require("necessary");
 const { YES } = require("../../constants"),
       { validateAnswer } = require("../../utilities/validate"),
       { isAnswerAffirmative } = require("../../utilities/prompt"),
+      { PUBLISH_YES_NO_DESCRIPTION } = require("../../descriptions"),
       { consoleLogUnpublishedDiffs } = require("../../utilities/console"),
-      { ADD_COMMIT_PUSH_GIT_DESCRIPTION } = require("../../descriptions"),
-      { FAILED_GIT_MESSAGE, INVALID_ANSWER_MESSAGE } = require("../../messages");
+      { removeDependencies, removeDevDependencies } = require("../../utilities/propagate"),
+      { FAILED_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE } = require("../../messages");
 
 const { prompt } = shellUtilities;
 
-function gitPromptCallback(proceed, abort, context) {
-  const { yes, diff, diffs, quietly } = context;
+function publishPromptOperation(proceed, abort, context) {
+  const { yes, diff, diffs, quietly } = context,
+        publishable = diff.isPublishable();
+
+  if (!publishable) {
+    proceed();
+
+    return;
+  }
 
   const answer = yes ?
                    YES :
                      null,
-        description = ADD_COMMIT_PUSH_GIT_DESCRIPTION,
+        description = PUBLISH_YES_NO_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
@@ -34,16 +42,22 @@ function gitPromptCallback(proceed, abort, context) {
       const affirmative = isAnswerAffirmative(answer);
 
       if (!affirmative) {
+        const { releaseMap, releaseGraph } = context;
+
+        removeDependencies(diff, diffs, releaseMap, releaseGraph);
+
+        removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
+
         proceed();
 
         return;
       }
 
-      diff.git(quietly, (success) => {
+      diff.publish(quietly, (success) => {
         if (!success) {
           consoleLogUnpublishedDiffs(diff, diffs);
 
-          console.log(FAILED_GIT_MESSAGE);
+          console.log(FAILED_PUBLISH_MESSAGE);
 
           process.exit(1);
         }
@@ -56,10 +70,10 @@ function gitPromptCallback(proceed, abort, context) {
 
     consoleLogUnpublishedDiffs(diff, diffs);
 
-    console.log(FAILED_GIT_MESSAGE);
+    console.log(FAILED_PUBLISH_MESSAGE);
 
     process.exit(1);
   });
 }
 
-module.exports = gitPromptCallback;
+module.exports = publishPromptOperation;

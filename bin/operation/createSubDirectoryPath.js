@@ -4,7 +4,7 @@ const { DEFAULT_DIRECTORY_NAME } = require("../defaults"),
       { retrieveIgnoredDependencies } = require("../configuration"),
       { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE, IGNORED_DEPENDENCIES_INCLUDE_SUB_DIRECTORY_MESSAGE } = require("../messages");
 
-function createSubDirectoryPathCallback(proceed, abort, context) {
+function createSubDirectoryPathOperation(proceed, abort, context) {
   const { argument } = context;
 
   if (argument === null) {
@@ -37,4 +37,4 @@ function createSubDirectoryPathCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = createSubDirectoryPathCallback;
+module.exports = createSubDirectoryPathOperation;

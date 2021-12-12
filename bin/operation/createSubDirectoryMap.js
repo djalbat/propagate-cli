@@ -8,7 +8,7 @@ const { retrieveDirectories } = require("../configuration"),
 
 const { readDirectory, isEntryDirectory } = fileSystemUtilities;
 
-function createSubDirectoryMapCallback(proceed, abort, context) {
+function createSubDirectoryMapOperation(proceed, abort, context) {
   const subDirectoryMap = {},
         directories = retrieveDirectories(),
         directoryNames = [
@@ -40,4 +40,4 @@ function createSubDirectoryMapCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = createSubDirectoryMapCallback;
+module.exports = createSubDirectoryMapOperation;

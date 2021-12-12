@@ -9,7 +9,7 @@ const { EMPTY_STRING } = require("../../constants"),
 
 const { prompt } = shellUtilities;
 
-function setBuildShellCommandsPromptCallback(proceed, abort, context) {
+function setBuildShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { build } = shellCommands,
         buildShellCommands = build, ///
@@ -36,4 +36,4 @@ function setBuildShellCommandsPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = setBuildShellCommandsPromptCallback;
+module.exports = setBuildShellCommandsPromptOperation;

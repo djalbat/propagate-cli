@@ -8,7 +8,7 @@ const { validateIgnoredDependencyName } = require("../../utilities/validate"),
 
 const { prompt } = shellUtilities;
 
-function addIgnoredDependencyPromptCallback(proceed, abort, context) {
+function addIgnoredDependencyPromptOperation(proceed, abort, context) {
   const description = IGNORED_DEPENDENCY_DESCRIPTION,
         errorMessage = INVALID_IGNORED_DEPENDENCY_NAME_MESSAGE,
         validationFunction = validateIgnoredDependencyName,  ///
@@ -38,4 +38,4 @@ function addIgnoredDependencyPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = addIgnoredDependencyPromptCallback;
+module.exports = addIgnoredDependencyPromptOperation;

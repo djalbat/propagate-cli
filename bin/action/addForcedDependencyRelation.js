@@ -1,22 +1,22 @@
 "use strict";
 
-const addForcedDependentPromptCallback = require("../callback/prompt/addForcedDependent"),
-      addForcedDependencyPromptCallback = require("../callback/prompt/addForcedDependency");
+const addForcedDependentPromptOperation = require("../operation/prompt/addForcedDependent"),
+      addForcedDependencyPromptOperation = require("../operation/prompt/addForcedDependency");
 
-const { executeCallbacks } = require("../utilities/callback"),
+const { executeOperations } = require("../utilities/operation"),
       { retrieveForcedDependencyRelations, updateForcedDependencyRelations } = require("../configuration"),
       { FAILED_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE,
         SUCCESSFUL_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE,
         FORCED_DEPENDENCY_RELATIONS_INCLUDE_FORCED_DEPENDENCY_RELATION_MESSAGE } = require("../messages");
 
 function addForcedDependencyRelation() {
-  const callbacks = [
-          addForcedDependencyPromptCallback,
-          addForcedDependentPromptCallback
+  const operations = [
+          addForcedDependencyPromptOperation,
+          addForcedDependentPromptOperation
         ],
         context = {};
 
-  executeCallbacks(callbacks, (completed) => {
+  executeOperations(operations, (completed) => {
     if (!completed) {
       console.log(FAILED_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE);
 

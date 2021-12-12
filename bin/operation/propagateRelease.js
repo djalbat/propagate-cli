@@ -3,7 +3,7 @@
 const { isDependencyRelationForced } = require("../utilities/dependency"),
       { retrieveForcedDependencyRelations } = require("../configuration");
 
-function propagateReleaseCallback(proceed, abort, context) {
+function propagateReleaseOperation(proceed, abort, context) {
   const { release, releaseMap, releaseGraph, subDirectoryMap } = context,
         forcedDependencyRelations = retrieveForcedDependencyRelations(),
         releases = [];
@@ -23,7 +23,7 @@ function propagateReleaseCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = propagateReleaseCallback;
+module.exports = propagateReleaseOperation;
 
 function propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations) {
   const releasesIncludesRelease = releases.includes(release);

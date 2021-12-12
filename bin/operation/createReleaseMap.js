@@ -4,7 +4,7 @@ const ReleaseMap = require("../releaseMap");
 
 const { retrieveIgnoredDependencies } = require("../configuration");
 
-function createReleaseMapCallback(proceed, abort, context) {
+function createReleaseMapOperation(proceed, abort, context) {
   const { subDirectoryMap } = context,
         ignoredDependencies = retrieveIgnoredDependencies(),
         releaseMap = ReleaseMap.fromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies);
@@ -16,4 +16,4 @@ function createReleaseMapCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = createReleaseMapCallback;
+module.exports = createReleaseMapOperation;

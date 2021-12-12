@@ -8,7 +8,7 @@ const { validateForcedDependencyName } = require("../../utilities/validate"),
 
 const { prompt } = shellUtilities;
 
-function addForcedDependencyPromptCallback(proceed, abort, context) {
+function addForcedDependencyPromptOperation(proceed, abort, context) {
   const description = FORCED_DEPENDENCY_DESCRIPTION,
         errorMessage = INVALID_FORCED_DEPENDENCY_NAME_MESSAGE,
         validationFunction = validateForcedDependencyName,  ///
@@ -38,4 +38,4 @@ function addForcedDependencyPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = addForcedDependencyPromptCallback;
+module.exports = addForcedDependencyPromptOperation;

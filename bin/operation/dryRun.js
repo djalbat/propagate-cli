@@ -1,6 +1,6 @@
 "use strict";
 
-function dryRunCallback(proceed, abort, context) {
+function dryRunOperation(proceed, abort, context) {
   const { diffs, dryRun } = context;
 
   if (dryRun) {
@@ -14,4 +14,4 @@ function dryRunCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = dryRunCallback;
+module.exports = dryRunOperation;

@@ -8,7 +8,7 @@ const { validateDirectoryPath } = require("../../utilities/validate"),
 
 const { prompt } = shellUtilities;
 
-function addDirectoryPromptCallback(proceed, abort, context) {
+function addDirectoryPromptOperation(proceed, abort, context) {
   const description = DIRECTORY_PATH_DESCRIPTION,
         errorMessage = INVALID_DIRECTORY_PATH_MESSAGE,
         validationFunction = validateDirectoryPath,  ///
@@ -38,4 +38,4 @@ function addDirectoryPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = addDirectoryPromptCallback;
+module.exports = addDirectoryPromptOperation;

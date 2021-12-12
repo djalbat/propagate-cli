@@ -12,7 +12,7 @@ const { YES } = require("../../constants"),
 
 const { prompt } = shellUtilities;
 
-function savePromptCallback(proceed, abort, context) {
+function savePromptOperation(proceed, abort, context) {
   const { yes, diff, diffs } = context,
         diffString = diff.asString();
 
@@ -70,4 +70,4 @@ function savePromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = savePromptCallback;
+module.exports = savePromptOperation;

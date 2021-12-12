@@ -1,15 +1,15 @@
 "use strict";
 
 const listForcedDependencyRelations = require("../action/listForcedDependencyRelations"),
-      removeForcedDependencyRelationPromptCallback = require("../callback/prompt/removeForcedDependencyRelation");
+      removeForcedDependencyRelationPromptOperation = require("../operation/prompt/removeForcedDependencyRelation");
 
-const { executeCallbacks } = require("../utilities/callback"),
+const { executeOperations } = require("../utilities/operation"),
       { updateForcedDependencyRelations, retrieveForcedDependencyRelations } = require("../configuration"),
       { FAILED_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE, SUCCESSFUL_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE } = require("../messages");
 
 function removeForcedDependencyRelation() {
-  const callbacks = [
-          removeForcedDependencyRelationPromptCallback
+  const operations = [
+          removeForcedDependencyRelationPromptOperation
         ],
         forcedDependencyRelationNumbers = listForcedDependencyRelations(),
         forcedDependencyRelationNumbersLength = forcedDependencyRelationNumbers.length;
@@ -22,7 +22,7 @@ function removeForcedDependencyRelation() {
           forcedDependencyRelationNumbers
         };
 
-  executeCallbacks(callbacks, (completed) => {
+  executeOperations(operations, (completed) => {
     if (!completed) {
       console.log(FAILED_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE);
 

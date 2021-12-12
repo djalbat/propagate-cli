@@ -1,6 +1,6 @@
 "use strict";
 
-function checkDevDependenciesCallback(proceed, abort, context) {
+function checkDevDependenciesOperation(proceed, abort, context) {
   const { diffs } = context,
         names = [],
         devDependencyMissing = diffs.some((diff) => {
@@ -39,4 +39,4 @@ function checkDevDependenciesCallback(proceed, abort, context) {
       proceed();
 }
 
-module.exports = checkDevDependenciesCallback;
+module.exports = checkDevDependenciesOperation;

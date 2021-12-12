@@ -9,7 +9,7 @@ const { EMPTY_STRING } = require("../../constants"),
 
 const { prompt } = shellUtilities;
 
-function setInstallShellCommandsPromptCallback(proceed, abort, context) {
+function setInstallShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { install } = shellCommands,
         installShellCommands = install, ///
@@ -36,4 +36,4 @@ function setInstallShellCommandsPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = setInstallShellCommandsPromptCallback;
+module.exports = setInstallShellCommandsPromptOperation;

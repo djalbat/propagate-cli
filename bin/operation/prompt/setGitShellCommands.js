@@ -9,7 +9,7 @@ const { EMPTY_STRING } = require("../../constants"),
 
 const { prompt } = shellUtilities;
 
-function setGitShellCommandsPromptCallback(proceed, abort, context) {
+function setGitShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { git } = shellCommands,
         gitShellCommands = git, ///
@@ -36,4 +36,4 @@ function setGitShellCommandsPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = setGitShellCommandsPromptCallback;
+module.exports = setGitShellCommandsPromptOperation;

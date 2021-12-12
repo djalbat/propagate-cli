@@ -2,7 +2,7 @@
 
 const { NO_RELEASE_MESSAGE, RELEASE_NOT_PUBLISHABLE_MESSAGE } = require("../messages");
 
-function retrieveReleaseCallback(proceed, abort, context) {
+function retrieveReleaseOperation(proceed, abort, context) {
   const { subDirectoryPath, releaseMap } = context,
         release = releaseMap.retrieveRelease(subDirectoryPath);
 
@@ -31,4 +31,4 @@ function retrieveReleaseCallback(proceed, abort, context) {
   proceed();
 }
 
-module.exports = retrieveReleaseCallback;
+module.exports = retrieveReleaseOperation;

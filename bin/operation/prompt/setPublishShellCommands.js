@@ -9,7 +9,7 @@ const { EMPTY_STRING } = require("../../constants"),
 
 const { prompt } = shellUtilities;
 
-function setPublishShellCommandsPromptCallback(proceed, abort, context) {
+function setPublishShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { publish } = shellCommands,
         publishShellCommands = publish, ///
@@ -36,4 +36,4 @@ function setPublishShellCommandsPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = setPublishShellCommandsPromptCallback;
+module.exports = setPublishShellCommandsPromptOperation;

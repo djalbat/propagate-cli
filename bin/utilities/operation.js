@@ -4,7 +4,7 @@ const { asynchronousUtilities } = require("necessary");
 
 const { forEach, whilst } = asynchronousUtilities;
 
-function executeCallback(array, callback, proceed, abort, context) {
+function executeOperation(array, operation, proceed, abort, context) {
   let completed = true;
 
   forEach(array, (element, next, done, context) => {
@@ -15,7 +15,7 @@ function executeCallback(array, callback, proceed, abort, context) {
             done();
           }
 
-    callback(element, proceed, abort, context);
+    operation(element, proceed, abort, context);
   }, done, context);
 
   function done() {
@@ -25,11 +25,11 @@ function executeCallback(array, callback, proceed, abort, context) {
   }
 }
 
-function executeCallbacks(callbacks, callback, context) {
+function executeOperations(operations, callback, context) {
   let completed = true;
 
-  const callbacksLength = callbacks.length,
-        lastIndex = callbacksLength - 1;
+  const operationsLength = operations.length,
+        lastIndex = operationsLength - 1;
 
   whilst((next, done, context, index) => {
     if (index > lastIndex) {
@@ -38,7 +38,7 @@ function executeCallbacks(callbacks, callback, context) {
       return;
     }
 
-    const callback = callbacks[index],
+    const operation = operations[index],
           proceed = next, ///
           abort = () => {
             completed = false;
@@ -46,7 +46,7 @@ function executeCallbacks(callbacks, callback, context) {
             done();
           };
 
-    callback(proceed, abort, context);
+    operation(proceed, abort, context);
   }, done, context);
 
   function done() {
@@ -55,6 +55,6 @@ function executeCallbacks(callbacks, callback, context) {
 }
 
 module.exports = {
-  executeCallback,
-	executeCallbacks
+  executeOperation,
+	executeOperations
 };

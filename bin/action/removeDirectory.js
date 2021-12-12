@@ -1,15 +1,15 @@
 "use strict";
 
 const listDirectories = require("../action/listDirectories"),
-      removeDirectoryPromptCallback = require("../callback/prompt/removeDirectory");
+      removeDirectoryPromptOperation = require("../operation/prompt/removeDirectory");
 
-const { executeCallbacks } = require("../utilities/callback"),
+const { executeOperations } = require("../utilities/operation"),
       { updateDirectories, retrieveDirectories } = require("../configuration"),
       { FAILED_REMOVE_DIRECTORY_MESSAGE, SUCCESSFUL_REMOVE_DIRECTORY_MESSAGE } = require("../messages");
 
 function removeDirectory() {
-  const callbacks = [
-          removeDirectoryPromptCallback
+  const operations = [
+          removeDirectoryPromptOperation
         ],
         directoryNumbers = listDirectories(),
         directoryNumbersLength = directoryNumbers.length;
@@ -22,7 +22,7 @@ function removeDirectory() {
           directoryNumbers
         };
 
-  executeCallbacks(callbacks, (completed) => {
+  executeOperations(operations, (completed) => {
     if (!completed) {
       console.log(FAILED_REMOVE_DIRECTORY_MESSAGE);
 

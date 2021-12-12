@@ -8,7 +8,7 @@ const { validateForcedDependencyRelationNumber } = require("../../utilities/vali
 
 const { prompt } = shellUtilities;
 
-function removeForcedDependencyRelationPromptCallback(proceed, abort, context) {
+function removeForcedDependencyRelationPromptOperation(proceed, abort, context) {
   const description = SPECIFY_FORCED_DEPENDENCY_RELATION_TO_REMOVE_DESCRIPTION,
         errorMessage = INVALID_FORCED_DEPENDENCY_RELATION_NUMBER_MESSAGE,
         { forcedDependencyRelationNumbers } = context,
@@ -43,4 +43,4 @@ function removeForcedDependencyRelationPromptCallback(proceed, abort, context) {
   });
 }
 
-module.exports = removeForcedDependencyRelationPromptCallback;
+module.exports = removeForcedDependencyRelationPromptOperation;
