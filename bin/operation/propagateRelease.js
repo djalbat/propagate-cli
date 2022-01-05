@@ -53,11 +53,11 @@ function propagateDependencies(release, releases, releaseMap, releaseGraph, subD
 
       if (!dependencyRelationForced) {
         dependentRelease.updateDependencyVersion(name, versionString);
+
+        const release = dependentRelease; ///
+
+        propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations);
       }
-
-      const release = dependentRelease; ///
-
-      propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations);
     });
   }
 }
