@@ -98,9 +98,12 @@ class ReleaseGraph {
 
     dependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
 
+    devDependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
+
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
-            releaseDependencyNames = release.getDependencyNames();
+            releaseDependencyNames = release.getDependencyNames(),
+            releaseDevDependencyNames = release.getDevDependencyNames();
 
       releaseDependencyNames.forEach((releaseDependencyName) => {
         const releaseNamesIncludesReleaseDependencyName = releaseNames.includes(releaseDependencyName);
@@ -113,34 +116,6 @@ class ReleaseGraph {
           dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
         }
       });
-    });
-
-    forcedDependencyRelations.forEach((forcedDependencyRelation) => {
-      const { dependent } = forcedDependencyRelation,
-            subDirectoryName = dependent, //
-            subDirectoryPath = subDirectoryMap[subDirectoryName], ///
-            release = releaseMap.retrieveRelease(subDirectoryPath);
-
-      if (release !== null) {
-        const { dependency } = forcedDependencyRelation,
-              dependencySubDirectoryName = dependency,  ///
-              dependencySubDirectoryPath = subDirectoryMap[dependencySubDirectoryName],  ///
-              dependencyRelease = releaseMap.retrieveRelease(dependencySubDirectoryPath);
-
-        if (dependencyRelease) {
-          const sourceVertexName = dependencySubDirectoryPath,  ///
-                targetVertexName = subDirectoryPath;  ///
-
-          dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
-        }
-      }
-    });
-
-    devDependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
-
-    subDirectoryPaths.forEach((subDirectoryPath) => {
-      const release = releaseMap.retrieveRelease(subDirectoryPath),
-            releaseDevDependencyNames = release.getDevDependencyNames();
 
       releaseDevDependencyNames.forEach((releaseDevDependencyName) => {
         const releaseNamesIncludesReleaseDevDependencyName = releaseNames.includes(releaseDevDependencyName);
@@ -153,6 +128,55 @@ class ReleaseGraph {
           devDependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
         }
       });
+    });
+
+    forcedDependencyRelations.forEach((forcedDependencyRelation) => {
+      const { dependent } = forcedDependencyRelation,
+            dependentSubDirectoryName = dependent, //
+            dependentSubDirectoryPath = subDirectoryMap[dependentSubDirectoryName], ///
+            dependentRelease = releaseMap.retrieveRelease(dependentSubDirectoryPath);
+
+      if (dependentRelease === null) {
+        console.log(`The '${dependent}' forced dependent does not exist.`);
+
+        process.exit(1);
+      }
+
+      const { dependency } = forcedDependencyRelation,
+            dependencySubDirectoryName = dependency,  ///
+            dependencySubDirectoryPath = subDirectoryMap[dependencySubDirectoryName],  ///
+            dependencyRelease = releaseMap.retrieveRelease(dependencySubDirectoryPath);
+
+      if (dependencyRelease === null) {
+        console.log(`The '${dependency}' forced dependency does not exist.`);
+
+        process.exit(1);
+      }
+
+      const sourceVertexName = dependencySubDirectoryPath,  ///
+            targetVertexName = dependentSubDirectoryPath;  ///
+
+      const dependencyDirectedGraphEdgePresent = dependencyDirectedGraph.isEdgePresentByVertexNames(sourceVertexName, targetVertexName),
+            dependencyRelationPresent = dependencyDirectedGraphEdgePresent; ///
+
+      if (dependencyRelationPresent) {
+        console.log(`The '${dependency}' -> '${dependent}' dependency relation is present and therefore cannot be forced.`);
+
+        process.exit(1);
+      }
+
+      const devDependencyDirectedGraphEdgePresent = devDependencyDirectedGraph.isEdgePresentByVertexNames(sourceVertexName, targetVertexName),
+            devDependencyRelationPresent = devDependencyDirectedGraphEdgePresent; ///
+
+      if (!devDependencyRelationPresent) {
+        console.log(`The '${dependency}' -> '${dependent}' developer dependency relation is not present and therefore cannot be forced.`);
+
+        process.exit(1);
+      }
+
+      if (dependencyRelease) {
+        dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+      }
     });
 
     const releaseGraph = new ReleaseGraph(dependencyDirectedGraph, devDependencyDirectedGraph);
