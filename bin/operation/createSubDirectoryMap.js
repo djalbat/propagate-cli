@@ -17,20 +17,26 @@ function createSubDirectoryMapOperation(proceed, abort, context) {
         ];
 
   directoryNames.forEach((directoryName) => {
-    const absoluteDirectoryPath = absolutePathFromName(directoryName),
-          entryNames = readDirectory(absoluteDirectoryPath);
+    try {
+      const absoluteDirectoryPath = absolutePathFromName(directoryName),
+            entryNames = readDirectory(absoluteDirectoryPath);
 
-    entryNames.forEach((entryName) => {
-      const entryPath = `${directoryName}/${entryName}`,
-            entryDirectory = isEntryDirectory(entryPath);
+      entryNames.forEach((entryName) => {
+        const entryPath = `${directoryName}/${entryName}`,
+              entryDirectory = isEntryDirectory(entryPath);
 
-      if (entryDirectory) {
-        const subDirectoryName = entryName, ///
-              subDirectoryPath = entryPath; ///
+        if (entryDirectory) {
+          const subDirectoryName = entryName, ///
+                subDirectoryPath = entryPath; ///
 
-        subDirectoryMap[subDirectoryName] = subDirectoryPath;
-      }
-    });
+          subDirectoryMap[subDirectoryName] = subDirectoryPath;
+        }
+      });
+    } catch (error) {
+      console.log(`The '${directoryName}' directory cannot be read.`);
+
+      process.exit(1);
+    }
   });
 
   Object.assign(context, {
