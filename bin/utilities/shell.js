@@ -2,15 +2,15 @@
 
 const childProcess = require("child_process");
 
-const { shellUtilities } = require("necessary");
+const { encodings, shellUtilities } = require("necessary");
 
-const { UTF_8 } = require("../constants"),
-      { validateAnswer } = require("../utilities/validate"),
+const { validateAnswer } = require("../utilities/validate"),
       { isAnswerAffirmative } = require("../utilities/prompt"),
       { INVALID_ANSWER_MESSAGE } = require("../messages"),
       { FAILED_SCRIPT_DESCRIPTION } = require("../descriptions");
 
-const { prompt } = shellUtilities;
+const { prompt } = shellUtilities,
+      { UTF_8_ENCODING } = encodings;
 
 function execute(shellCommands, quietly, callback) {
   const success = execSync(shellCommands, quietly);
@@ -57,7 +57,7 @@ function execSync(shellCommands, quietly) {
   let success;
 
   try {
-    const encoding = UTF_8,  ///
+    const encoding = UTF_8_ENCODING,  ///
           options = {
             encoding
           },

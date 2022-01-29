@@ -1,7 +1,6 @@
 "use strict";
 
 const YES = "yes",
-      UTF_8 = "utf-8",
       TWO_DOTS = "..",
       PROPAGATE = "propagate",
       EMPTY_STRING = "",
@@ -12,7 +11,6 @@ const YES = "yes",
 
 module.exports = {
   YES,
-  UTF_8,
   TWO_DOTS,
   PROPAGATE,
   EMPTY_STRING,
