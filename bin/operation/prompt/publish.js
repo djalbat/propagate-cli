@@ -48,7 +48,7 @@ function publishPromptOperation(proceed, abort, context) {
 
         removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
 
-        proceed();
+        abort();
 
         return;
       }

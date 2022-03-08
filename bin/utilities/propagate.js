@@ -17,9 +17,9 @@ function removeDependencies(diff, diffs, releaseMap, releaseGraph) {
             diff = findDiff(release, diffs);
 
       if (diff !== null) {
-        const dependencyMapEmpty = diff.isDependencyMapDiffEmpty();
-
         diff.removeDependency(name);
+
+        const dependencyMapEmpty = diff.isDependencyMapDiffEmpty();
 
         if (dependencyMapEmpty) {
           removeDevDependencies(diff, diffs, releaseMap, releaseGraph);

@@ -37,19 +37,7 @@ function savePromptOperation(proceed, abort, context) {
     if (valid) {
       const affirmative = isAnswerAffirmative(answer);
 
-      if (affirmative) {
-        const success = diff.save();
-
-        if (!success) {
-          consoleLogUnpublishedDiffs(diff, diffs);
-
-          console.log(FAILED_SAVE_MESSAGE);
-
-          process.exit(1);
-        }
-
-        proceed();
-      } else {
+      if (!affirmative) {
         const { releaseMap, releaseGraph } = context;
 
         removeDependencies(diff, diffs, releaseMap, releaseGraph);
@@ -57,7 +45,21 @@ function savePromptOperation(proceed, abort, context) {
         removeDevDependencies(diff, diffs, releaseMap, releaseGraph);
 
         abort();
+
+        return;
       }
+
+      const success = diff.save();
+
+      if (!success) {
+        consoleLogUnpublishedDiffs(diff, diffs);
+
+        console.log(FAILED_SAVE_MESSAGE);
+
+        process.exit(1);
+      }
+
+      proceed();
 
       return;
     }
