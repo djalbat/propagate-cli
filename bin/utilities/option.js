@@ -1,8 +1,6 @@
 "use strict";
 
-const { stringUtilities } = require("argumentative");
-
-const { toCamelCase } = stringUtilities;
+const { toCamelCase } = require("../utilities/case");
 
 function isOptionPresent(option, options) {
   option = toCamelCase(option); ///
