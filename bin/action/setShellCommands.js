@@ -9,7 +9,7 @@ const { executeOperations } = require("../utilities/operation"),
       { retrieveShellCommands, updateShellCommands } = require("../configuration"),
       { FAILED_SET_SHELL_COMMANDS_MESSAGE, SUCCESSFUL_SET_SHELL_COMMANDS_MESSAGE } = require("../messages");
 
-function setShellCommands() {
+function setShellCommandsAction() {
   const operations = [
           setGitShellCommandsPromptOperation,
           setInstallShellCommandsPromptOperation,
@@ -36,4 +36,4 @@ function setShellCommands() {
   }, context);
 }
 
-module.exports = setShellCommands;
+module.exports = setShellCommandsAction;

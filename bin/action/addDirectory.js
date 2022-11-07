@@ -6,7 +6,7 @@ const { executeOperations } = require("../utilities/operation"),
       { retrieveDirectories, updateDirectories } = require("../configuration"),
       { FAILED_ADD_DIRECTORY_MESSAGE, SUCCESSFUL_ADD_DIRECTORY_MESSAGE, DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE } = require("../messages");
 
-function addDirectory() {
+function addDirectoryAction() {
   const operations = [
           addDirectoryPromptOperation
         ],
@@ -36,4 +36,4 @@ function addDirectory() {
   }, context);
 }
 
-module.exports = addDirectory;
+module.exports = addDirectoryAction;

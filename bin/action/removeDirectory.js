@@ -7,7 +7,7 @@ const { executeOperations } = require("../utilities/operation"),
       { updateDirectories, retrieveDirectories } = require("../configuration"),
       { FAILED_REMOVE_DIRECTORY_MESSAGE, SUCCESSFUL_REMOVE_DIRECTORY_MESSAGE } = require("../messages");
 
-function removeDirectory() {
+function removeDirectoryAction() {
   const operations = [
           removeDirectoryPromptOperation
         ],
@@ -42,4 +42,4 @@ function removeDirectory() {
   }, context);
 }
 
-module.exports = removeDirectory;
+module.exports = removeDirectoryAction;

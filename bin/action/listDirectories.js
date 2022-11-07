@@ -4,7 +4,7 @@ const { EMPTY_STRING } =  require("../constants"),
       { retrieveDirectories } = require("../configuration"),
       { DEFAULT_DIRECTORY_NAME } = require("../defaults");
 
-function listDirectories() {
+function listDirectoriesAction() {
   const directoryNumbers = [],
         directories = retrieveDirectories(),
         defaultDirectoryName = DEFAULT_DIRECTORY_NAME,
@@ -32,4 +32,4 @@ function listDirectories() {
   return directoryNumbers;
 }
 
-module.exports = listDirectories;
+module.exports = listDirectoriesAction;

@@ -7,7 +7,7 @@ const { executeOperations } = require("../utilities/operation"),
       { updateIgnoredDependencies, retrieveIgnoredDependencies } = require("../configuration"),
       { FAILED_REMOVE_IGNORED_DEPENDENCY_MESSAGE, SUCCESSFUL_REMOVE_IGNORED_DEPENDENCY_MESSAGE } = require("../messages");
 
-function removeIgnoredDependency() {
+function removeIgnoredDependencyAction() {
   const operations = [
           removeIgnoredDependencyPromptOperation
         ],
@@ -42,4 +42,4 @@ function removeIgnoredDependency() {
   }, context);
 }
 
-module.exports = removeIgnoredDependency;
+module.exports = removeIgnoredDependencyAction;

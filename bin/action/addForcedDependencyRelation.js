@@ -9,7 +9,7 @@ const { executeOperations } = require("../utilities/operation"),
         SUCCESSFUL_ADD_FORCED_DEPENDENCY_RELATION_MESSAGE,
         FORCED_DEPENDENCY_RELATIONS_INCLUDE_FORCED_DEPENDENCY_RELATION_MESSAGE } = require("../messages");
 
-function addForcedDependencyRelation() {
+function addForcedDependencyRelationAction() {
   const operations = [
           addForcedDependencyPromptOperation,
           addForcedDependentPromptOperation
@@ -52,4 +52,4 @@ function addForcedDependencyRelation() {
   }, context);
 }
 
-module.exports = addForcedDependencyRelation;
+module.exports = addForcedDependencyRelationAction;

@@ -5,7 +5,7 @@ const { EMPTY_STRING } = require("../constants"),
 
 const { NO_FORCED_DEPENDENCY_RELATIONS_MESSAGE } = require("../messages");
 
-function listForcedDependencyRelations() {
+function listForcedDependencyRelationsAction() {
   const forcedDependencyRelationsNumbers = [],
         forcedDependencyRelations = retrieveForcedDependencyRelations(),
         forcedDependencyRelationsLength = forcedDependencyRelations.length;
@@ -30,4 +30,4 @@ function listForcedDependencyRelations() {
   return forcedDependencyRelationsNumbers;
 }
 
-module.exports = listForcedDependencyRelations;
+module.exports = listForcedDependencyRelationsAction;

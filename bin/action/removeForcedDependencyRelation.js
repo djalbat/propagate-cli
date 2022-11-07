@@ -7,7 +7,7 @@ const { executeOperations } = require("../utilities/operation"),
       { updateForcedDependencyRelations, retrieveForcedDependencyRelations } = require("../configuration"),
       { FAILED_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE, SUCCESSFUL_REMOVE_FORCED_DEPENDENCY_RELATION_MESSAGE } = require("../messages");
 
-function removeForcedDependencyRelation() {
+function removeForcedDependencyRelationAction() {
   const operations = [
           removeForcedDependencyRelationPromptOperation
         ],
@@ -42,4 +42,4 @@ function removeForcedDependencyRelation() {
   }, context);
 }
 
-module.exports = removeForcedDependencyRelation;
+module.exports = removeForcedDependencyRelationAction;

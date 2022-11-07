@@ -14,7 +14,7 @@ const dryRunOperation = require("../operation/dryRun"),
 const { executeOperations } = require("../utilities/operation"),
       { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = require("../messages");
 
-function propagate(argument, quietly, dryRun, yes) {
+function propagateAction(argument, quietly, dryRun, yes) {
   const operations = [
           createSubDirectoryPathOperation,
           createSubDirectoryMapOperation,
@@ -47,4 +47,4 @@ function propagate(argument, quietly, dryRun, yes) {
   }, context);
 }
 
-module.exports = propagate;
+module.exports = propagateAction;

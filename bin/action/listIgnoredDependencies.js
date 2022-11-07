@@ -5,7 +5,7 @@ const { EMPTY_STRING } = require("../constants"),
 
 const { NO_IGNORED_DEPENDENCIES_MESSAGE } = require("../messages");
 
-function listForcedDependencyRelations() {
+function listForcedDependencyRelationsAction() {
   const ignoredDependencyNumbers = [],
         ignoredDependencies = retrieveIgnoredDependencies(),
         ignoredDependenciesLength = ignoredDependencies.length;
@@ -33,4 +33,4 @@ function listForcedDependencyRelations() {
   return ignoredDependencyNumbers;
 }
 
-module.exports = listForcedDependencyRelations;
+module.exports = listForcedDependencyRelationsAction;

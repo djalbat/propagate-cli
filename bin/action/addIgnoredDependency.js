@@ -8,7 +8,7 @@ const { executeOperations } = require("../utilities/operation"),
         SUCCESSFUL_ADD_IGNORED_DEPENDENCY_MESSAGE,
         IGNORED_DEPENDENCIES_INCLUDE_IGNORED_DEPENDENCY_MESSAGE } = require("../messages");
 
-function addIgnoredDependency() {
+function addIgnoredDependencyAction() {
   const operations = [
           addIgnoredDependencyPromptOperation
         ],
@@ -37,4 +37,4 @@ function addIgnoredDependency() {
   }, context);
 }
 
-module.exports = addIgnoredDependency;
+module.exports = addIgnoredDependencyAction;

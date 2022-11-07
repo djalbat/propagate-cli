@@ -1,22 +1,21 @@
 "use strict";
 
-const help = require("./action/help"),
-      version = require("./action/version"),
-      propagate = require("./action/propagate"),
-      initialise = require("./action/initialise"),
-      addDirectory = require("./action/addDirectory"),
-      removeDirectory = require("./action/removeDirectory"),
-      listDirectories = require("./action/listDirectories"),
-      setShellCommands = require("./action/setShellCommands"),
-      addIgnoredDependency = require("./action/addIgnoredDependency"),
-      listIgnoredDependencies = require("./action/listIgnoredDependencies"),
-      removeIgnoredDependency = require("./action/removeIgnoredDependency"),
-      addForcedDependencyRelation = require("./action/addForcedDependencyRelation"),
-      listForcedDependencyRelations = require("./action/listForcedDependencyRelations"),
-      removeForcedDependencyRelation = require("./action/removeForcedDependencyRelation");
+const helpAction = require("./action/help"),
+      versionAction = require("./action/version"),
+      propagateAction = require("./action/propagate"),
+      initialiseAction = require("./action/initialise"),
+      addDirectoryAction = require("./action/addDirectory"),
+      removeDirectoryAction = require("./action/removeDirectory"),
+      listDirectoriesAction = require("./action/listDirectories"),
+      setShellCommandsAction = require("./action/setShellCommands"),
+      addIgnoredDependencyAction = require("./action/addIgnoredDependency"),
+      listIgnoredDependenciesAction = require("./action/listIgnoredDependencies"),
+      removeIgnoredDependencyAction = require("./action/removeIgnoredDependency"),
+      addForcedDependencyRelationAction = require("./action/addForcedDependencyRelation"),
+      listForcedDependencyRelationsAction = require("./action/listForcedDependencyRelations"),
+      removeForcedDependencyRelationAction = require("./action/removeForcedDependencyRelation");
 
-const { isOptionPresent } = require("./utilities/option"),
-      { YES_OPTION, HELP_OPTION, VERSION_OPTION, QUIETLY_OPTION, DRY_RUN_OPTION  } = require("./options"),
+const { DEFAULT_YES, DEFAULT_QUIETLY, DEFAULT_DRY_RUN, DEFAULT_HELP, DEFAULT_VERSION} = require("./defaults"),
       { HELP_COMMAND,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
@@ -34,20 +33,17 @@ const { isOptionPresent } = require("./utilities/option"),
 
 function actions(command, argument, options) {
   const commandMissing = (command === null),
-        yesOptionPresent = isOptionPresent(YES_OPTION, options),
-        helpOptionPresent = isOptionPresent(HELP_OPTION, options),
-        dryRunOptionPresent = isOptionPresent(DRY_RUN_OPTION, options),
-        versionOptionPresent = isOptionPresent(VERSION_OPTION, options),
-        quietlyOptionPresent = isOptionPresent(QUIETLY_OPTION, options),
-        quietly = quietlyOptionPresent, ///
-        dryRun = dryRunOptionPresent, ///
-        yes = yesOptionPresent; ///
+        { yes = DEFAULT_YES,
+          help = DEFAULT_HELP,
+          dryRun = DEFAULT_DRY_RUN,
+          version = DEFAULT_VERSION,
+          quietly = DEFAULT_QUIETLY } = options;
 
   if (false) {
     ///
-  } else if (versionOptionPresent) {
+  } else if (version) {
     command = VERSION_COMMAND;
-  } else if (helpOptionPresent) {
+  } else if (help) {
     command = HELP_COMMAND;
   } else if (commandMissing) {
     command = HELP_COMMAND;
@@ -74,20 +70,20 @@ function actions(command, argument, options) {
   }
 
   switch (command) {
-    case HELP_COMMAND : help(); break;
-    case VERSION_COMMAND : version(); break;
-    case PROPAGATE_COMMAND : propagate(argument, quietly, dryRun, yes); break;
-    case INITIALISE_COMMAND : initialise(); break;
-    case ADD_DIRECTORY_COMMAND : addDirectory(); break;
-    case REMOVE_DIRECTORY_COMMAND : removeDirectory(); break;
-    case LIST_DIRECTORIES_COMMAND : listDirectories(); break;
-    case SET_SHELL_COMMANDS_COMMAND : setShellCommands(); break;
-    case ADD_IGNORED_DEPENDENCY_COMMAND : addIgnoredDependency(); break;
-    case LIST_IGNORED_DEPENDENCIES_COMMAND : listIgnoredDependencies(); break;
-    case REMOVE_IGNORED_DEPENDENCY_COMMAND : removeIgnoredDependency(); break;
-    case ADD_FORCED_DEPENDENCY_RELATION_COMMAND : addForcedDependencyRelation(); break;
-    case LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND : listForcedDependencyRelations(); break;
-    case REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND : removeForcedDependencyRelation(); break;
+    case HELP_COMMAND : helpAction(); break;
+    case VERSION_COMMAND : versionAction(); break;
+    case PROPAGATE_COMMAND : propagateAction(argument, quietly, dryRun, yes); break;
+    case INITIALISE_COMMAND : initialiseAction(); break;
+    case ADD_DIRECTORY_COMMAND : addDirectoryAction(); break;
+    case REMOVE_DIRECTORY_COMMAND : removeDirectoryAction(); break;
+    case LIST_DIRECTORIES_COMMAND : listDirectoriesAction(); break;
+    case SET_SHELL_COMMANDS_COMMAND : setShellCommandsAction(); break;
+    case ADD_IGNORED_DEPENDENCY_COMMAND : addIgnoredDependencyAction(); break;
+    case LIST_IGNORED_DEPENDENCIES_COMMAND : listIgnoredDependenciesAction(); break;
+    case REMOVE_IGNORED_DEPENDENCY_COMMAND : removeIgnoredDependencyAction(); break;
+    case ADD_FORCED_DEPENDENCY_RELATION_COMMAND : addForcedDependencyRelationAction(); break;
+    case LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND : listForcedDependencyRelationsAction(); break;
+    case REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND : removeForcedDependencyRelationAction(); break;
   }
 }
 
