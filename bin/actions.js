@@ -49,26 +49,6 @@ function actions(command, argument, options) {
     command = HELP_COMMAND;
   }
 
-  if (  (command !== HELP_COMMAND)
-     && (command !== VERSION_COMMAND)
-     && (command !== PROPAGATE_COMMAND)
-     && (command !== INITIALISE_COMMAND)
-     && (command !== ADD_DIRECTORY_COMMAND)
-     && (command !== REMOVE_DIRECTORY_COMMAND)
-     && (command !== LIST_DIRECTORIES_COMMAND)
-     && (command !== SET_SHELL_COMMANDS_COMMAND)
-     && (command !== ADD_IGNORED_DEPENDENCY_COMMAND)
-     && (command !== LIST_IGNORED_DEPENDENCIES_COMMAND)
-     && (command !== REMOVE_IGNORED_DEPENDENCY_COMMAND)
-     && (command !== ADD_FORCED_DEPENDENCY_RELATION_COMMAND)
-     && (command !== LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND)
-     && (command !== REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND) ) {
-
-    argument = command; ///
-
-    command = PROPAGATE_COMMAND;
-  }
-
   switch (command) {
     case HELP_COMMAND : helpAction(); break;
     case VERSION_COMMAND : versionAction(); break;
@@ -84,6 +64,11 @@ function actions(command, argument, options) {
     case ADD_FORCED_DEPENDENCY_RELATION_COMMAND : addForcedDependencyRelationAction(); break;
     case LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND : listForcedDependencyRelationsAction(); break;
     case REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND : removeForcedDependencyRelationAction(); break;
+
+    default:
+      argument = command; ///
+
+      propagateAction(argument, quietly, dryRun, yes);
   }
 }
 
