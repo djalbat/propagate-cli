@@ -3,53 +3,51 @@
 function helpAction() {
   console.log(`Usage: 
   
-  propagate                            Propagate the current package
+  propagate [<options>]                    Propagate the current package
 
-  propagate <sub-directory>            Propagate a package in the given sub-directory
-
-  propagate <command>
+  propagate [<options>] <sub-directory>    Propagate a package in the given sub-directory
 
   propagate [<command>] [<options>]
 
 Commands:
 
-  version                              Show theh version
+  version                                  Show the version
 
-  help                                 Show this help
+  help                                     Show this help
  
-  initialise                           Create a configuration file
+  initialise                               Create a configuration file
 
-  add-directory                        Add an additional directory
+  add-directory                            Add an additional directory
   
-  remove-directory                     Remove an additional directory
+  remove-directory                         Remove an additional directory
   
-  list-directories                     List directories, including the default directory
+  list-directories                         List directories, including the default directory
   
-  set-shell-commands                   Set the Git, build, install and publish shell commands
+  set-shell-commands                       Set the Git, build, install and publish shell commands
   
-  add-ignored-dependency               Add an ignored dependency
+  add-ignored-dependency                   Add an ignored dependency
   
-  list-ignored-dependencies            List the ignored dependencies
+  list-ignored-dependencies                List the ignored dependencies
   
-  remove-ignored-dependency            Remove an ignored dependency
+  remove-ignored-dependency                Remove an ignored dependency
   
-  add-forced-dependency-relation       Add a forced dependency relation
+  add-forced-dependency-relation           Add a forced dependency relation
   
-  list-forced-dependency-relations     List the forced dependency relations
+  list-forced-dependency-relations         List the forced dependency relations
   
-  remove-forced-dependency-relation    Remove a forced dependency relation
+  remove-forced-dependency-relation        Remove a forced dependency relation
   
 Options:
 
-  --version|-v                         Show the version
+  --version|-v                             Show the version
 
-  --dry-run|-d                         Show updates but do not apply them
+  --dry-run|-d                             Show updates but do not apply them
 
-  --quietly|-q                         Execute shell commands without printing to the console
+  --quietly|-q                             Execute shell commands without printing to the console
   
-  --yes|-y                             Initially answer yes to prompts
+  --yes|-y                                 Initially answer yes to prompts
 
-  --help|-h                            Show this help
+  --help|-h                                Show this help
 
 Further information:
 
