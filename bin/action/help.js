@@ -3,18 +3,20 @@
 function helpAction() {
   console.log(`Usage: 
   
-  propagate [help]                     Show this help
-  
-  propagate --version|-v               Show the version
-
   propagate                            Propagate the current package
 
   propagate <sub-directory>            Propagate a package in the given sub-directory
 
   propagate <command>
 
+  propagate [<command>] [<options>]
+
 Commands:
 
+  version                              Show theh version
+
+  help                                 Show this help
+ 
   initialise                           Create a configuration file
 
   add-directory                        Add an additional directory

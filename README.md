@@ -82,18 +82,20 @@ If you would like to contribute or would simply like to have a look at the code,
 Propagate has the following commands and options:
 
 ```
-  propagate [help]                     Show this help
-  
-  propagate --version|-v               Show the version
-
   propagate                            Propagate the current package
 
   propagate <sub-directory>            Propagate a package in the given sub-directory
 
   propagate <command>
 
+  propagate [<command>] [<options>]
+
 Commands:
 
+  version                              Show theh version
+
+  help                                 Show this help
+ 
   initialise                           Create a configuration file
 
   add-directory                        Add an additional directory
@@ -102,7 +104,7 @@ Commands:
   
   list-directories                     List directories, including the default directory
   
-  set-shell-commands                   Set the Git, install, build and publish shell commands
+  set-shell-commands                   Set the Git, build, install and publish shell commands
   
   add-ignored-dependency               Add an ignored dependency
   
