@@ -90,10 +90,10 @@ Propagate has the following commands and options:
 
 Commands:
 
-  version                                  Show the version
-
   help                                     Show this help
  
+  version                                  Show the version
+
   initialise                               Create a configuration file
 
   add-directory                            Add an additional directory
@@ -118,6 +118,8 @@ Commands:
   
 Options:
 
+  --help|-h                                Show this help
+
   --version|-v                             Show the version
 
   --dry-run|-d                             Show updates but do not apply them
@@ -125,8 +127,6 @@ Options:
   --quietly|-q                             Execute shell commands without printing to the console
   
   --yes|-y                                 Initially answer yes to prompts
-
-  --help|-h                                Show this help
 ```
 
 In the directory that contains the sub-directories holding your project's packages and binaries, run the following command:
