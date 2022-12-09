@@ -12,9 +12,8 @@ const { YES } = require("../../constants"),
 const { prompt } = shellUtilities;
 
 function gitPromptOperation(proceed, abort, context) {
-  const { yes, diff, diffs, quietly } = context;
-
-  const answer = yes ?
+  const { yes, diff, diffs, quietly } = context,
+        answer = yes ?
                    YES :
                      null,
         description = ADD_COMMIT_PUSH_GIT_DESCRIPTION,

@@ -1,8 +1,12 @@
 "use strict";
 
+const { pathUtilities } = require("necessary");
+
 const { DEFAULT_DIRECTORY_NAME } = require("../defaults"),
       { retrieveIgnoredDependencies } = require("../configuration"),
       { NO_SUB_DIRECTORY_SPECIFIED_MESSAGE, IGNORED_DEPENDENCIES_INCLUDE_SUB_DIRECTORY_MESSAGE } = require("../messages");
+
+const { concatenatePaths } = pathUtilities;
 
 function createSubDirectoryPathOperation(proceed, abort, context) {
   const { argument } = context;
@@ -28,7 +32,7 @@ function createSubDirectoryPathOperation(proceed, abort, context) {
   }
 
   const directoryName = DEFAULT_DIRECTORY_NAME, ///
-        subDirectoryPath = `${directoryName}/${subDirectoryName}`;
+        subDirectoryPath = concatenatePaths(directoryName, subDirectoryName);
 
   Object.assign(context, {
     subDirectoryPath

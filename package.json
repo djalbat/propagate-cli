@@ -1,7 +1,7 @@
 {
   "name": "propagate-cli",
   "author": "James Smith",
-  "version": "1.9.24",
+  "version": "1.9.25",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/propagate-cli",
   "description": "Propagate updated packages throughout a project.",

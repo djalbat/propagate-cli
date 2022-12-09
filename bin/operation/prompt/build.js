@@ -12,9 +12,8 @@ const { YES } = require("../../constants"),
 const { prompt } = shellUtilities;
 
 function buildPromptOperation(proceed, abort, context) {
-  const { yes, diff, diffs, quietly } = context;
-
-  const answer = yes ?
+  const { yes, diff, diffs, quietly } = context,
+        answer = yes ?
                    YES :
                      null,
         description = BUILD_YES_NO_DESCRIPTION,

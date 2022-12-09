@@ -1,12 +1,13 @@
 "use strict";
 
-const { fileSystemUtilities } = require("necessary");
+const { pathUtilities, fileSystemUtilities } = require("necessary");
 
 const { retrieveDirectories } = require("../configuration"),
       { absolutePathFromName } = require("../utilities/path"),
       { DEFAULT_DIRECTORY_NAME } = require("../defaults");
 
-const { readDirectory, isEntryDirectory } = fileSystemUtilities;
+const { concatenatePaths } = pathUtilities,
+      { readDirectory, isEntryDirectory } = fileSystemUtilities;
 
 function createSubDirectoryMapOperation(proceed, abort, context) {
   const subDirectoryMap = {},
@@ -22,7 +23,7 @@ function createSubDirectoryMapOperation(proceed, abort, context) {
             entryNames = readDirectory(absoluteDirectoryPath);
 
       entryNames.forEach((entryName) => {
-        const entryPath = `${directoryName}/${entryName}`,
+        const entryPath = concatenatePaths(directoryName, entryName),
               entryDirectory = isEntryDirectory(entryPath);
 
         if (entryDirectory) {

@@ -1,17 +1,18 @@
 "use strict";
 
-const { arrayUtilities, fileSystemUtilities } = require("necessary");
+const { pathUtilities, arrayUtilities, fileSystemUtilities } = require("necessary");
 
 const { PACKAGE_JSON } = require("../constants");
 
 const { second } = arrayUtilities,
+      { concatenatePaths } = pathUtilities,
       { readFile, writeFile, checkFileExists } = fileSystemUtilities;
 
 const utilitiesDirectoryName = __dirname, ///
       matches = utilitiesDirectoryName.match(/^(.+)\/bin\/utilities$/),
       secondMatch = second(matches),
 			applicationDirectoryName = secondMatch, ///
-			packageJSONFilePath = `${applicationDirectoryName}/${PACKAGE_JSON}`,
+			packageJSONFilePath = concatenatePaths(applicationDirectoryName, PACKAGE_JSON),
 			packageJSONFile = readFile(packageJSONFilePath),
 			packageJSON = JSON.parse(packageJSONFile),
 			{ version } = packageJSON,
@@ -70,7 +71,7 @@ module.exports = {
 };
 
 function packageJSONFilePathFromSubDirectoryPath(subDirectoryPath) {
-  const packageJSONFilePath = `${subDirectoryPath}/${PACKAGE_JSON}`;
+  const packageJSONFilePath = concatenatePaths(subDirectoryPath, PACKAGE_JSON);
 
   return packageJSONFilePath;
 }
