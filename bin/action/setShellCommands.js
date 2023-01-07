@@ -14,7 +14,7 @@ function setShellCommandsAction() {
           setGitShellCommandsPromptOperation,
           setInstallShellCommandsPromptOperation,
           setBuildShellCommandsPromptOperation,
-          setPublishShellCommandsPromptOperation,
+          setPublishShellCommandsPromptOperation
         ],
         shellCommands = retrieveShellCommands(),
         context = {
