@@ -50,20 +50,20 @@ function actions(command, argument, options) {
   }
 
   switch (command) {
-    case HELP_COMMAND : helpAction(); break;
-    case VERSION_COMMAND : versionAction(); break;
-    case PROPAGATE_COMMAND : propagateAction(argument, quietly, dryRun, yes); break;
-    case INITIALISE_COMMAND : initialiseAction(); break;
-    case ADD_DIRECTORY_COMMAND : addDirectoryAction(); break;
-    case REMOVE_DIRECTORY_COMMAND : removeDirectoryAction(); break;
-    case LIST_DIRECTORIES_COMMAND : listDirectoriesAction(); break;
-    case SET_SHELL_COMMANDS_COMMAND : setShellCommandsAction(); break;
-    case ADD_IGNORED_DEPENDENCY_COMMAND : addIgnoredDependencyAction(); break;
-    case LIST_IGNORED_DEPENDENCIES_COMMAND : listIgnoredDependenciesAction(); break;
-    case REMOVE_IGNORED_DEPENDENCY_COMMAND : removeIgnoredDependencyAction(); break;
-    case ADD_FORCED_DEPENDENCY_RELATION_COMMAND : addForcedDependencyRelationAction(); break;
-    case LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND : listForcedDependencyRelationsAction(); break;
-    case REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND : removeForcedDependencyRelationAction(); break;
+    case HELP_COMMAND: helpAction(); break;
+    case VERSION_COMMAND: versionAction(); break;
+    case PROPAGATE_COMMAND: propagateAction(argument, quietly, dryRun, yes); break;
+    case INITIALISE_COMMAND: initialiseAction(); break;
+    case ADD_DIRECTORY_COMMAND: addDirectoryAction(); break;
+    case REMOVE_DIRECTORY_COMMAND: removeDirectoryAction(); break;
+    case LIST_DIRECTORIES_COMMAND: listDirectoriesAction(); break;
+    case SET_SHELL_COMMANDS_COMMAND: setShellCommandsAction(); break;
+    case ADD_IGNORED_DEPENDENCY_COMMAND: addIgnoredDependencyAction(); break;
+    case LIST_IGNORED_DEPENDENCIES_COMMAND: listIgnoredDependenciesAction(); break;
+    case REMOVE_IGNORED_DEPENDENCY_COMMAND: removeIgnoredDependencyAction(); break;
+    case ADD_FORCED_DEPENDENCY_RELATION_COMMAND: addForcedDependencyRelationAction(); break;
+    case LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND: listForcedDependencyRelationsAction(); break;
+    case REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND: removeForcedDependencyRelationAction(); break;
 
     default:
       argument = command; ///
