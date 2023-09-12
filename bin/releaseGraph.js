@@ -96,9 +96,9 @@ class ReleaseGraph {
           nameToSubDirectoryPathMap = releaseMap.getNameToSubDirectoryPathMap(),
           vertexNames = subDirectoryPaths;  ///
 
-    dependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
+    dependencyDirectedGraph.addVertexesByVertexNames(vertexNames);
 
-    devDependencyDirectedGraph.addVerticesByVertexNames(vertexNames);
+    devDependencyDirectedGraph.addVertexesByVertexNames(vertexNames);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = releaseMap.retrieveRelease(subDirectoryPath),
@@ -113,7 +113,7 @@ class ReleaseGraph {
                 sourceVertexName = dependencySubDirectoryPath,  ///
                 targetVertexName = subDirectoryPath;  ///
 
-          dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+          dependencyDirectedGraph.addEdgeBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName);
         }
       });
 
@@ -125,7 +125,7 @@ class ReleaseGraph {
                 sourceVertexName = devDependencySubDirectoryPath,  ///
                 targetVertexName = subDirectoryPath;  ///
 
-          devDependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+          devDependencyDirectedGraph.addEdgeBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName);
         }
       });
     });
@@ -156,7 +156,7 @@ class ReleaseGraph {
       const sourceVertexName = dependencySubDirectoryPath,  ///
             targetVertexName = dependentSubDirectoryPath;  ///
 
-      const dependencyDirectedGraphEdgePresent = dependencyDirectedGraph.isEdgePresentByVertexNames(sourceVertexName, targetVertexName),
+      const dependencyDirectedGraphEdgePresent = dependencyDirectedGraph.isEdgePresentBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName),
             dependencyRelationPresent = dependencyDirectedGraphEdgePresent; ///
 
       if (dependencyRelationPresent) {
@@ -165,7 +165,7 @@ class ReleaseGraph {
         process.exit(1);
       }
 
-      const devDependencyDirectedGraphEdgePresent = devDependencyDirectedGraph.isEdgePresentByVertexNames(sourceVertexName, targetVertexName),
+      const devDependencyDirectedGraphEdgePresent = devDependencyDirectedGraph.isEdgePresentBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName),
             devDependencyRelationPresent = devDependencyDirectedGraphEdgePresent; ///
 
       if (!devDependencyRelationPresent) {
@@ -175,7 +175,7 @@ class ReleaseGraph {
       }
 
       if (dependencyRelease) {
-        dependencyDirectedGraph.addEdgeByVertexNames(sourceVertexName, targetVertexName);
+        dependencyDirectedGraph.addEdgeBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName);
       }
     });
 
