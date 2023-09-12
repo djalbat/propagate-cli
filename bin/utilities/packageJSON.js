@@ -1,32 +1,17 @@
 "use strict";
 
-const { pathUtilities, arrayUtilities, fileSystemUtilities } = require("necessary");
+const { pathUtilities, fileSystemUtilities } = require("necessary");
 
 const { PACKAGE_JSON } = require("../constants");
 
-const { second } = arrayUtilities,
-      { concatenatePaths } = pathUtilities,
+const { concatenatePaths } = pathUtilities,
       { readFile, writeFile, checkFileExists } = fileSystemUtilities;
-
-const utilitiesDirectoryName = __dirname, ///
-      matches = utilitiesDirectoryName.match(/^(.+)\/bin\/utilities$/),
-      secondMatch = second(matches),
-			applicationDirectoryName = secondMatch, ///
-			packageJSONFilePath = concatenatePaths(applicationDirectoryName, PACKAGE_JSON),
-			packageJSONFile = readFile(packageJSONFilePath),
-			packageJSON = JSON.parse(packageJSONFile),
-			{ version } = packageJSON,
-			packageVersion = version;  ///
-
-function getPackageVersion() {
-	return packageVersion;
-}
 
 function readPackageJSONFile(subDirectoryPath) {
   let packageJSON = null;
 
   try {
-    const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
+    const packageJSONFilePath = concatenatePaths(subDirectoryPath, PACKAGE_JSON),
           packageJSONFIleExists = checkFileExists(packageJSONFilePath);
 
     if (packageJSONFIleExists) {
@@ -47,7 +32,7 @@ function writePackageJSONFile(subDirectoryPath, packageJSON) {
   let success;
 
   try {
-    const packageJSONFilePath = packageJSONFilePathFromSubDirectoryPath(subDirectoryPath),
+    const packageJSONFilePath = concatenatePaths(subDirectoryPath, PACKAGE_JSON),
           packageJSONContent = JSON.stringify(packageJSON, null, "  ") + "\n";  ///
 
     writeFile(packageJSONFilePath, packageJSONContent);
@@ -65,13 +50,6 @@ function writePackageJSONFile(subDirectoryPath, packageJSON) {
 }
 
 module.exports = {
-	getPackageVersion,
   readPackageJSONFile,
   writePackageJSONFile
 };
-
-function packageJSONFilePathFromSubDirectoryPath(subDirectoryPath) {
-  const packageJSONFilePath = concatenatePaths(subDirectoryPath, PACKAGE_JSON);
-
-  return packageJSONFilePath;
-}
