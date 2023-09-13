@@ -1,32 +1,6 @@
 "use strict";
 
-const { VERSION_1_7 } = require("../versions"),
-      { DEFAULT_GIT_SHELL_COMMANDS, DEFAULT_BUILD_SHELL_COMMANDS, DEFAULT_PUBLISH_SHELL_COMMANDS } = require("../defaults"),
-      git = DEFAULT_GIT_SHELL_COMMANDS,  ///
-      build = DEFAULT_BUILD_SHELL_COMMANDS,  ///
-      publish = DEFAULT_PUBLISH_SHELL_COMMANDS,  ///
-      defaultShellCommands = {
-        git,
-        build,
-        publish
-      };
-
-function createConfiguration() {
-  const version = VERSION_1_7,  ///
-        directories = [],
-        shellCommands = defaultShellCommands, ///
-        ignoredDependencies = [],
-        forcedDependencyRelations = [],
-        configuration = {
-          version,
-          directories,
-          shellCommands,
-          ignoredDependencies,
-          forcedDependencyRelations
-        } ;
-
-  return configuration;
-}
+const { VERSION_1_7 } = require("../versions");
 
 function migrateConfigurationToVersion_1_7(configuration) {
   const version = VERSION_1_7,
