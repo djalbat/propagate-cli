@@ -24,17 +24,6 @@ function createConfiguration() {
   return configuration;
 }
 
-function migrateConfigurationToVersion_1_0(configuration) {
-  const version = VERSION_1_0;
-
-  configuration = Object.assign(configuration, {
-    version
-  });
-
-  return configuration;
-}
-
 module.exports = {
-  createConfiguration,
-  migrateConfigurationToVersion_1_0
+  createConfiguration
 };

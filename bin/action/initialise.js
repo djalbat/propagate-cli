@@ -1,6 +1,6 @@
 "use strict";
 
-const { checkConfigurationFileExists, createConfigurationFile } = require("../configuration"),
+const { createConfigurationFile, checkConfigurationFileExists } = require("../configuration"),
       { FAILED_INITIALISE_MESSAGE, SUCCESSFUL_INITIALISE_MESSAGE } = require("../messages");
 
 function initialiseAction() {
