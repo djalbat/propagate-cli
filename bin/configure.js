@@ -9,7 +9,7 @@ const { TWO_DOTS } = require("./constants"),
 
 const { bottommostNameFromPath } = pathUtilities;
 
-function configure(command, argument, options, callback) {
+function configure(command, argument, options, main) {
   let configurationFileExists = checkConfigurationFileExists();
 
   if (!configurationFileExists) {
@@ -38,7 +38,7 @@ function configure(command, argument, options, callback) {
     migrateConfigurationFile();
   }
 
-  callback(command, argument, options);
+  main(command, argument, options);
 }
 
 module.exports = configure;

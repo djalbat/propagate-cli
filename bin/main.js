@@ -31,7 +31,7 @@ const { DEFAULT_YES, DEFAULT_QUIETLY, DEFAULT_DRY_RUN, DEFAULT_HELP, DEFAULT_VER
         LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND,
         REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND } = require("./commands");
 
-function actions(command, argument, options) {
+function main(command, argument, options) {
   const commandMissing = (command === null),
         { yes = DEFAULT_YES,
           help = DEFAULT_HELP,
@@ -72,4 +72,4 @@ function actions(command, argument, options) {
   }
 }
 
-module.exports = actions;
+module.exports = main;
