@@ -9,7 +9,8 @@ const { validateForcedDependencyRelationNumber } = require("../../utilities/vali
 const { prompt } = shellUtilities;
 
 function removeForcedDependencyRelationPromptOperation(proceed, abort, context) {
-  const description = SPECIFY_FORCED_DEPENDENCY_RELATION_TO_REMOVE_DESCRIPTION,
+  const attempts = Infinity,
+        description = SPECIFY_FORCED_DEPENDENCY_RELATION_TO_REMOVE_DESCRIPTION,
         errorMessage = INVALID_FORCED_DEPENDENCY_RELATION_NUMBER_MESSAGE,
         { forcedDependencyRelationNumbers } = context,
         validationFunction = (forcedDependencyRelationNumber) => {
@@ -18,6 +19,7 @@ function removeForcedDependencyRelationPromptOperation(proceed, abort, context) 
           return validateForcedDependencyRelationNumber(forcedDependencyRelationNumber, forcedDependencyRelationNumbers);
         },  ///
         options = {
+          attempts,
           description,
           errorMessage,
           validationFunction

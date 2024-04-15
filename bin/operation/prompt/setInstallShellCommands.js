@@ -13,10 +13,12 @@ function setInstallShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { install } = shellCommands,
         installShellCommands = install, ///
+        attempts = Infinity,
+        description = INSTALL_SHELL_COMMANDS_DESCRIPTION,
         initialAnswer = installShellCommands, //
         validationFunction = validateShellCommands,  ///
-        description = INSTALL_SHELL_COMMANDS_DESCRIPTION,
         options = {
+          attempts,
           description,
           initialAnswer,
           validationFunction

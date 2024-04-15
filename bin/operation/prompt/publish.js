@@ -25,11 +25,13 @@ function publishPromptOperation(proceed, abort, context) {
   const answer = yes ?
                    YES :
                      null,
+        attempts = Infinity,
         description = PUBLISH_YES_NO_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
           answer,
+          attempts,
           description,
           errorMessage,
           validationFunction

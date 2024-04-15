@@ -16,11 +16,13 @@ function gitPromptOperation(proceed, abort, context) {
         answer = yes ?
                    YES :
                      null,
+        attempts = Infinity,
         description = ADD_COMMIT_PUSH_GIT_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
           answer,
+          attempts,
           description,
           errorMessage,
           validationFunction

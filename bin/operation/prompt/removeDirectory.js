@@ -9,7 +9,8 @@ const { validateDirectoryNumber } = require("../../utilities/validate"),
 const { prompt } = shellUtilities;
 
 function removeDirectoryPromptOperation(proceed, abort, context) {
-  const description = SPECIFY_DIRECTORY_TO_REMOVE_DESCRIPTION,
+  const attempts = Infinity,
+        description = SPECIFY_DIRECTORY_TO_REMOVE_DESCRIPTION,
         errorMessage = INVALID_DIRECTORY_NUMBER_MESSAGE,
         { directoryNumbers } = context,
         validationFunction = (directoryNumber) => {
@@ -18,6 +19,7 @@ function removeDirectoryPromptOperation(proceed, abort, context) {
           return validateDirectoryNumber(directoryNumber, directoryNumbers);
         },  ///
         options = {
+          attempts,
           description,
           errorMessage,
           validationFunction

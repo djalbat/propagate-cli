@@ -13,10 +13,12 @@ function setBuildShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { build } = shellCommands,
         buildShellCommands = build, ///
+        attempts = Infinity,
+        description = BUILD_SHELL_COMMANDS_DESCRIPTION,
         initialAnswer = buildShellCommands, //
         validationFunction = validateShellCommands,  ///
-        description = BUILD_SHELL_COMMANDS_DESCRIPTION,
         options = {
+          attempts,
           description,
           initialAnswer,
           validationFunction

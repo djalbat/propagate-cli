@@ -9,10 +9,12 @@ const { validateForcedDependentName } = require("../../utilities/validate"),
 const { prompt } = shellUtilities;
 
 function addForcedDependentPromptOperation(proceed, abort, context) {
-  const description = FORCED_DEPENDENT_DESCRIPTION,
+  const attempts = Infinity,
+        description = FORCED_DEPENDENT_DESCRIPTION,
         errorMessage = INVALID_FORCED_DEPENDENT_NAME_MESSAGE,
         validationFunction = validateForcedDependentName,  ///
         options = {
+          attempts,
           description,
           errorMessage,
           validationFunction

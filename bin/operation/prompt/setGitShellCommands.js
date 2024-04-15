@@ -13,10 +13,12 @@ function setGitShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { git } = shellCommands,
         gitShellCommands = git, ///
+        attempts = Infinity,
+        description = GIT_SHELL_COMMANDS_DESCRIPTION,
         initialAnswer = gitShellCommands, ///
         validationFunction = validateShellCommands,  ///
-        description = GIT_SHELL_COMMANDS_DESCRIPTION,
         options = {
+          attempts,
           description,
           initialAnswer,
           validationFunction

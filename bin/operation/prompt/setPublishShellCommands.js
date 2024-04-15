@@ -13,10 +13,12 @@ function setPublishShellCommandsPromptOperation(proceed, abort, context) {
   const { shellCommands } = context,
         { publish } = shellCommands,
         publishShellCommands = publish, ///
+        attempts = Infinity,
+        description = PUBLISH_SHELL_COMMANDS_DESCRIPTION,
         initialAnswer = publishShellCommands, ///
         validationFunction = validateShellCommands,  ///
-        description = PUBLISH_SHELL_COMMANDS_DESCRIPTION,
         options = {
+          attempts,
           description,
           initialAnswer,
           validationFunction

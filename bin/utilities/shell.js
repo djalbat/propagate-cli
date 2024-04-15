@@ -21,10 +21,12 @@ function execute(shellCommands, quietly, callback) {
     return;
   }
 
-  const description = FAILED_SCRIPT_DESCRIPTION,
+  const attempts = Infinity,
+        description = FAILED_SCRIPT_DESCRIPTION,
         errorMessage = INVALID_ANSWER_MESSAGE,
         validationFunction = validateAnswer,  ///
         options = {
+          attempts,
           description,
           errorMessage,
           validationFunction

@@ -9,10 +9,12 @@ const { validateIgnoredDependencyName } = require("../../utilities/validate"),
 const { prompt } = shellUtilities;
 
 function addIgnoredDependencyPromptOperation(proceed, abort, context) {
-  const description = IGNORED_DEPENDENCY_DESCRIPTION,
+  const attempts = Infinity,
+        description = IGNORED_DEPENDENCY_DESCRIPTION,
         errorMessage = INVALID_IGNORED_DEPENDENCY_NAME_MESSAGE,
         validationFunction = validateIgnoredDependencyName,  ///
         options = {
+          attempts,
           description,
           errorMessage,
           validationFunction
