@@ -82,11 +82,7 @@ If you would like to contribute or would simply like to have a look at the code,
 Propagate has the following commands and options:
 
 ```
-  propagate [<options>]                    Propagate the current package
-
-  propagate [<options>] <sub-directory>    Propagate a package in the given sub-directory
-
-  propagate [<command>] [<options>]
+  propagate [<options>] [<command>] [<argument>]
 
 Commands:
 
