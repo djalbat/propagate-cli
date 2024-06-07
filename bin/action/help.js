@@ -3,11 +3,7 @@
 function helpAction() {
   console.log(`Usage: 
   
-  propagate [<options>]                    Propagate the current package
-
-  propagate [<options>] <sub-directory>    Propagate a package in the given sub-directory
-
-  propagate [<command>] [<options>]
+  propagate [<options>] [<command>] [<argument>]
 
 Commands:
 

@@ -76,6 +76,8 @@ function createConfigurationFile() {
 }
 
 function migrateConfigurationFile() {
+  assertConfigurationFileExists();
+
   let json = readRCFile();
 
   const migrationMap = {
@@ -97,6 +99,16 @@ function checkConfigurationFileExists() {
   return configurationFileExists;
 }
 
+function assertConfigurationFileExists() {
+  const configurationFileExists = checkConfigurationFileExists();
+
+  if (!configurationFileExists) {
+    console.log(CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE);
+
+    process.exit(1);
+  }
+}
+
 module.exports = {
   retrieveDirectories,
   retrieveShellCommands,
@@ -108,7 +120,8 @@ module.exports = {
   updateForcedDependencyRelations,
   createConfigurationFile,
   migrateConfigurationFile,
-  checkConfigurationFileExists
+  checkConfigurationFileExists,
+  assertConfigurationFileExists
 };
 
 function readConfigurationFile() {
@@ -135,14 +148,4 @@ function updateConfigurationFile(addedConfiguration, ...deleteConfigurationNames
         deletedPropertyNames = deleteConfigurationNames;  ///
 
   updateRCFile(addedProperties, ...deletedPropertyNames);
-}
-
-function assertConfigurationFileExists() {
-  const configurationFileExists = checkConfigurationFileExists();
-
-  if (!configurationFileExists) {
-    console.log(CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE);
-
-    process.exit(1);
-  }
 }

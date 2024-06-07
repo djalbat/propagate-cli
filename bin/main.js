@@ -15,7 +15,8 @@ const helpAction = require("./action/help"),
       listForcedDependencyRelationsAction = require("./action/listForcedDependencyRelations"),
       removeForcedDependencyRelationAction = require("./action/removeForcedDependencyRelation");
 
-const { DEFAULT_YES, DEFAULT_QUIETLY, DEFAULT_DRY_RUN, DEFAULT_HELP, DEFAULT_VERSION} = require("./defaults"),
+const { NO_COMMAND_GIVEN_MESSAGE } = require("./messages"),
+      { DEFAULT_YES, DEFAULT_QUIETLY, DEFAULT_DRY_RUN } = require("./defaults"),
       { HELP_COMMAND,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
@@ -32,24 +33,19 @@ const { DEFAULT_YES, DEFAULT_QUIETLY, DEFAULT_DRY_RUN, DEFAULT_HELP, DEFAULT_VER
         REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND } = require("./commands");
 
 function main(command, argument, options) {
-  const commandMissing = (command === null),
-        { yes = DEFAULT_YES,
-          help = DEFAULT_HELP,
+  const { yes = DEFAULT_YES,
           dryRun = DEFAULT_DRY_RUN,
-          version = DEFAULT_VERSION,
           quietly = DEFAULT_QUIETLY } = options;
 
-  if (false) {
-    ///
-  } else if (help) {
-    command = HELP_COMMAND;
-  } else if (version) {
-    command = VERSION_COMMAND;
-  } else if (commandMissing) {
-    command = HELP_COMMAND;
-  }
-
   switch (command) {
+    case null: {
+      console.log(NO_COMMAND_GIVEN_MESSAGE);
+
+      process.exit(1);
+
+      break;
+    }
+
     case HELP_COMMAND: {
       helpAction();
 
@@ -134,11 +130,13 @@ function main(command, argument, options) {
       break;
     }
 
-
-    default:
+    default: {
       argument = command; ///
 
       propagateAction(argument, quietly, dryRun, yes);
+
+      break;
+    }
   }
 }
 

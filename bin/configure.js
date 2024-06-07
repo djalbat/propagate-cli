@@ -2,23 +2,39 @@
 
 const { pathUtilities } = require("necessary");
 
-const { TWO_DOTS } = require("./constants"),
-      { PROPAGATE_COMMAND } = require("./commands"),
+const { DOUBLE_DOTS } = require("./constants"),
       { DEFAULT_HELP, DEFAULT_VERSION } = require("./defaults"),
-      { checkConfigurationFileExists, migrateConfigurationFile } = require("./configuration");
+      { HELP_COMMAND, VERSION_COMMAND, PROPAGATE_COMMAND } = require("./commands"),
+      { migrateConfigurationFile, checkConfigurationFileExists } = require("./configuration");
 
 const { bottommostNameFromPath } = pathUtilities;
 
 function configure(command, argument, options, main) {
-  let configurationFileExists = checkConfigurationFileExists();
+  let configurationFileExists;
 
-  if (!configurationFileExists) {
-    const { help = DEFAULT_HELP, version = DEFAULT_VERSION } = options;
+  const { help = DEFAULT_HELP, version = DEFAULT_VERSION } = options;
 
-    if ((help === false) && (version === false) && (command === null)) {
+  if (false) {
+    ///
+  } else if (help) {
+    command = HELP_COMMAND;
+  } else if (version) {
+    command = VERSION_COMMAND;
+  }
+
+  if ((command === HELP_COMMAND) || (command === VERSION_COMMAND)) {
+    main(command, argument, options);
+
+    return;
+  }
+
+  configurationFileExists = checkConfigurationFileExists();
+
+  if (command === null) {
+    if (!configurationFileExists) {
       const currentWorkingDirectoryPath = process.cwd(); ///
 
-      process.chdir(TWO_DOTS);
+      process.chdir(DOUBLE_DOTS);
 
       const oldCurrentWorkingDirectoryPath = currentWorkingDirectoryPath; ///
 
@@ -27,16 +43,14 @@ function configure(command, argument, options, main) {
       if (configurationFileExists) {
         const bottommostOldCurrentWorkingDirectoryName = bottommostNameFromPath(oldCurrentWorkingDirectoryPath);
 
-        command = PROPAGATE_COMMAND;  ///
-
         argument = bottommostOldCurrentWorkingDirectoryName; ///
+
+        command = PROPAGATE_COMMAND;  ///
       }
     }
   }
 
-  if (configurationFileExists) {
-    migrateConfigurationFile();
-  }
+  migrateConfigurationFile();
 
   main(command, argument, options);
 }
