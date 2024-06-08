@@ -46,6 +46,8 @@ function configure(command, argument, options, main) {
         argument = bottommostOldCurrentWorkingDirectoryName; ///
 
         command = PROPAGATE_COMMAND;  ///
+      } else {
+        process.chdir(oldCurrentWorkingDirectoryPath);
       }
     }
   }
