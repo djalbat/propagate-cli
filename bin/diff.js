@@ -115,24 +115,25 @@ class Diff {
   }
 
   static fromRelease(release) {
+    let diff = null;
+
     const subDirectoryPath = release.getSubDirectoryPath(),
           packageJSON = readPackageJSONFile(subDirectoryPath);
 
-    if (packageJSON === null) {
-      process.exit(1);
-    }
+    if (packageJSON !== null) {
+      const { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
+            versionString = version,  ///
+            dependencyMap = dependencies, ///
+            devDependencyMap = devDependencies, ///
+            releaseVersion = release.getVersion(),
+            releaseDependencyMap = release.getDependencyMap(),
+            releaseDevDependencyMap = release.getDevDependencyMap(),
+            versionDiff = VersionDiff.fromVersionStringAndReleaseVersion(versionString, releaseVersion),
+            dependencyMapDiff = MapDiff.fromMapAndReleaseMap(dependencyMap, releaseDependencyMap),
+            devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap);
 
-    const { version = null, dependencies = {}, devDependencies = {} } = packageJSON,
-          versionString = version,  ///
-          dependencyMap = dependencies, ///
-          devDependencyMap = devDependencies, ///
-          releaseVersion = release.getVersion(),
-          releaseDependencyMap = release.getDependencyMap(),
-          releaseDevDependencyMap = release.getDevDependencyMap(),
-          versionDiff = VersionDiff.fromVersionStringAndReleaseVersion(versionString, releaseVersion),
-          dependencyMapDiff = MapDiff.fromMapAndReleaseMap(dependencyMap, releaseDependencyMap),
-          devDependencyMapDiff = MapDiff.fromMapAndReleaseMap(devDependencyMap, releaseDevDependencyMap),
-          diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);
+      diff = new Diff(release, versionDiff, dependencyMapDiff, devDependencyMapDiff);
+    }
 
     return diff;
   }

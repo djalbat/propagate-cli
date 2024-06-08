@@ -46,7 +46,9 @@ function installPromptOperation(proceed, abort, context) {
 
           console.log(FAILED_INSTALL_MESSAGE);
 
-          process.exit(1);
+          abort();
+
+          return;
         }
 
         proceed();
@@ -59,7 +61,7 @@ function installPromptOperation(proceed, abort, context) {
 
     console.log(FAILED_INSTALL_MESSAGE);
 
-    process.exit(1);
+    abort();
   });
 }
 

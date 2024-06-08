@@ -52,11 +52,13 @@ function propagateDependencies(release, releases, releaseMap, releaseGraph, subD
       const dependencyRelationForced = isDependencyRelationForced(dependencyRelease, dependentRelease, subDirectoryMap, forcedDependencyRelations);
 
       if (!dependencyRelationForced) {
-        dependentRelease.updateDependencyVersion(name, versionString);
+        const success = dependentRelease.updateDependencyVersion(name, versionString);
 
-        const release = dependentRelease; ///
+        if (success) {
+          const release = dependentRelease; ///
 
-        propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations);
+          propagateDependencies(release, releases, releaseMap, releaseGraph, subDirectoryMap, forcedDependencyRelations);
+        }
       }
     });
   }
@@ -71,7 +73,7 @@ function propagateDevDependencies(releases, releaseMap, releaseGraph) {
       const name = release.getName(),
             versionString = release.getVersionString();
 
-      devDependentReleases.forEach((devDependentRelease) => {
+      devDependentReleases.every((devDependentRelease) => {
         const release = devDependentRelease,  ///
               releasesIncludesRelease = releases.includes(release);
 
@@ -85,15 +87,12 @@ function propagateDevDependencies(releases, releaseMap, releaseGraph) {
           releases.push(release);
         }
 
-        release.updateDevDependencyVersion(name, versionString);
+        const success = release.updateDevDependencyVersion(name, versionString);
+
+        if (success) {
+          return true;
+        }
       });
     }
   });
 }
-
-/*
-occam-grammars
-occam-custom-grammars
-occam-documents
-occam-verifier
- */

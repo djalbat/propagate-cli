@@ -58,7 +58,9 @@ function savePromptOperation(proceed, abort, context) {
 
         console.log(FAILED_SAVE_MESSAGE);
 
-        process.exit(1);
+        abort();
+
+        return;
       }
 
       proceed();
@@ -70,7 +72,7 @@ function savePromptOperation(proceed, abort, context) {
 
     console.log(FAILED_SAVE_MESSAGE);
 
-    process.exit(1);
+    abort();
   });
 }
 

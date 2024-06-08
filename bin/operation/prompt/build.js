@@ -46,7 +46,9 @@ function buildPromptOperation(proceed, abort, context) {
 
           console.log(FAILED_BUILD_MESSAGE);
 
-          process.exit(1);
+          abort();
+
+          return;
         }
 
         proceed();
@@ -59,7 +61,7 @@ function buildPromptOperation(proceed, abort, context) {
 
     console.log(FAILED_BUILD_MESSAGE);
 
-    process.exit(1);
+    abort();
   });
 }
 

@@ -35,8 +35,6 @@ function createSubDirectoryMapOperation(proceed, abort, context) {
       });
     } catch (error) {
       console.log(`The '${directoryName}' directory cannot be read.`);
-
-      process.exit(1);
     }
   });
 

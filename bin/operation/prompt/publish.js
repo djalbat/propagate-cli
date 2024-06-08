@@ -61,7 +61,9 @@ function publishPromptOperation(proceed, abort, context) {
 
           console.log(FAILED_PUBLISH_MESSAGE);
 
-          process.exit(1);
+          abort();
+
+          return;
         }
 
         proceed();
@@ -74,7 +76,7 @@ function publishPromptOperation(proceed, abort, context) {
 
     console.log(FAILED_PUBLISH_MESSAGE);
 
-    process.exit(1);
+    abort();
   });
 }
 

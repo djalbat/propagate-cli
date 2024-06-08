@@ -139,7 +139,7 @@ class ReleaseGraph {
       if (dependentRelease === null) {
         console.log(`The '${dependent}' forced dependent does not exist.`);
 
-        process.exit(1);
+        return;
       }
 
       const { dependency } = forcedDependencyRelation,
@@ -150,7 +150,7 @@ class ReleaseGraph {
       if (dependencyRelease === null) {
         console.log(`The '${dependency}' forced dependency does not exist.`);
 
-        process.exit(1);
+        return;
       }
 
       const sourceVertexName = dependencySubDirectoryPath,  ///
@@ -162,7 +162,7 @@ class ReleaseGraph {
       if (dependencyRelationPresent) {
         console.log(`The '${dependency}' -> '${dependent}' dependency relation is present and therefore cannot be forced.`);
 
-        process.exit(1);
+        return;
       }
 
       const devDependencyDirectedGraphEdgePresent = devDependencyDirectedGraph.isEdgePresentBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName),
@@ -171,7 +171,7 @@ class ReleaseGraph {
       if (!devDependencyRelationPresent) {
         console.log(`The '${dependency}' -> '${dependent}' developer dependency relation is not present and therefore cannot be forced.`);
 
-        process.exit(1);
+        return;
       }
 
       if (dependencyRelease) {

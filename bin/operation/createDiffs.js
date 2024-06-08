@@ -23,10 +23,20 @@ function createDiffsOperation(proceed, abort, context) {
     ...devDependentReleases
   ];
 
-  const diffs = releases.map((release) => {
+  const diffs = [];
+
+  releases.every((release) => {
     const diff = Diff.fromRelease(release);
 
-    return diff;
+    if (diff === null) {
+      abort();
+
+      return;
+    }
+
+    diffs.push(diff);
+
+    return true;
   });
 
   Object.assign(context, {

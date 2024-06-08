@@ -122,9 +122,9 @@ class Release {
 
     if (!success) {
       console.log(`Either the version of the '${this.subDirectoryPath}' release's '${name}' dependency is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
-
-      process.exit(1);
     }
+
+    return success;
   }
 
   updateDevDependencyVersion(name, versionString) {
@@ -132,9 +132,9 @@ class Release {
 
     if (!success) {
       console.log(`Either the version of the '${this.subDirectoryPath}' release's '${name}' developer dependency is greater than or equal to the propagated '${versionString}' version or it cannot be parsed.`);
-
-      process.exit(1);
     }
+
+    return success;
   }
 
   static fromSubDirectoryPath(subDirectoryPath) {

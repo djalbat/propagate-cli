@@ -46,7 +46,9 @@ function gitPromptOperation(proceed, abort, context) {
 
           console.log(FAILED_GIT_MESSAGE);
 
-          process.exit(1);
+          abort();
+
+          return;
         }
 
         proceed();
@@ -59,7 +61,7 @@ function gitPromptOperation(proceed, abort, context) {
 
     console.log(FAILED_GIT_MESSAGE);
 
-    process.exit(1);
+    abort();
   });
 }
 
