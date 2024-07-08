@@ -29,7 +29,7 @@ function configure(command, argument, options, main) {
   const directoryName = changeDirectory(command);
 
   if (directoryName !== null) {
-    if (command !== null) {
+    if (command === null) {
       command = PROPAGATE_COMMAND;
     }
 
