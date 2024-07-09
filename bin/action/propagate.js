@@ -14,7 +14,7 @@ const dryRunOperation = require("../operation/dryRun"),
 const { executeOperations } = require("../utilities/operation"),
       { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } = require("../messages");
 
-function propagateAction(argument, quietly, dryRun, yes) {
+function propagateAction(subDirectoryName, quietly, dryRun, yes) {
   const operations = [
           createSubDirectoryPathOperation,
           createSubDirectoryMapOperation,
@@ -28,7 +28,7 @@ function propagateAction(argument, quietly, dryRun, yes) {
           saveAndApplyDiffsOperation
         ],
         context = {
-          argument,
+          subDirectoryName,
           quietly,
           dryRun,
           yes

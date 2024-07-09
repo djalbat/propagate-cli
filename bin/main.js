@@ -15,7 +15,7 @@ const helpAction = require("./action/help"),
       listForcedDependencyRelationsAction = require("./action/listForcedDependencyRelations"),
       removeForcedDependencyRelationAction = require("./action/removeForcedDependencyRelation");
 
-const { NO_COMMAND_GIVEN_MESSAGE } = require("./messages"),
+const { NO_ARGUMENT_GIVEN_MESSAGE, COMMAND_NOT_RECOGNISED_MESSAGE } = require("./messages"),
       { DEFAULT_YES, DEFAULT_QUIETLY, DEFAULT_DRY_RUN } = require("./defaults"),
       { HELP_COMMAND,
         VERSION_COMMAND,
@@ -38,12 +38,6 @@ function main(command, argument, options) {
           quietly = DEFAULT_QUIETLY } = options;
 
   switch (command) {
-    case null: {
-      console.log(NO_COMMAND_GIVEN_MESSAGE);
-
-      break;
-    }
-
     case HELP_COMMAND: {
       helpAction();
 
@@ -56,14 +50,20 @@ function main(command, argument, options) {
       break;
     }
 
-    case PROPAGATE_COMMAND: {
-      propagateAction(argument, quietly, dryRun, yes);
+    case INITIALISE_COMMAND: {
+      initialiseAction();
 
       break;
     }
 
-    case INITIALISE_COMMAND: {
-      initialiseAction();
+    case PROPAGATE_COMMAND: {
+      if (argument === null) {
+        console.log(NO_ARGUMENT_GIVEN_MESSAGE);
+      } else {
+        const subDirectoryName = argument;  ///
+
+        propagateAction(subDirectoryName, quietly, dryRun, yes);
+      }
 
       break;
     }
@@ -129,9 +129,7 @@ function main(command, argument, options) {
     }
 
     default: {
-      argument = command; ///
-
-      propagateAction(argument, quietly, dryRun, yes);
+      console.log(COMMAND_NOT_RECOGNISED_MESSAGE);
 
       break;
     }
