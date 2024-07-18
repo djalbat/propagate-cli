@@ -9,7 +9,7 @@ const { bottommostNameFromPath } = pathUtilities;
 
 function changeDirectory() {
   let directoryName = null,
-    configurationFileExists = checkConfigurationFileExists();
+      configurationFileExists = checkConfigurationFileExists();
 
   if (!configurationFileExists) {
     const currentWorkingDirectoryPath = process.cwd(); ///
