@@ -3,7 +3,20 @@
 const changeDirectory = require("./changeDirectory");
 
 const { DEFAULT_HELP, DEFAULT_VERSION } = require("./defaults"),
-      { HELP_COMMAND, VERSION_COMMAND, INITIALISE_COMMAND, PROPAGATE_COMMAND } = require("./commands");
+      { HELP_COMMAND,
+        VERSION_COMMAND,
+        PROPAGATE_COMMAND,
+        INITIALISE_COMMAND,
+        ADD_DIRECTORY_COMMAND,
+        REMOVE_DIRECTORY_COMMAND,
+        LIST_DIRECTORIES_COMMAND,
+        SET_SHELL_COMMANDS_COMMAND,
+        ADD_IGNORED_DEPENDENCY_COMMAND,
+        LIST_IGNORED_DEPENDENCIES_COMMAND,
+        REMOVE_IGNORED_DEPENDENCY_COMMAND,
+        ADD_FORCED_DEPENDENCY_RELATION_COMMAND,
+        LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND,
+        REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND } = require("./commands");
 
 function prepare(command, argument, options, main) {
   const { help = DEFAULT_HELP, version = DEFAULT_VERSION } = options;
@@ -16,7 +29,10 @@ function prepare(command, argument, options, main) {
     command = VERSION_COMMAND;
   }
 
-  if ((command === HELP_COMMAND) || (command === VERSION_COMMAND) || (command === INITIALISE_COMMAND)) {
+  if ((command === HELP_COMMAND) ||
+      (command === VERSION_COMMAND) ||
+      (command === INITIALISE_COMMAND)) {
+
     main(command, argument, options);
 
     return;
@@ -29,9 +45,21 @@ function prepare(command, argument, options, main) {
   }
 
   if (argument === null) {
-    argument = command; ///
+    if ((command !== ADD_DIRECTORY_COMMAND) &&
+        (command !== REMOVE_DIRECTORY_COMMAND) &&
+        (command !== LIST_DIRECTORIES_COMMAND) &&
+        (command !== SET_SHELL_COMMANDS_COMMAND) &&
+        (command !== ADD_IGNORED_DEPENDENCY_COMMAND) &&
+        (command !== LIST_IGNORED_DEPENDENCIES_COMMAND) &&
+        (command !== REMOVE_IGNORED_DEPENDENCY_COMMAND) &&
+        (command !== ADD_FORCED_DEPENDENCY_RELATION_COMMAND) &&
+        (command !== LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND) &&
+        (command !== REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND)) {
 
-    command = PROPAGATE_COMMAND;
+      argument = command; ///
+
+      command = PROPAGATE_COMMAND;
+    }
   }
 
   if (command === null) {
