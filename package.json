@@ -1,7 +1,7 @@
 {
   "name": "propagate-cli",
   "author": "James Smith",
-  "version": "1.9.62",
+  "version": "1.9.63",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/propagate-cli",
   "description": "Propagate updated packages throughout a project.",
@@ -13,7 +13,7 @@
     "propagate": "./propagate.js"
   },
   "dependencies": {
-    "argumentative": "^2.0.28",
+    "argumentative": "^2.0.32",
     "necessary": "^14.0.1",
     "occam-directed-graphs": "^3.0.73",
     "sudo": "^1.0.3"
