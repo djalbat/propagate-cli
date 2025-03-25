@@ -34,10 +34,12 @@ function createConfiguration() {
 }
 
 function migrateConfigurationToVersion_1_10(configuration) {
-  const ignoredBuilds = [],
+  const version = VERSION_1_10,  ///
+        ignoredBuilds = [],
         ignoredPublishes = [];
 
   configuration = Object.assign(configuration, {
+    version,
     ignoredBuilds,
     ignoredPublishes
   });
