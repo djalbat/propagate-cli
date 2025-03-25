@@ -3,12 +3,13 @@
 const { versionUtilities, configurationUtilities } = require("necessary");
 
 const { PROPAGATE } = require("./constants"),
-      { createConfiguration } = require("./configuration/version_1_9"),
+      { createConfiguration } = require("./configuration/version_1_10"),
       { migrateConfigurationToVersion_1_3 } = require("./configuration/version_1_3"),
       { migrateConfigurationToVersion_1_7 } = require("./configuration/version_1_7"),
       { migrateConfigurationToVersion_1_9 } = require("./configuration/version_1_9"),
+      { migrateConfigurationToVersion_1_10 } = require("./configuration/version_1_10"),
       { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } = require("./messages"),
-      { VERSION_1_0, VERSION_1_3, VERSION_1_7, VERSION_1_9 } = require("./versions");
+      { VERSION_1_0, VERSION_1_3, VERSION_1_7, VERSION_1_9, VERSION_1_10 } = require("./versions");
 
 const { rc } = configurationUtilities,
       { migrate } = versionUtilities,
@@ -28,6 +29,20 @@ function retrieveShellCommands() {
         { shellCommands } = configuration;
 
   return shellCommands;
+}
+
+function retrieveIgnoredBuilds() {
+  const configuration = readConfigurationFile(),
+        { ignoredBuilds } = configuration;
+
+  return ignoredBuilds;
+}
+
+function retrieveIgnoredPublishes() {
+  const configuration = readConfigurationFile(),
+        { ignoredPublishes } = configuration;
+
+  return ignoredPublishes;
 }
 
 function retrieveIgnoredDependencies() {
@@ -83,9 +98,10 @@ function migrateConfigurationFile() {
   const migrationMap = {
           [ VERSION_1_0 ]: migrateConfigurationToVersion_1_3,
           [ VERSION_1_3 ]: migrateConfigurationToVersion_1_7,
-          [ VERSION_1_7 ] :migrateConfigurationToVersion_1_9
+          [ VERSION_1_7 ] :migrateConfigurationToVersion_1_9,
+          [ VERSION_1_9 ] :migrateConfigurationToVersion_1_10
         },
-        latestVersion = VERSION_1_9;
+        latestVersion = VERSION_1_10;
 
   json = migrate(json, migrationMap, latestVersion);
 
@@ -112,6 +128,8 @@ function assertConfigurationFileExists() {
 module.exports = {
   retrieveDirectories,
   retrieveShellCommands,
+  retrieveIgnoredBuilds,
+  retrieveIgnoredPublishes,
   retrieveIgnoredDependencies,
   retrieveForcedDependencyRelations,
   updateDirectories,

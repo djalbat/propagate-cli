@@ -4,7 +4,7 @@ const Version = require("./version");
 
 const { execute } = require("./utilities/shell"),
       { readPackageJSONFile } = require("./utilities/packageJSON"),
-      { retrieveShellCommands } = require("./configuration");
+      { retrieveShellCommands, retrieveIgnoredBuilds, retrieveIgnoredPublishes } = require("./configuration");
 
 class Release {
   constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath) {
@@ -82,6 +82,21 @@ class Release {
   }
 
   build(quietly, callback) {
+    const ignoredBuilds = retrieveIgnoredBuilds(),
+          names = ignoredBuilds,
+          namesIncludesName = names.includes(this.name),
+          buildIgnored = namesIncludesName; ///
+
+    if (buildIgnored) {
+      console.log(`Ignoring the '${this.name}' build.`);
+
+      const success = true;
+
+      callback(success);
+
+      return;
+    }
+
     let shellCommands = retrieveShellCommands();
 
     const { build } = shellCommands,
@@ -93,6 +108,21 @@ class Release {
   }
 
   publish(quietly, callback) {
+    const ignoredPublishes = retrieveIgnoredPublishes(),
+          names = ignoredPublishes,
+          namesIncludesName = names.includes(this.name),
+          publishIgnored = namesIncludesName; ///
+
+    if (publishIgnored) {
+      console.log(`Ignoring the '${this.name}' publish.`);
+
+      const success = true;
+
+      callback(success);
+
+      return;
+    }
+
     let shellCommands = retrieveShellCommands();
 
     const { publish } = shellCommands,
