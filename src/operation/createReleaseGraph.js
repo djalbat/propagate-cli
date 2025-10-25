@@ -1,12 +1,10 @@
 "use strict";
 
-import messages from "../messages";
 import ReleaseGraph from "../releaseGraph";
 
 import { consoleLogSubDirectoryPathsCycle } from '../utilities/console';
 import { retrieveForcedDependencyRelations } from "../configuration";
-
-const { AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE, AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE } = messages;
+import { AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE, AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE } from "../messages";
 
 export default function createReleaseGraphOperation(proceed, abort, context) {
   const { releaseMap, subDirectoryMap } = context,

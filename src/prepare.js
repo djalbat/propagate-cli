@@ -18,7 +18,7 @@ import { HELP_COMMAND,
          LIST_FORCED_DEPENDENCY_RELATIONS_COMMAND,
          REMOVE_FORCED_DEPENDENCY_RELATION_COMMAND } from "./commands";
 
-export function prepare(command, argument, options, main) {
+export default function prepare(command, argument, options, main) {
   const { help = DEFAULT_HELP, version = DEFAULT_VERSION } = options;
 
   if (false) {
