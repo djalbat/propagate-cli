@@ -1,0 +1,51 @@
+{
+  "version": "1.10",
+  "directories": [
+    "../Sites",
+    "../Themes"
+  ],
+  "shellCommands": {
+    "git": "git add .; git commit -m \"Propagated.\"; git push",
+    "build": "npm run build-debug",
+    "publish": "npm publish",
+    "install": "rm -rf node_modules; rm -f package-lock.json; npm install"
+  },
+  "ignoredBuilds": [
+    "sandbox-browser",
+    "../Sites/djalbat.com",
+    "../Sites/api.xomi.cloud",
+    "../Sites/admin.xomi.cloud",
+    "../Sites/weconcurjohn.com"
+  ],
+  "ignoredPublishes": [
+    "Occam",
+    "Sandbox"
+  ],
+  "ignoredDependencies": [
+    "with-style",
+    "lively-cli",
+    "watchful-cli"
+  ],
+  "forcedDependencyRelations": [
+    {
+      "dependent": "occam-furtle",
+      "dependency": "occam-custom-grammars"
+    },
+    {
+      "dependent": "concurrent-server",
+      "dependency": "concurrent-client"
+    },
+    {
+      "dependent": "occam-semver",
+      "dependency": "occam-verify-cli"
+    },
+    {
+      "dependent": "occam-incremental",
+      "dependency": "occam-custom-grammars"
+    },
+    {
+      "dependent": "occam-editor",
+      "dependency": "occam-documents"
+    }
+  ]
+}

@@ -83,9 +83,9 @@ export default class Release {
 
   build(quietly, callback) {
     const ignoredBuilds = retrieveIgnoredBuilds(),
-          names = ignoredBuilds,
-          namesIncludesName = names.includes(this.name),
-          buildIgnored = namesIncludesName; ///
+          subDirectoryPaths = ignoredBuilds,
+          subDirectoryPathsIncludesSubDirectoryPath = subDirectoryPaths.includes(this.subDirectoryPath),
+          buildIgnored = subDirectoryPathsIncludesSubDirectoryPath; ///
 
     if (buildIgnored) {
       console.log(`Ignoring the '${this.name}' build.`);
