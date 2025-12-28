@@ -1,6 +1,7 @@
 "use strict";
 
 import setGitShellCommandsPromptOperation from "../operation/prompt/setGitShellCommands";
+import setPollShellCommandsPromptOperation from "../operation/prompt/setPollShellCommands";
 import setBuildShellCommandsPromptOperation from "../operation/prompt/setBuildShellCommands";
 import setInstallShellCommandsPromptOperation from "../operation/prompt/setInstallShellCommands";
 import setPublishShellCommandsPromptOperation from "../operation/prompt/setPublishShellCommands";
@@ -12,6 +13,7 @@ import { FAILED_SET_SHELL_COMMANDS_MESSAGE, SUCCESSFUL_SET_SHELL_COMMANDS_MESSAG
 export default function setShellCommandsAction() {
   const operations = [
           setGitShellCommandsPromptOperation,
+          setPollShellCommandsPromptOperation,
           setInstallShellCommandsPromptOperation,
           setBuildShellCommandsPromptOperation,
           setPublishShellCommandsPromptOperation

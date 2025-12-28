@@ -1,10 +1,17 @@
 "use strict";
 
+import { arrayUtilities, templateUtilities, asynchronousUtilities } from "necessary"
+
 import Version from "./version";
 
-import { execute } from "./utilities/shell";
+import { EMPTY_STRING } from "./constants";
 import { readPackageJSONFile } from "./utilities/packageJSON";
+import { executePromptly, executeRepeatedly } from "./utilities/shell";
 import { retrieveShellCommands, retrieveIgnoredBuilds, retrieveIgnoredPublishes } from "./configuration";
+
+const { eventually } = asynchronousUtilities,
+      { parseContent } = templateUtilities,
+      { prune, filter } = arrayUtilities;
 
 export default class Release {
   constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath) {
@@ -59,15 +66,99 @@ export default class Release {
     return devDependencyNames;
   }
 
+  getDependencies(names) {
+    const dependencyNames = this.getDependencyNames(),
+          devDependencyNames = this.getDevDependencyNames();
+
+    filter(dependencyNames, (dependencyName) => {
+      const namesIncludeDependencyName = names.includes(dependencyName);
+
+      if (namesIncludeDependencyName) {
+        return true;
+      }
+    });
+
+    filter(devDependencyNames, (devDependencyName) => {
+      const namesIncludeDevDependencyName = names.includes(devDependencyName);
+
+      if (namesIncludeDevDependencyName) {
+        return true;
+      }
+    });
+
+    names = [
+      ...dependencyNames,
+      ...devDependencyNames
+    ];
+
+    const dependencies = names.map((name) => {
+      let version = this.dependencyMap[name] || this.devDependencyMap[name];
+
+      version = version.replace(/[\^~]/g, EMPTY_STRING);
+
+      const propagatedDependency = `${name}@${version}`;
+
+      return propagatedDependency;
+    });
+
+    return dependencies;
+  }
+
   git(quietly, callback) {
     let shellCommands = retrieveShellCommands();
 
     const { git } = shellCommands,
-          gitShellCommands = git;
+      gitShellCommands = git;
 
     shellCommands = gitShellCommands; ///
 
     this.executeShellCommands(shellCommands, quietly, callback);
+  }
+
+  poll(names, quietly, callback) {
+    const dependencies = this.getDependencies(names),
+          dependenciesLength = dependencies.length;
+
+    if (dependenciesLength === 0) {
+      const success = true;
+
+      callback(success);
+
+      return;
+    }
+
+    (dependenciesLength === 1) ?
+      console.log(`Polling for the dependency:`) :
+        console.log(`Polling for the dependenies:`);
+
+    const operations = dependencies.map((dependency) => {
+      return (next, done, context, index) => {
+        const shellCommands = shellCommandsFromDependency(dependency);
+
+        console.log(` - ${dependency} `);
+
+        executeRepeatedly(shellCommands, quietly, (success) => {
+          if (success) {
+            const polledDependency = dependency; ///
+
+            prune(dependencies, (dependency) => {
+              if (dependency !== polledDependency) {
+                return true;
+              }
+            });
+          }
+
+          next();
+        });
+      };
+    });
+
+    eventually(operations, () => {
+      const dependenciesLength = dependencies.length,
+            success = (dependenciesLength === 0);
+
+      callback(success);
+    });
   }
 
   install(quietly, callback) {
@@ -88,7 +179,7 @@ export default class Release {
           buildIgnored = subDirectoryPathsIncludesSubDirectoryPath; ///
 
     if (buildIgnored) {
-      console.log(`Ignoring the '${this.name}' build.`);
+      console.log(`Ignoring the '${this.subDirectoryPath}' build.`);
 
       const success = true;
 
@@ -140,7 +231,7 @@ export default class Release {
 
     process.chdir(this.subDirectoryPath);
 
-    execute(shellCommands, quietly, (success) => {
+    executePromptly(shellCommands, quietly, (success) => {
       process.chdir(currentWorkingDirectoryPath);
 
       callback(success);
@@ -211,4 +302,18 @@ function updateSemver(name, versionString, map) {
   }
 
   return success;
+}
+
+function shellCommandsFromDependency(dependency) {
+  let shellCommands = retrieveShellCommands();
+
+  const { poll } = shellCommands,
+        pollShellCommands = poll, ///
+        args = {
+          dependency
+        };
+
+  shellCommands = parseContent(pollShellCommands, args);
+
+  return shellCommands;
 }

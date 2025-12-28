@@ -3,13 +3,14 @@
 import { versionUtilities, configurationUtilities } from "necessary";
 
 import { PROPAGATE } from "./constants";
-import { createConfiguration } from "./configuration/version_1_10";
+import { createConfiguration } from "./configuration/version_1_11";
 import { migrateConfigurationToVersion_1_3 } from "./configuration/version_1_3";
 import { migrateConfigurationToVersion_1_7 } from "./configuration/version_1_7";
 import { migrateConfigurationToVersion_1_9 } from "./configuration/version_1_9";
 import { migrateConfigurationToVersion_1_10 } from "./configuration/version_1_10";
+import { migrateConfigurationToVersion_1_11 } from "./configuration/version_1_11";
 import { CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE } from "./messages";
-import { VERSION_1_0, VERSION_1_3, VERSION_1_7, VERSION_1_9, VERSION_1_10 } from "./versions";
+import { VERSION_1_0, VERSION_1_3, VERSION_1_7, VERSION_1_9, VERSION_1_10, VERSION_1_11 } from "./versions";
 
 const { rc } = configurationUtilities,
       { migrate } = versionUtilities,
@@ -99,9 +100,10 @@ export function migrateConfigurationFile() {
           [ VERSION_1_0 ]: migrateConfigurationToVersion_1_3,
           [ VERSION_1_3 ]: migrateConfigurationToVersion_1_7,
           [ VERSION_1_7 ] :migrateConfigurationToVersion_1_9,
-          [ VERSION_1_9 ] :migrateConfigurationToVersion_1_10
+          [ VERSION_1_9 ] :migrateConfigurationToVersion_1_10,
+          [ VERSION_1_10 ] :migrateConfigurationToVersion_1_11
         },
-        latestVersion = VERSION_1_10;
+        latestVersion = VERSION_1_11;
 
   json = migrate(json, migrationMap, latestVersion);
 

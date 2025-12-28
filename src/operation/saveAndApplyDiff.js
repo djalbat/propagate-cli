@@ -1,6 +1,7 @@
 "use strict";
 
 import gitPromptOperation from "../operation/prompt/git";
+import pollPromptOperation from "../operation/prompt/poll";
 import savePromptOperation from "../operation/prompt/save";
 import buildPromptOperation from "../operation/prompt/build";
 import installPromptOperation from "../operation/prompt/install";
@@ -29,12 +30,13 @@ export default function saveAndApplyDiffOperation(diff, proceed, abort, context)
   });
 
   const operations = [
-          savePromptOperation,
-          installPromptOperation,
-          buildPromptOperation,
-          gitPromptOperation,
-          publishPromptOperation
-        ];
+    savePromptOperation,
+    pollPromptOperation,
+    installPromptOperation,
+    buildPromptOperation,
+    gitPromptOperation,
+    publishPromptOperation
+  ];
 
   console.log(EMPTY_STRING);
 

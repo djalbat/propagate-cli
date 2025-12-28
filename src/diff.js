@@ -67,6 +67,8 @@ export default class Diff {
 
   git(quietly, callback) { this.release.git(quietly, callback); }
 
+  poll(names, quietly, callback) { this.release.poll(names, quietly, callback); }
+
   install(quietly, callback) { this.release.install(quietly, callback); }
 
   build(quietly, callback) { this.release.build(quietly, callback); }

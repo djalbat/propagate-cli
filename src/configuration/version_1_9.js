@@ -8,7 +8,7 @@ export function migrateConfigurationToVersion_1_9(configuration) {
 
   let { shellCommands } = configuration;
 
-  const install = DEFAULT_INSTALL_SHELL_COMMANDS;  ///
+  const install = DEFAULT_INSTALL_SHELL_COMMANDS;
 
   shellCommands = Object.assign(shellCommands, {
     install

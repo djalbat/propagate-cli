@@ -19,7 +19,7 @@ Commands:
   
   list-directories                         List directories, including the default directory
   
-  set-shell-commands                       Set the Git, build, install and publish shell commands
+  set-shell-commands                       Set the Git, poll, build, install and publish shell commands
   
   add-ignored-dependency                   Add an ignored dependency
   
