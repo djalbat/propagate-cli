@@ -174,7 +174,7 @@ export default class Release {
 
   build(quietly, callback) {
     const ignoredBuilds = retrieveIgnoredBuilds(),
-          subDirectoryPaths = ignoredBuilds,
+          subDirectoryPaths = ignoredBuilds,  ///
           subDirectoryPathsIncludesSubDirectoryPath = subDirectoryPaths.includes(this.subDirectoryPath),
           buildIgnored = subDirectoryPathsIncludesSubDirectoryPath; ///
 
