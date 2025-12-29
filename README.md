@@ -2,7 +2,9 @@
 
 Propagate updated packages throughout a project.
 
-Managing dependencies can be irksome if your project relies on more than a few frequently updated packages. Consider the following dependency graph. Here the solid lines represent dependencies, the dotted lines developer dependencies:
+Managing dependencies can be tiresome if your project relies on more than a few frequently updated packages. 
+Consider the following dependency graph. 
+Here the solid lines represent dependencies, the dotted lines developer dependencies:
 
 ---
                                              alice
@@ -25,11 +27,15 @@ Managing dependencies can be irksome if your project relies on more than a few f
                                                  | .
                                                freddie
 ---
- If we fix a bug in the `freddie` package and bump its patch number, we must update the package JSON files of both the `erica` and `chuck` packages in order to make sure that they both make use of the updated `freddie` package. However, that is not the end of the task. We must also bump their package numbers and update the package JSON files of packages or binaries that depend on them, too. And so on, ad nauseam. 
+If we fix a bug in the `freddie` package and bump its patch number then we must update the package JSON files of both the `erica` and `chuck` packages in order to make sure that they both make use of the updated `freddie` package. 
+However, that is not the end of the task. 
+We must also bump their package numbers and update the package JSON files of packages or binaries that depend on them, too. 
+And so on, ad nauseam. 
  
- Propagate automates the process, allowing you to update the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a package is updated, effectively propagating the original update through the dependency graph. It will also optionally save; build; add, commit and push with Git; and publish by way of configurable shell commands.
+Propagate automates the process, allowing you to update the `version`, `dependencies` and `devDependencies` fields of all the requisite package JSON files in a project whenever a package is updated, effectively propagating the original update through the entire project. 
+It will also optionally save, commit and publish these changes by way of configurable shell commands.
  
- Here are the actual updates that Propagate would make:
+Here are the actual updates that Propagate would make:
  
 ```
 './freddie' ("freddie"):
@@ -59,7 +65,10 @@ Managing dependencies can be irksome if your project relies on more than a few f
     "bernard": "^1.3.2" -> "^1.3.3",
   }
 ```
-Note that only core [semver](https://semver.org/) versions are supported, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. As yet Propagate does not support version ranges or multiple sets. Additionally, it will leave intact but otherwise ignore modifiers such as `^` and `~`. If you are not using either just these modifiers or no modifiers at all, Propagate is unlikely to work for you.
+Note that only core [semver](https://semver.org/) versions are supported, that is, versions of the form `major.minor.patch` where `major`, `minor` and `patch` are natural numbers. 
+As yet Propagate does not support version ranges or multiple sets. 
+Additionally, it will leave intact but otherwise ignore modifiers such as `^` and `~`. 
+If you are not using either just these modifiers or no modifiers at all, Propagate is unlikely to work for you.
 
 ## Installation
 
@@ -98,7 +107,7 @@ Commands:
   
   list-directories                         List directories, including the default directory
   
-  set-shell-commands                       Set the Git, build, install and publish shell commands
+  set-shell-commands                       Set the Git, poll, build, install and publish shell commands
   
   add-ignored-dependency                   Add an ignored dependency
   
@@ -134,28 +143,6 @@ To propagate the `freddie` package, for example, run the following command:
     propagate freddie
     
 You can also execute a lone `propagate` command from within a package's subdirectory and it will propagate that package.
-
-Here are some things to bear in mind:
-
-1. It is recommended that you initially use the `dry-run` option, which will list the updates without making any changes. Also, you should always use the `yes` and `quietly` options with caution.
-
-2. Propagate creates separate directed graphs for the dependencies and the developer dependencies. If there are cycles present in either graph, it will terminate and report one of the cycles. If there are cycles present in the combined graph, however, these are tolerated because they are justifiable in practice.
-
-3. Updates are applied in a topological order of the dependencies with the initially propagated package updated first. What this means in practice is that dependencies are guaranteed to be updated before their dependents. Therefore, if you chose not to update a particular dependency or chose to terminate the update process altogether, usually no problems will result. However, bear in mind the following point.
-
-4. It is possible, because of the aforementioned tolerance of cycles in the combined graph, that cases may arise where updates are applied that reference developer dependencies that have themselves yet to be updated. In these cases, Propagate will terminate before the propagation has even started and will tell you about the problem. There is little choice but to terminate prematurely in these cases because continuing with the propagation, even with careful user intervention, will almost certainly result in failure. The solution in these cases, which will be suggested by Propagate, is to add a forced dependency relation between the offending developer dependency and its dependent. Propagate does not alter the `package.json` files themselves, but pretends as if they were, adding a standard dependency relation as opposed to a developer dependency relation between the two, thus forcing the developer dependency to come first in the propagation. This itself may result in a cycle, of course, in which case you will have no alternative but to re-think your dependency structure. 
-
-It is important to understand what happens when you choose to answer 'no' to any of the prompts.
-
-1. If you chose to answer 'no' at a save prompt, Propagate will assume that you do not want to propagate the package and will adjust all the remaining updates accordingly.
-
-2. If you chose to answer 'no' at either a build prompt or an install prompt, Propagate will continue with the update. The rationale behind this is that the update in question might not be to a package but instead to a project that may need its `package.json` file updated with the latest dependencies but may not need to be built right away. Also bear in mind that you do not need to rebuild a package before publishing if all you are doing is updating its dependencies. Therefore you can safely answer 'no' at either of these prompts even for propagated packages.
-
-3. If you choose to answer 'no' at a Git prompt, much the same rationale as for installing and building holds.
-
-4. If you choose to answer 'no' at a publish prompt, Propagate will again assume that you do not want to propagate the package and will make the necessary adjustments as before.
-
-It is worth repeating that if you decide to terminate the update process entirely, do so by answering 'no' three times at any prompt in order to give Propagate the chance to exit gracefully and appraise you of any problems with developer dependencies.
 
 ## Contact
 
