@@ -42,6 +42,5 @@ export const DIRECTORIES_INCLUDES_DIRECTORY_MESSAGE = "The directory has already
 export const CONFIGURATION_FILE_DOES_NOT_EXIST_MESSAGE = "The action cannot be performed because the configuration file is missing. Run 'propagate initialise' to create one.";
 export const AT_LEAST_ONE_CYCLIC_DEPENDENCY_MESSAGE = "There is at least one cyclic dependency.";
 export const AT_LEAST_ONE_CYCLIC_DEV_DEPENDENCY_MESSAGE = "There is at least one cyclic developer dependency.";
-export const IGNORED_DEPENDENCIES_INCLUDE_SUB_DIRECTORY_MESSAGE = "You cannot propagate an ignored dependency.";
 export const IGNORED_DEPENDENCIES_INCLUDE_IGNORED_DEPENDENCY_MESSAGE = "The ignored dependency has already been added.";
 export const FORCED_DEPENDENCY_RELATIONS_INCLUDE_FORCED_DEPENDENCY_RELATION_MESSAGE = "The forced dependency relation has already been added.";

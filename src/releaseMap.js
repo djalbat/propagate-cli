@@ -1,6 +1,10 @@
 "use strict";
 
+import { arrayUtilities } from "necessary";
+
 import Release from "./release";
+
+const { prune } = arrayUtilities;
 
 export default class ReleaseMap {
   constructor(map) {
@@ -56,9 +60,9 @@ export default class ReleaseMap {
     return release;
   }
 
-  static fromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies) {
+  static fromSubDirectoryMapSubDirectoryNameAndIgnoredDependencies(subDirectoryMap, subDirectoryName, ignoredDependencies) {
     const map = {},
-          subDirectoryPaths = subDirectoryPathsFromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies);
+          subDirectoryPaths = subDirectoryPathsFromSubDirectoryMapSubDirectoryNameAndIgnoredDependencies(subDirectoryMap, subDirectoryName, ignoredDependencies);
 
     subDirectoryPaths.forEach((subDirectoryPath) => {
       const release = Release.fromSubDirectoryPath(subDirectoryPath);
@@ -74,10 +78,16 @@ export default class ReleaseMap {
   }
 }
 
-function subDirectoryPathsFromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies) {
+function subDirectoryPathsFromSubDirectoryMapSubDirectoryNameAndIgnoredDependencies(subDirectoryMap, subDirectoryName, ignoredDependencies) {
   const subDirectoryPaths = [],
         subDirectoryNames = Object.keys(subDirectoryMap), ///
         ignoredDependencySubDirectoryNames = ignoredDependencies; ///
+
+  prune(ignoredDependencySubDirectoryNames, (ignoredDependencySubDirectoryName) => {
+    if (ignoredDependencySubDirectoryName !== subDirectoryName) {
+      return true;
+    }
+  });
 
   subDirectoryNames.forEach((subDirectoryName) => {
     const ignoredDependencySubDirectoryNamesIncludesSubDirectoryName = ignoredDependencySubDirectoryNames.includes(subDirectoryName);

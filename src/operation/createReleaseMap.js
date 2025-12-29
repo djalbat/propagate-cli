@@ -5,9 +5,9 @@ import ReleaseMap from "../releaseMap"
 import { retrieveIgnoredDependencies } from "../configuration"
 
 export default function createReleaseMapOperation(proceed, abort, context) {
-  const { subDirectoryMap } = context,
+  const { subDirectoryMap, subDirectoryName } = context,
         ignoredDependencies = retrieveIgnoredDependencies(),
-        releaseMap = ReleaseMap.fromSubDirectoryMapAndIgnoredDependencies(subDirectoryMap, ignoredDependencies);
+        releaseMap = ReleaseMap.fromSubDirectoryMapSubDirectoryNameAndIgnoredDependencies(subDirectoryMap, subDirectoryName, ignoredDependencies);
 
   Object.assign(context, {
     releaseMap
