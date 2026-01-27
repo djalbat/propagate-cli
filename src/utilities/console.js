@@ -21,7 +21,9 @@ export function consoleLogUnpublishedDiffs(diff, diffs) {
           ...nextDiffs
         ]
 
-  unpublishedDiffs.forEach((unpublishedDiff) => consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs));
+  unpublishedDiffs.forEach((unpublishedDiff) => {
+    consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs);
+  });
 }
 
 export function consoleLogSubDirectoryPathsCycle(subDirectoryPaths) {

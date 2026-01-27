@@ -25,6 +25,12 @@ export default class SemverDiff {
     packageJSON[this.name] = semver;
   }
 
+  getSpecifier() {
+    const specifier = `${this.name}@${this.releaseSemver}`;
+
+    return specifier;
+  }
+
   asString(last) {
     let string = `     "${this.name}": "${this.semver}" -> "${this.releaseSemver}"`;
 

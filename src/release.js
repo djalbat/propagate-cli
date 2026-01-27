@@ -4,14 +4,13 @@ import { arrayUtilities, templateUtilities, asynchronousUtilities } from "necess
 
 import Version from "./version";
 
-import { EMPTY_STRING } from "./constants";
 import { readPackageJSONFile } from "./utilities/packageJSON";
 import { executePromptly, executeRepeatedly } from "./utilities/shell";
 import { retrieveShellCommands, retrieveIgnoredBuilds, retrieveIgnoredPublishes } from "./configuration";
 
-const { eventually } = asynchronousUtilities,
-      { parseContent } = templateUtilities,
-      { prune, filter } = arrayUtilities;
+const { prune } = arrayUtilities,
+      { eventually } = asynchronousUtilities,
+      { parseContent } = templateUtilities;
 
 export default class Release {
   constructor(name, version, dependencyMap, devDependencyMap, subDirectoryPath) {
@@ -66,44 +65,6 @@ export default class Release {
     return devDependencyNames;
   }
 
-  getDependencies(names) {
-    const dependencyNames = this.getDependencyNames(),
-          devDependencyNames = this.getDevDependencyNames();
-
-    filter(dependencyNames, (dependencyName) => {
-      const namesIncludeDependencyName = names.includes(dependencyName);
-
-      if (namesIncludeDependencyName) {
-        return true;
-      }
-    });
-
-    filter(devDependencyNames, (devDependencyName) => {
-      const namesIncludeDevDependencyName = names.includes(devDependencyName);
-
-      if (namesIncludeDevDependencyName) {
-        return true;
-      }
-    });
-
-    names = [
-      ...dependencyNames,
-      ...devDependencyNames
-    ];
-
-    const dependencies = names.map((name) => {
-      let version = this.dependencyMap[name] || this.devDependencyMap[name];
-
-      version = version.replace(/[\^~]/g, EMPTY_STRING);
-
-      const propagatedDependency = `${name}@${version}`;
-
-      return propagatedDependency;
-    });
-
-    return dependencies;
-  }
-
   git(quietly, callback) {
     let shellCommands = retrieveShellCommands();
 
@@ -115,11 +76,10 @@ export default class Release {
     this.executeShellCommands(shellCommands, quietly, callback);
   }
 
-  poll(names, quietly, callback) {
-    const dependencies = this.getDependencies(names),
-          dependenciesLength = dependencies.length;
+  poll(specifiers, quietly, callback) {
+    const specifiersLength = specifiers.length;
 
-    if (dependenciesLength === 0) {
+    if (specifiersLength === 0) {
       const success = true;
 
       callback(success);
@@ -127,22 +87,22 @@ export default class Release {
       return;
     }
 
-    (dependenciesLength === 1) ?
+    (specifiersLength === 1) ?
       console.log(`Polling for the dependency:`) :
         console.log(`Polling for the dependenies:`);
 
-    const operations = dependencies.map((dependency) => {
+    const operations = specifiers.map((specifier) => {
       return (next, done, context, index) => {
-        const shellCommands = shellCommandsFromDependency(dependency);
+        const shellCommands = shellCommandsFromSpecifier(specifier);
 
-        console.log(` - ${dependency} `);
+        console.log(` - ${specifier} `);
 
         executeRepeatedly(shellCommands, quietly, (success) => {
           if (success) {
-            const polledDependency = dependency; ///
+            const polledSpecifier = specifier; ///
 
-            prune(dependencies, (dependency) => {
-              if (dependency !== polledDependency) {
+            prune(specifiers, (specifier) => {
+              if (specifier !== polledSpecifier) {
                 return true;
               }
             });
@@ -154,8 +114,8 @@ export default class Release {
     });
 
     eventually(operations, () => {
-      const dependenciesLength = dependencies.length,
-            success = (dependenciesLength === 0);
+      const specifiersLength = specifiers.length,
+            success = (specifiersLength === 0);
 
       callback(success);
     });
@@ -267,11 +227,12 @@ export default class Release {
       let { version = null } = packageJSON;
 
       const { name = null, dependencies = {}, devDependencies = {} } = packageJSON,
-            versionString = version,  ///
-            dependencyMap = dependencies, ///
-            devDependencyMap = devDependencies; ///
+            versionString = version;  ///
 
       version = Version.fromVersionString(versionString);
+
+      const dependencyMap = dependencies, ///
+            devDependencyMap = devDependencies; ///
 
       release = new Release(name, version, dependencyMap, devDependencyMap, subDirectoryPath);
     }
@@ -304,13 +265,13 @@ function updateSemver(name, versionString, map) {
   return success;
 }
 
-function shellCommandsFromDependency(dependency) {
+function shellCommandsFromSpecifier(specifier) {
   let shellCommands = retrieveShellCommands();
 
   const { poll } = shellCommands,
         pollShellCommands = poll, ///
         args = {
-          dependency
+          specifier
         };
 
   shellCommands = parseContent(pollShellCommands, args);

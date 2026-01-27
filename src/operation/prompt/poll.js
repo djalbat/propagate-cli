@@ -12,8 +12,7 @@ import { FAILED_POLL_MESSAGE, INVALID_ANSWER_MESSAGE } from "../../messages";
 const { prompt } = shellUtilities;
 
 export default function pollPromptOperation(proceed, abort, context) {
-  const { yes, diff, diffs, quietly, releaseMap } = context,
-        names = releaseMap.getNames(),
+  const { yes, diff, diffs, quietly } = context,
         answer = yes ?
                    YES :
                      null,
@@ -41,7 +40,7 @@ export default function pollPromptOperation(proceed, abort, context) {
         return;
       }
 
-      diff.poll(names, quietly, (success) => {
+      diff.poll(quietly, (success) => {
         if (!success) {
           consoleLogUnpublishedDiffs(diff, diffs);
 

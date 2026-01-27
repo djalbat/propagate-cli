@@ -43,6 +43,8 @@ export default function saveAndApplyDiffOperation(diff, proceed, abort, context)
   executeOperations(operations, (completed) => {
     delete context.diff;
 
-    proceed();
+    completed ?
+      proceed() :
+        abort();
   }, context);
 }

@@ -28,12 +28,16 @@ export default class MapDiff {
   save(packageJSON, name) {
     packageJSON = packageJSON[name];  ///
 
-    this.semverDiffs.forEach((semverDiff) => semverDiff.save(packageJSON))
+    this.forEachSemverDiff((semverDiff) => {
+      semverDiff.save(packageJSON);
+    });
   }
 
-  someSemverDiff(callback) {
-    return this.semverDiffs.some(callback);
-  }
+  someSemverDiff(callback) { return this.semverDiffs.some(callback); }
+
+  reduceSemverDiff(callback, initialValue) { return this.semverDiffs.reduce(callback, initialValue); }
+
+  forEachSemverDiff(callback) { this.semverDiffs.forEach(callback); }
 
   removeSemverDiff(name) {
     filter(this.semverDiffs, (semverDiff) => {
@@ -45,10 +49,20 @@ export default class MapDiff {
     });
   }
 
+  getSpecifiers(specifiers) {
+    this.forEachSemverDiff((semverDiff) => {
+      const specifier = semverDiff.getSpecifier();
+
+      specifiers.push(specifier);
+    });
+
+    return specifiers;
+  }
+
   asString() {
     const semverDiffsLength = this.semverDiffs.length,
           lastIndex = semverDiffsLength - 1,
-          semverDiffsString = this.semverDiffs.reduce((semverDiffsString, semverDiff, index) => {
+          semverDiffsString = this.reduceSemverDiff((semverDiffsString, semverDiff, index) => {
             const last = (index === lastIndex),
                   semverDiffString = semverDiff.asString(last);
 

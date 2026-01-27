@@ -65,9 +65,17 @@ export default class Diff {
     return success;
   }
 
-  git(quietly, callback) { this.release.git(quietly, callback); }
+  poll(quietly, callback) {
+    const specifiers = [];
 
-  poll(names, quietly, callback) { this.release.poll(names, quietly, callback); }
+    this.dependencyMapDiff.getSpecifiers(specifiers);
+
+    this.devDependencyMapDiff.getSpecifiers(specifiers);
+
+    this.release.poll(specifiers, quietly, callback);
+  }
+
+  git(quietly, callback) { this.release.git(quietly, callback); }
 
   install(quietly, callback) { this.release.install(quietly, callback); }
 

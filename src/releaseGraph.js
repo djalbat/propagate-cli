@@ -154,9 +154,10 @@ export default class ReleaseGraph {
       }
 
       const sourceVertexName = dependencySubDirectoryPath,  ///
-            targetVertexName = dependentSubDirectoryPath;  ///
-
-      const dependencyDirectedGraphEdgePresent = dependencyDirectedGraph.isEdgePresentBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName),
+            targetVertexName = dependentSubDirectoryPath, ///
+            devDependencyDirectedGraphEdgePresent = devDependencyDirectedGraph.isEdgePresentBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName),
+            dependencyDirectedGraphEdgePresent = dependencyDirectedGraph.isEdgePresentBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName),
+            devDependencyRelationPresent = devDependencyDirectedGraphEdgePresent, ///
             dependencyRelationPresent = dependencyDirectedGraphEdgePresent; ///
 
       if (dependencyRelationPresent) {
@@ -165,18 +166,13 @@ export default class ReleaseGraph {
         return;
       }
 
-      const devDependencyDirectedGraphEdgePresent = devDependencyDirectedGraph.isEdgePresentBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName),
-            devDependencyRelationPresent = devDependencyDirectedGraphEdgePresent; ///
-
       if (!devDependencyRelationPresent) {
         console.log(`The '${dependency}' -> '${dependent}' developer dependency relation is not present and therefore cannot be forced.`);
 
         return;
       }
 
-      if (dependencyRelease) {
-        dependencyDirectedGraph.addEdgeBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName);
-      }
+      dependencyDirectedGraph.addEdgeBySourceVertexNameAndTargetVertexName(sourceVertexName, targetVertexName);
     });
 
     const releaseGraph = new ReleaseGraph(dependencyDirectedGraph, devDependencyDirectedGraph);
