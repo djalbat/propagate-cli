@@ -6,7 +6,6 @@ import { YES } from "../../constants";
 import { validateAnswer } from "../../utilities/validate";
 import { isAnswerAffirmative } from "../../utilities/prompt";
 import { POLL_YES_NO_DESCRIPTION } from "../../descriptions";
-import { consoleLogUnpublishedDiffs } from "../../utilities/console";
 import { FAILED_POLL_MESSAGE, INVALID_ANSWER_MESSAGE } from "../../messages";
 
 const { prompt } = shellUtilities;
@@ -42,8 +41,6 @@ export default function pollPromptOperation(proceed, abort, context) {
 
       diff.poll(quietly, (success) => {
         if (!success) {
-          consoleLogUnpublishedDiffs(diff, diffs);
-
           console.log(FAILED_POLL_MESSAGE);
 
           abort();
@@ -56,8 +53,6 @@ export default function pollPromptOperation(proceed, abort, context) {
 
       return;
     }
-
-    consoleLogUnpublishedDiffs(diff, diffs);
 
     console.log(FAILED_POLL_MESSAGE);
 

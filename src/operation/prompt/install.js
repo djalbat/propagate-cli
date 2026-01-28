@@ -6,7 +6,6 @@ import { YES } from "../../constants";
 import { validateAnswer } from "../../utilities/validate";
 import { isAnswerAffirmative } from "../../utilities/prompt";
 import { INSTALL_YES_NO_DESCRIPTION } from "../../descriptions";
-import { consoleLogUnpublishedDiffs } from "../../utilities/console";
 import { FAILED_INSTALL_MESSAGE, INVALID_ANSWER_MESSAGE } from "../../messages";
 
 const { prompt } = shellUtilities;
@@ -42,8 +41,6 @@ export default function installPromptOperation(proceed, abort, context) {
 
       diff.install(quietly, (success) => {
         if (!success) {
-          consoleLogUnpublishedDiffs(diff, diffs);
-
           console.log(FAILED_INSTALL_MESSAGE);
 
           abort();
@@ -56,8 +53,6 @@ export default function installPromptOperation(proceed, abort, context) {
 
       return;
     }
-
-    consoleLogUnpublishedDiffs(diff, diffs);
 
     console.log(FAILED_INSTALL_MESSAGE);
 

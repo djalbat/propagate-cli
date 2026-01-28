@@ -5,7 +5,6 @@ import { shellUtilities } from "necessary";
 import { YES } from "../../constants";
 import { validateAnswer } from "../../utilities/validate";
 import { isAnswerAffirmative } from "../../utilities/prompt";
-import { consoleLogUnpublishedDiffs } from "../../utilities/console";
 import { ADD_COMMIT_PUSH_GIT_DESCRIPTION } from "../../descriptions";
 import { FAILED_GIT_MESSAGE, INVALID_ANSWER_MESSAGE } from "../../messages";
 
@@ -42,8 +41,6 @@ export default function gitPromptOperation(proceed, abort, context) {
 
       diff.git(quietly, (success) => {
         if (!success) {
-          consoleLogUnpublishedDiffs(diff, diffs);
-
           console.log(FAILED_GIT_MESSAGE);
 
           abort();
@@ -56,8 +53,6 @@ export default function gitPromptOperation(proceed, abort, context) {
 
       return;
     }
-
-    consoleLogUnpublishedDiffs(diff, diffs);
 
     console.log(FAILED_GIT_MESSAGE);
 

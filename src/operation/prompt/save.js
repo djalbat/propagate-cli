@@ -5,7 +5,6 @@ import { shellUtilities } from "necessary";
 import { YES } from "../../constants";
 import { validateAnswer } from "../../utilities/validate";
 import { isAnswerAffirmative } from "../../utilities/prompt";
-import { consoleLogUnpublishedDiffs } from "../../utilities/console";
 import { SAVE_UPDATES_YES_NO_DESCRIPTION } from "../../descriptions";
 import { removeDependencies, removeDevDependencies } from "../../utilities/propagate";
 import { FAILED_SAVE_MESSAGE, INVALID_ANSWER_MESSAGE } from "../../messages";
@@ -54,8 +53,6 @@ export default function savePromptOperation(proceed, abort, context) {
       const success = diff.save();
 
       if (!success) {
-        consoleLogUnpublishedDiffs(diff, diffs);
-
         console.log(FAILED_SAVE_MESSAGE);
 
         abort();
@@ -67,8 +64,6 @@ export default function savePromptOperation(proceed, abort, context) {
 
       return;
     }
-
-    consoleLogUnpublishedDiffs(diff, diffs);
 
     console.log(FAILED_SAVE_MESSAGE);
 

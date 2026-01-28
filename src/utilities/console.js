@@ -2,27 +2,22 @@
 
 import { arrayUtilities } from "necessary";
 
-import { nextDiffsFromDiff, previousDiffsFromDiff } from "../utilities/diffs";
-
 const { first } = arrayUtilities;
 
 export function consoleLogUnpublishedDiff(diff, diffs) {
   const previousDiffs = previousDiffsFromDiff(diff, diffs),
-        unpublishedDiff = diff; ///
+        unpublishedDiff = diff, ///
+        name = unpublishedDiff.getName();
 
-  consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs);
-}
+  previousDiffs.forEach((previousDiff) => {
+    const diff = previousDiff,  ///
+          subDirectoryPath = diff.getSubDirectoryPath(),
+          devDependencyNames = diff.getDevDependencyNames(),
+          devDependencyNamesIncludesName = devDependencyNames.includes(name);
 
-export function consoleLogUnpublishedDiffs(diff, diffs) {
-  const nextDiffs = nextDiffsFromDiff(diff, diffs),
-        previousDiffs = previousDiffsFromDiff(diff, diffs),
-        unpublishedDiffs = [
-          diff,
-          ...nextDiffs
-        ]
-
-  unpublishedDiffs.forEach((unpublishedDiff) => {
-    consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs);
+    if (devDependencyNamesIncludesName) {
+      console.log(`The '${subDirectoryPath}/package.json' file has already been saved but its updated '${name}' developer dependency will now not be published.`);
+    }
   });
 }
 
@@ -39,17 +34,11 @@ export function consoleLogSubDirectoryPathsCycle(subDirectoryPaths) {
   });
 }
 
-function consoleLogUnpublishedDiffEx(unpublishedDiff, previousDiffs) {
-  const name = unpublishedDiff.getName();
+function previousDiffsFromDiff(diff, diffs) {
+  const index = diffs.indexOf(diff),
+        endIndex = index, ///
+        beginIndex = 0,
+        previousDiffs = diffs.slice(beginIndex, endIndex);
 
-  previousDiffs.forEach((previousDiff) => {
-    const diff = previousDiff,  ///
-          subDirectoryPath = diff.getSubDirectoryPath(),
-          devDependencyNames = diff.getDevDependencyNames(),
-          devDependencyNamesIncludesName = devDependencyNames.includes(name);
-
-    if (devDependencyNamesIncludesName) {
-      console.log(`The '${subDirectoryPath}/package.json' file has already been saved but its updated '${name}' developer dependency will now not be published.`);
-    }
-  });
+  return previousDiffs;
 }

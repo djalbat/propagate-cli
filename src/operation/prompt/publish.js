@@ -6,7 +6,6 @@ import { YES } from "../../constants";
 import { validateAnswer } from "../../utilities/validate";
 import { isAnswerAffirmative } from "../../utilities/prompt";
 import { PUBLISH_YES_NO_DESCRIPTION } from "../../descriptions";
-import { consoleLogUnpublishedDiffs } from "../../utilities/console";
 import { removeDependencies, removeDevDependencies } from "../../utilities/propagate";
 import { FAILED_PUBLISH_MESSAGE, INVALID_ANSWER_MESSAGE } from "../../messages";
 
@@ -57,8 +56,6 @@ export default function publishPromptOperation(proceed, abort, context) {
 
       diff.publish(quietly, (success) => {
         if (!success) {
-          consoleLogUnpublishedDiffs(diff, diffs);
-
           console.log(FAILED_PUBLISH_MESSAGE);
 
           abort();
@@ -71,8 +68,6 @@ export default function publishPromptOperation(proceed, abort, context) {
 
       return;
     }
-
-    consoleLogUnpublishedDiffs(diff, diffs);
 
     console.log(FAILED_PUBLISH_MESSAGE);
 
