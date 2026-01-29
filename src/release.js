@@ -5,6 +5,7 @@ import { arrayUtilities, templateUtilities, asynchronousUtilities } from "necess
 import Version from "./version";
 
 import { readPackageJSONFile } from "./utilities/packageJSON";
+import { showCursor, hideCursor } from "./utilities/terminal";
 import { executePromptly, executeRepeatedly } from "./utilities/shell";
 import { retrieveShellCommands, retrieveIgnoredBuilds, retrieveIgnoredPublishes } from "./configuration";
 
@@ -91,31 +92,38 @@ export default class Release {
       console.log(`Polling for the dependency:`) :
         console.log(`Polling for the dependenies:`);
 
-    const operations = specifiers.map((specifier) => {
-      return (next, done, context, index) => {
-        const shellCommands = shellCommandsFromSpecifier(specifier);
+    hideCursor();
 
-        console.log(` - ${specifier} `);
-
-        executeRepeatedly(shellCommands, quietly, (success) => {
-          if (success) {
-            const polledSpecifier = specifier; ///
-
-            prune(specifiers, (specifier) => {
-              if (specifier !== polledSpecifier) {
-                return true;
-              }
-            });
-          }
-
-          next();
-        });
-      };
+    specifiers.forEach((specifier) => {
+      console.log(` - ${specifier}`);
     });
+
+    const length = specifiersLength,  ///
+          operations = specifiers.map((specifier, index) => {
+            return (next, done, context) => {
+              const shellCommands = shellCommandsFromSpecifier(specifier);
+
+              executeRepeatedly(shellCommands, specifier, index, length, quietly, (success) => {
+                if (success) {
+                  const polledSpecifier = specifier; ///
+
+                  prune(specifiers, (specifier) => {
+                    if (specifier !== polledSpecifier) {
+                      return true;
+                    }
+                  });
+                }
+
+                next();
+              });
+            };
+          });
 
     eventually(operations, () => {
       const specifiersLength = specifiers.length,
             success = (specifiersLength === 0);
+
+      showCursor();
 
       callback(success);
     });

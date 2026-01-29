@@ -1,6 +1,7 @@
 "use strict";
 
 export const YES = "yes";
+export const FULL_STOP = ".";
 export const PROPAGATE = "propagate";
 export const DOUBLE_DOTS = "..";
 export const EMPTY_STRING = "";

@@ -5,10 +5,11 @@ import childProcess from "child_process";
 import { encodings, shellUtilities, asynchronousUtilities } from "necessary";
 
 import { validateAnswer } from "../utilities/validate";
+import { offsetConsoleLog } from "../utilities/terminal";
 import { isAnswerAffirmative } from "../utilities/prompt";
 import { INVALID_ANSWER_MESSAGE } from "../messages";
 import { FAILED_SCRIPT_DESCRIPTION } from "../descriptions";
-import { REPEATED_DELAY, PROMPT_ATTEMPTS, REPEATED_ATTEMPTS } from "../constants";
+import { FULL_STOP, REPEATED_DELAY, PROMPT_ATTEMPTS, REPEATED_ATTEMPTS } from "../constants";
 
 const { prompt } = shellUtilities,
       { whilst } = asynchronousUtilities,
@@ -53,10 +54,11 @@ export function executePromptly(shellCommands, quietly, callback) {
   });
 }
 
-export function executeRepeatedly(shellCommands, quietly, callback) {
+export function executeRepeatedly(shellCommands, specifier, index, length, quietly, callback) {
   let success = false;
 
   const delay = REPEATED_DELAY,
+        offset = length - index,  ///
         attempts = REPEATED_ATTEMPTS,
         operation = (next, done, context, index) => {
           if (index === attempts) {
@@ -65,7 +67,10 @@ export function executeRepeatedly(shellCommands, quietly, callback) {
             return;
           }
 
-          console.log(`   - ${shellCommands} (${index})`);
+          const progressCount = (index + 1),
+                progressIndicator = FULL_STOP.repeat(progressCount);
+
+          offsetConsoleLog(` - ${specifier}${progressIndicator}`, offset);
 
           execAsync(shellCommands, quietly, (error, output) => {
             if (!error) {
