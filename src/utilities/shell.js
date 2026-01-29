@@ -65,6 +65,8 @@ export function executeRepeatedly(shellCommands, quietly, callback) {
             return;
           }
 
+          console.log(`   - ${shellCommands} (${index})`);
+
           execAsync(shellCommands, quietly, (error, output) => {
             if (!error) {
               success = true;
