@@ -1,7 +1,7 @@
 {
   "name": "propagate-cli",
   "author": "James Smith",
-  "version": "1.12.9",
+  "version": "1.12.10",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/propagate-cli",
   "description": "Propagate updated packages throughout a project.",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@swc/core": "1.13.20",
-    "watchful-cli": "^1.7.67"
+    "watchful-cli": "^1.7.84"
   },
   "scripts": {
     "clean": "rm -rf ./lib",
