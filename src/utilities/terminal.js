@@ -1,25 +1,27 @@
 "use strict";
 
-import readline from 'node:readline';
+import { cursorTo, clearLine, moveCursor } from 'node:readline';
+
+const { stdout } = process;
 
 export function hideCursor() {
-  process.stdout.write('\u001B[?25l');
+  stdout.write('\u001B[?25l');
 }
 
 export function showCursor() {
-  process.stdout.write('\u001B[?25h');
+  stdout.write('\u001B[?25h');
 }
 
 export function offsetConsoleLog(message, offset) {
-  readline.moveCursor(process.stdout, 0, -offset);
+  moveCursor(stdout, 0, -offset);
 
-  readline.clearLine(process.stdout, 0);
+  clearLine(stdout, 0);
 
-  readline.cursorTo(process.stdout, 0);
+  cursorTo(stdout, 0);
 
-  process.stdout.write(message);
+  stdout.write(message);
 
-  readline.moveCursor(process.stdout, 0, offset);
+  moveCursor(stdout, 0, offset);
 
-  readline.cursorTo(process.stdout, 0);
+  cursorTo(stdout, 0);
 }
