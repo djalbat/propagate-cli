@@ -1,7 +1,7 @@
 {
   "name": "propagate-cli",
   "author": "James Smith",
-  "version": "1.12.19",
+  "version": "1.12.20",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/propagate-cli",
   "description": "Propagate updated packages throughout a project.",
@@ -12,7 +12,7 @@
   "dependencies": {
     "argumentative": "^2.0.47",
     "necessary": "^17.2.6",
-    "occam-directed-graphs": "^3.0.93"
+    "occam-directed-graphs": "^3.0.95"
   },
   "devDependencies": {
     "@swc/core": "1.13.20",
