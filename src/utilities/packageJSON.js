@@ -33,7 +33,10 @@ export function writePackageJSONFile(subDirectoryPath, packageJSON) {
 
   try {
     const packageJSONFilePath = concatenatePaths(subDirectoryPath, PACKAGE_JSON),
-          packageJSONContent = JSON.stringify(packageJSON, null, 2) + "\n";  ///
+          json = packageJSON, ///
+          jsonString = JSON.stringify(json, null, 2),
+          packageJSONContent = `${jsonString}
+`;
 
     writeFile(packageJSONFilePath, packageJSONContent);
 
