@@ -15,9 +15,11 @@ export function readPackageJSONFile(subDirectoryPath) {
           packageJSONFIleExists = checkFileExists(packageJSONFilePath);
 
     if (packageJSONFIleExists) {
-      const packageJSONFileContent = readFile(packageJSONFilePath);
+      const packageJSONFileContent = readFile(packageJSONFilePath),
+            jsonString = packageJSONFileContent,  ///
+            json = JSON.parse(jsonString);
 
-      packageJSON = JSON.parse(packageJSONFileContent);
+      packageJSON = json; ///
     }
   } catch (error) {
     console.log(`There was an error when reading from the package.json file in the '${subDirectoryPath}' sub-directory:`);
