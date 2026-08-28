@@ -129,6 +129,10 @@ Options:
 
   --dry-run|-d                             Show updates but do not apply them
 
+  --delay|-w                               Polling delay, the default is three seconds
+
+  --attempts|-a                            Polling atempts, the default is ten
+
   --quietly|-q                             Execute shell commands without printing to the console
   
   --yes|-y                                 Initially answer yes to prompts

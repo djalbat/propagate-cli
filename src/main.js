@@ -16,7 +16,7 @@ import listForcedDependencyRelationsAction from "./action/listForcedDependencyRe
 import removeForcedDependencyRelationAction from "./action/removeForcedDependencyRelation";
 
 import { NO_ARGUMENT_GIVEN_MESSAGE, COMMAND_NOT_RECOGNISED_MESSAGE } from "./messages";
-import { DEFAULT_YES, DEFAULT_QUIETLY, DEFAULT_DRY_RUN } from "./defaults";
+import { DEFAULT_YES, DEFAULT_DELAY, DEFAULT_QUIETLY, DEFAULT_ATTEMPTS, DEFAULT_DRY_RUN } from "./defaults";
 import { HELP_COMMAND,
         VERSION_COMMAND,
         PROPAGATE_COMMAND,
@@ -34,8 +34,10 @@ import { HELP_COMMAND,
 
 export default function main(command, argument, options) {
   const { yes = DEFAULT_YES,
+          delay = DEFAULT_DELAY,
           dryRun = DEFAULT_DRY_RUN,
-          quietly = DEFAULT_QUIETLY } = options;
+          quietly = DEFAULT_QUIETLY,
+          attempts = DEFAULT_ATTEMPTS } = options;
 
   switch (command) {
     case HELP_COMMAND: {
@@ -62,7 +64,7 @@ export default function main(command, argument, options) {
       } else {
         const subDirectoryName = argument;  ///
 
-        propagateAction(subDirectoryName, quietly, dryRun, yes);
+        propagateAction(subDirectoryName, quietly, delay, attempts, dryRun, yes);
       }
 
       break;

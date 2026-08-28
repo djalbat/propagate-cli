@@ -11,7 +11,7 @@ import { FAILED_POLL_MESSAGE, INVALID_ANSWER_MESSAGE } from "../../messages";
 const { prompt } = shellUtilities;
 
 export default function pollPromptOperation(proceed, abort, context) {
-  const { yes, diff, diffs, quietly } = context,
+  const { yes, diff } = context,
         answer = yes ?
                    YES :
                      null,
@@ -39,7 +39,9 @@ export default function pollPromptOperation(proceed, abort, context) {
         return;
       }
 
-      diff.poll(quietly, (success) => {
+      const { quietly, delay, attempts } = context;
+
+      diff.poll(quietly, delay, attempts, (success) => {
         if (!success) {
           console.log(FAILED_POLL_MESSAGE);
 

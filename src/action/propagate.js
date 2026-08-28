@@ -14,7 +14,7 @@ import createSubDirectoryPathOperation from "../operation/createSubDirectoryPath
 import { executeOperations } from "../utilities/operation";
 import { FAILED_PROPAGATE_MESSAGE, SUCCESSFUL_PROPAGATE_MESSAGE } from "../messages";
 
-export default function propagateAction(subDirectoryName, quietly, dryRun, yes) {
+export default function propagateAction(subDirectoryName, quietly, delay, attempts, dryRun, yes) {
   const operations = [
           createSubDirectoryPathOperation,
           createSubDirectoryMapOperation,
@@ -30,6 +30,8 @@ export default function propagateAction(subDirectoryName, quietly, dryRun, yes) 
         context = {
           subDirectoryName,
           quietly,
+          delay,
+          attempts,
           dryRun,
           yes
         };

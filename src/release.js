@@ -77,7 +77,7 @@ export default class Release {
     this.executeShellCommands(shellCommands, quietly, callback);
   }
 
-  poll(specifiers, quietly, callback) {
+  poll(specifiers, quietly, delay, attempts, callback) {
     const specifiersLength = specifiers.length;
 
     if (specifiersLength === 0) {
@@ -103,7 +103,7 @@ export default class Release {
             return (next, done, context) => {
               const shellCommands = shellCommandsFromSpecifier(specifier);
 
-              executeRepeatedly(shellCommands, specifier, index, length, quietly, (success) => {
+              executeRepeatedly(shellCommands, specifier, index, length, quietly, delay, attempts, (success) => {
                 if (success) {
                   const polledSpecifier = specifier; ///
 

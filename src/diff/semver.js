@@ -1,5 +1,7 @@
 "use strict";
 
+import { trimRangeModifier } from "../utilities/semver";
+
 export default class SemverDiff {
   constructor(name, semver, releaseSemver) {
     this.name = name;
@@ -26,7 +28,8 @@ export default class SemverDiff {
   }
 
   getSpecifier() {
-    const specifier = `${this.name}@${this.releaseSemver}`;
+    const releaseSemver = trimRangeModifier(this.releaseSemver),
+          specifier = `${this.name}@${releaseSemver}`;
 
     return specifier;
   }
@@ -51,3 +54,4 @@ export default class SemverDiff {
     return semverDiff;
   }
 }
+
